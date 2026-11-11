@@ -1,0 +1,162 @@
+{
+ "name": "Big Five Inventory items (bfi)",
+ "source": "psychTools R package (Revelle, 2024); data from the SAPA project. Licence: GPL (>= 2). Item wordings: International Personality Item Pool (public domain).",
+ "n": 2800,
+ "scale": [
+  1,
+  6
+ ],
+ "scaleLabels": "1 = Very inaccurate \u2026 6 = Very accurate",
+ "items": [
+  {
+   "id": "A1",
+   "text": "Am indifferent to the feelings of others.",
+   "subscale": "Agreeableness",
+   "reverse": true
+  },
+  {
+   "id": "A2",
+   "text": "Inquire about others' well-being.",
+   "subscale": "Agreeableness",
+   "reverse": false
+  },
+  {
+   "id": "A3",
+   "text": "Know how to comfort others.",
+   "subscale": "Agreeableness",
+   "reverse": false
+  },
+  {
+   "id": "A4",
+   "text": "Love children.",
+   "subscale": "Agreeableness",
+   "reverse": false
+  },
+  {
+   "id": "A5",
+   "text": "Make people feel at ease.",
+   "subscale": "Agreeableness",
+   "reverse": false
+  },
+  {
+   "id": "C1",
+   "text": "Am exacting in my work.",
+   "subscale": "Conscientiousness",
+   "reverse": false
+  },
+  {
+   "id": "C2",
+   "text": "Continue until everything is perfect.",
+   "subscale": "Conscientiousness",
+   "reverse": false
+  },
+  {
+   "id": "C3",
+   "text": "Do things according to a plan.",
+   "subscale": "Conscientiousness",
+   "reverse": false
+  },
+  {
+   "id": "C4",
+   "text": "Do things in a half-way manner.",
+   "subscale": "Conscientiousness",
+   "reverse": true
+  },
+  {
+   "id": "C5",
+   "text": "Waste my time.",
+   "subscale": "Conscientiousness",
+   "reverse": true
+  },
+  {
+   "id": "E1",
+   "text": "Don't talk a lot.",
+   "subscale": "Extraversion",
+   "reverse": true
+  },
+  {
+   "id": "E2",
+   "text": "Find it difficult to approach others.",
+   "subscale": "Extraversion",
+   "reverse": true
+  },
+  {
+   "id": "E3",
+   "text": "Know how to captivate people.",
+   "subscale": "Extraversion",
+   "reverse": false
+  },
+  {
+   "id": "E4",
+   "text": "Make friends easily.",
+   "subscale": "Extraversion",
+   "reverse": false
+  },
+  {
+   "id": "E5",
+   "text": "Take charge.",
+   "subscale": "Extraversion",
+   "reverse": false
+  },
+  {
+   "id": "N1",
+   "text": "Get angry easily.",
+   "subscale": "Neuroticism",
+   "reverse": true
+  },
+  {
+   "id": "N2",
+   "text": "Get irritated easily.",
+   "subscale": "Neuroticism",
+   "reverse": true
+  },
+  {
+   "id": "N3",
+   "text": "Have frequent mood swings.",
+   "subscale": "Neuroticism",
+   "reverse": true
+  },
+  {
+   "id": "N4",
+   "text": "Often feel blue.",
+   "subscale": "Neuroticism",
+   "reverse": true
+  },
+  {
+   "id": "N5",
+   "text": "Panic easily.",
+   "subscale": "Neuroticism",
+   "reverse": true
+  },
+  {
+   "id": "O1",
+   "text": "Am full of ideas.",
+   "subscale": "Openness",
+   "reverse": false
+  },
+  {
+   "id": "O2",
+   "text": "Avoid difficult reading material.",
+   "subscale": "Openness",
+   "reverse": true
+  },
+  {
+   "id": "O3",
+   "text": "Carry the conversation to a higher level.",
+   "subscale": "Openness",
+   "reverse": false
+  },
+  {
+   "id": "O4",
+   "text": "Spend time reflecting on things.",
+   "subscale": "Openness",
+   "reverse": false
+  },
+  {
+   "id": "O5",
+   "text": "Will not probe deeply into a subject.",
+   "subscale": "Openness",
+   "reverse": true
+  }
+ ]
+}

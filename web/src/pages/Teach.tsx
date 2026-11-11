@@ -1,0 +1,97 @@
+import { REPO_URL } from "../config";
+
+const PLANS = [
+  {
+    id: "broken-scale",
+    title: "Diagnose a broken scale",
+    who: "Research methods seminar, postgraduate or advanced undergraduate",
+    length: "60 minutes",
+    outcome: "Students can use item statistics, reliability and factor analysis together to find and explain problems in a questionnaire.",
+    steps: [
+      ["0–10 min", <>Show the home page. Ask: why would one item drag α from .80 to .32? Reveal the fix by reverse-scoring CE4.</>],
+      ["10–35 min", <>In pairs, students load the simulated questionnaire on <a href="#analyse-simulated">Analyse</a> without changing anything and work through all five steps. Their task: find the four planted problems and the evidence for each.</>],
+      ["35–50 min", <>Pairs report back. For each problem, ask which step revealed it first, and what they would do about it: fix the scoring, revise the wording, or drop the item.</>],
+      ["50–60 min", <>Discuss: which problems could a careful reading of the items have caught before any data were collected?</>],
+    ],
+    after: "The four planted problems are listed in the data notes on the About page, so keep that page off the projector until the end.",
+  },
+  {
+    id: "own-instrument",
+    title: "Validating your own questionnaire",
+    who: "HDR and honours students, early-career researchers",
+    length: "90-minute workshop",
+    outcome: "Participants run a first internal-structure analysis of their own instrument and leave with a draft results paragraph and CFA code.",
+    steps: [
+      ["Before", <>Participants export pilot data as CSV, one row per respondent, item names in the first row, names and IDs removed.</>],
+      ["0–20 min", <>Walk through the bfi sample together, stopping at each step to explain the statistic (use the <a href="#learn">Learn</a> page).</>],
+      ["20–60 min", <>Participants load their own file, set subscales and reverse-scored items, and work through to the Report step.</>],
+      ["60–90 min", <>Peer review in threes: does the number of factors match the theory behind the instrument? Which items need rewording? Copy the lavaan syntax for a confirmatory study on a new sample.</>],
+    ],
+    after: "Stress that pilot samples are small: treat results as diagnostic and plan a larger confirmatory sample.",
+  },
+  {
+    id: "alpha-demo",
+    title: "High alpha is not one construct",
+    who: "Lecture demonstration in any measurement or methods course",
+    length: "15 minutes",
+    outcome: "Students can explain why a high alpha does not show that a scale is unidimensional.",
+    steps: [
+      ["0–5 min", <>Load bfi on <a href="#analyse">Analyse</a>. In step 1, change every subscale to the same name, for example “All”. In step 3 the 25 items give α = .70.</>],
+      ["5–10 min", <>Ask the class whether this is a good scale. Then open step 4: parallel analysis suggests five factors, and the loadings sort the items into five traits.</>],
+      ["10–15 min", <>Restore the original subscales and compare each trait's α and ω. Close with the rule: check dimensionality first, then reliability.</>],
+    ],
+    after: null,
+  },
+] as const;
+
+export default function Teach() {
+  return (
+    <>
+      <h1>Teach with it</h1>
+      <p className="lede">
+        The Scale Validation Lab is free, needs no login and runs on a projector or students' own laptops. These session plans can be used as
+        they are or adapted.
+      </p>
+      <ul className="index">
+        {PLANS.map((p) => (
+          <li key={p.id}>
+            <a href="#teach" onClick={(e) => (e.preventDefault(), document.getElementById(p.id)?.scrollIntoView({ behavior: "smooth" }))}>
+              <span className="index-title">{p.title}</span>
+              <span className="index-desc">{p.who}. {p.length}.</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      {PLANS.map((p) => (
+        <section key={p.id} id={p.id} className="prose" style={{ scrollMarginTop: 80 }}>
+          <h2>{p.title}</h2>
+          <p className="muted">{p.who}. {p.length}.</p>
+          <p><strong>By the end:</strong> {p.outcome}</p>
+          <table>
+            <tbody>
+              {p.steps.map(([t, what]) => (
+                <tr key={t}>
+                  <td style={{ width: "7em", color: "var(--ink-2)", whiteSpace: "nowrap" }}>{t}</td>
+                  <td>{what}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {p.after && <p style={{ marginTop: 14 }}>{p.after}</p>}
+        </section>
+      ))}
+      <section className="prose">
+        <h2>Preparing a file</h2>
+        <ul>
+          <li>CSV, one row per respondent, one column per item, item names in the first row.</li>
+          <li>Numeric responses only for items (for example 1–5). Text columns such as IDs or comments are set aside automatically.</li>
+          <li>Blank cells, NA, −99, −999 and 999 are treated as missing.</li>
+          <li>Name items with a shared prefix per subscale (SE1, SE2 …) and the lab will group them for you.</li>
+        </ul>
+        <p>
+          Reproduce any analysis in Python with the notebooks in the <a href={`${REPO_URL}/tree/main/notebooks`}>repository</a>.
+        </p>
+      </section>
+    </>
+  );
+}

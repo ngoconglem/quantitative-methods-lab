@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Scale Validation Lab: Open psychometrics for questionnaire research"
+authors:
+  - family-names: Ngo
+    given-names: Cong
+    affiliation: "BehaviourWorks Australia, Monash University"
+version: 0.1.0
+date-released: 2026-11-11
+license: MIT
+repository-code: "https://github.com/ngoconglem/scale-validation-lab"
+url: "https://scale-validation-lab.vercel.app"
+keywords: [psychometrics, scale validation, reliability, exploratory factor analysis, parallel analysis, questionnaire, applied linguistics, education]

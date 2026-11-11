@@ -1,0 +1,140 @@
+{
+ "name": "Academic Writing with AI questionnaire (simulated)",
+ "source": "Simulated for teaching (seed 2026). Not real respondents. True structure: three correlated factors with five items each.",
+ "n": 320,
+ "scale": [
+  1,
+  5
+ ],
+ "scaleLabels": "1 = Strongly disagree \u2026 5 = Strongly agree",
+ "items": [
+  {
+   "id": "SE1",
+   "text": "I can organise my ideas clearly when I write in English.",
+   "subscale": "Writing self-efficacy",
+   "reverse": false,
+   "plantedProblem": null
+  },
+  {
+   "id": "SE2",
+   "text": "I can write a well-structured academic paragraph without help.",
+   "subscale": "Writing self-efficacy",
+   "reverse": false,
+   "plantedProblem": null
+  },
+  {
+   "id": "SE3",
+   "text": "I can revise my own drafts to make them clearer.",
+   "subscale": "Writing self-efficacy",
+   "reverse": false,
+   "plantedProblem": null
+  },
+  {
+   "id": "SE4",
+   "text": "I feel confident using academic vocabulary accurately.",
+   "subscale": "Writing self-efficacy",
+   "reverse": false,
+   "plantedProblem": null
+  },
+  {
+   "id": "SE5",
+   "text": "I can explain the main argument of my essay in one sentence.",
+   "subscale": "Writing self-efficacy",
+   "reverse": false,
+   "plantedProblem": "weak item"
+  },
+  {
+   "id": "CE1",
+   "text": "I check AI-generated text against reliable sources.",
+   "subscale": "Critical evaluation of AI output",
+   "reverse": false,
+   "plantedProblem": null
+  },
+  {
+   "id": "CE2",
+   "text": "I notice when an AI tool gives a confident but wrong answer.",
+   "subscale": "Critical evaluation of AI output",
+   "reverse": false,
+   "plantedProblem": null
+  },
+  {
+   "id": "CE3",
+   "text": "I question whether AI suggestions fit my own argument.",
+   "subscale": "Critical evaluation of AI output",
+   "reverse": false,
+   "plantedProblem": null
+  },
+  {
+   "id": "CE4",
+   "text": "I accept AI-generated references without checking them.",
+   "subscale": "Critical evaluation of AI output",
+   "reverse": true,
+   "plantedProblem": "reverse-worded; not recoded in the file"
+  },
+  {
+   "id": "CE5",
+   "text": "I compare answers from AI with what my teacher has taught.",
+   "subscale": "Critical evaluation of AI output",
+   "reverse": false,
+   "plantedProblem": null
+  },
+  {
+   "id": "DA1",
+   "text": "I find it hard to start writing without an AI tool.",
+   "subscale": "Dependence on AI",
+   "reverse": false,
+   "plantedProblem": null
+  },
+  {
+   "id": "DA2",
+   "text": "I use AI to write sentences I could write myself.",
+   "subscale": "Dependence on AI",
+   "reverse": false,
+   "plantedProblem": null
+  },
+  {
+   "id": "DA3",
+   "text": "I feel anxious when I cannot use AI for an assignment.",
+   "subscale": "Dependence on AI",
+   "reverse": false,
+   "plantedProblem": null
+  },
+  {
+   "id": "DA4",
+   "text": "I let AI decide how to structure my essays.",
+   "subscale": "Dependence on AI",
+   "reverse": false,
+   "plantedProblem": "cross-loads on self-efficacy (-0.55)"
+  },
+  {
+   "id": "DA5",
+   "text": "I copy AI wording into my assignments with few changes.",
+   "subscale": "Dependence on AI",
+   "reverse": false,
+   "plantedProblem": null
+  }
+ ],
+ "plantedProblems": [
+  "CE4 is reverse-worded and has not been recoded in the file.",
+  "SE5 is a weak item (true loading .20).",
+  "DA4 cross-loads negatively on Writing self-efficacy.",
+  "About 2% of responses are missing at random."
+ ],
+ "trueFactorCorrelations": [
+  [
+   1.0,
+   0.35,
+   -0.3
+  ],
+  [
+   0.35,
+   1.0,
+   -0.25
+  ],
+  [
+   -0.3,
+   -0.25,
+   1.0
+  ]
+ ]
+}
