@@ -138,7 +138,52 @@ Object.assign(REFS, {
   },
 });
 
-export type StepKey = "items" | "reliability" | "structure" | "report";
+Object.assign(REFS, {
+  wasserstein2016: {
+    short: "Wasserstein & Lazar (2016)",
+    full: "Wasserstein, R. L., & Lazar, N. A. (2016). The ASA statement on p-values: Context, process, and purpose. The American Statistician, 70(2), 129–133.",
+    url: "https://doi.org/10.1080/00031305.2016.1154108",
+  },
+  delacre2017: {
+    short: "Delacre et al. (2017)",
+    full: "Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch's t-test instead of Student's t-test. International Review of Social Psychology, 30(1), 92–101.",
+    url: "https://doi.org/10.5334/irsp.82",
+  },
+  cochran1954: {
+    short: "Cochran (1954)",
+    full: "Cochran, W. G. (1954). Some methods for strengthening the common χ² tests. Biometrics, 10(4), 417–451.",
+    url: "https://doi.org/10.2307/3001616",
+  },
+  peduzzi1996: {
+    short: "Peduzzi et al. (1996)",
+    full: "Peduzzi, P., Concato, J., Kemper, E., Holford, T. R., & Feinstein, A. R. (1996). A simulation study of the number of events per variable in logistic regression analysis. Journal of Clinical Epidemiology, 49(12), 1373–1379.",
+    url: "https://doi.org/10.1016/S0895-4356(96)00236-3",
+  },
+  james2013: {
+    short: "James et al. (2013)",
+    full: "James, G., Witten, D., Hastie, T., & Tibshirani, R. (2013). An introduction to statistical learning. Springer.",
+  },
+  baayen2008: {
+    short: "Baayen (2008)",
+    full: "Baayen, R. H. (2008). Analyzing linguistic data: A practical introduction to statistics using R. Cambridge University Press.",
+  },
+  bresnan2007: {
+    short: "Bresnan et al. (2007)",
+    full: "Bresnan, J., Cueni, A., Nikitina, T., & Baayen, R. H. (2007). Predicting the dative alternation. In G. Bouma, I. Krämer, & J. Zwarts (Eds.), Cognitive foundations of interpretation (pp. 69–94). Royal Netherlands Academy of Science.",
+  },
+  balota2004: {
+    short: "Balota et al. (2004)",
+    full: "Balota, D. A., Cortese, M. J., Sergent-Marshall, S. D., Spieler, D. H., & Yap, M. J. (2004). Visual word recognition of single-syllable words. Journal of Experimental Psychology: General, 133(2), 283–316.",
+    url: "https://doi.org/10.1037/0096-3445.133.2.283",
+  },
+  crossley2023: {
+    short: "Crossley et al. (2023)",
+    full: "Crossley, S. A., Tian, Y., Baffour, P., Franklin, A., Kim, Y., Morris, W., Benner, B., Picou, A., & Boser, U. (2023). Measuring second language proficiency using the English Language Learner Insight, Proficiency and Skills Evaluation (ELLIPSE) Corpus. International Journal of Learner Corpus Research, 9(2), 248–269.",
+    url: "https://doi.org/10.1075/ijlcr.22026.cro",
+  },
+});
+
+export type StepKey = "items" | "reliability" | "structure" | "report" | "describe" | "correlation" | "groups" | "regression" | "categorical";
 
 export interface Cutoff {
   id: string;
@@ -313,6 +358,96 @@ export const CUTOFFS: Cutoff[] = [
     why: "Brown treats factor correlations of .85 or more as evidence of poor discriminant validity.",
     refs: ["brown2015"],
   },
+  // ------------------------------------------------------------ statistics modules
+  {
+    id: "skew-describe",
+    step: "describe",
+    check: "Skew",
+    value: "Beyond ±2 treated as strong skew",
+    why: "Kim gives an absolute skew above 2 as a reference value for substantial non-normality in samples over 300. Strongly skewed measures such as reaction times and word frequencies are often analysed on a log scale.",
+    refs: ["kim2013"],
+  },
+  {
+    id: "alpha-05",
+    step: "correlation",
+    check: "Statistical significance",
+    value: "p < .05 by convention",
+    why: "A convention, not a law. The American Statistical Association warns that a p-value does not measure the size or importance of an effect, so the lab always reports an effect size and confidence interval beside it.",
+    refs: ["wasserstein2016"],
+  },
+  {
+    id: "r-size",
+    step: "correlation",
+    check: "Size of a correlation (r)",
+    value: ".10 small, .30 medium, .50 large",
+    why: "Cohen's benchmarks, offered as a last resort when there is nothing better to compare with. Compare with correlations reported in your own field where you can.",
+    refs: ["cohen1988"],
+  },
+  {
+    id: "d-size",
+    step: "groups",
+    check: "Size of a difference (Cohen's d)",
+    value: "0.2 small, 0.5 medium, 0.8 large",
+    why: "Cohen's benchmarks for the difference between two means in standard-deviation units. Even a large d leaves the two groups overlapping a great deal.",
+    refs: ["cohen1988"],
+  },
+  {
+    id: "welch",
+    step: "groups",
+    check: "Which t-test",
+    value: "Welch's t-test by default",
+    why: "Welch's test does not assume the two groups have equal variances, and loses almost nothing when they do. Delacre et al. recommend it as the default.",
+    refs: ["delacre2017"],
+  },
+  {
+    id: "p-groups",
+    step: "groups",
+    check: "Statistical significance",
+    value: "p < .05 by convention",
+    why: "With large samples, tiny and unimportant differences become significant. Judge the size of the difference and its confidence interval, not the p-value alone.",
+    refs: ["wasserstein2016"],
+  },
+  {
+    id: "f2",
+    step: "regression",
+    check: "Size of a model (R² and f²)",
+    value: "f² of .02 small, .15 medium, .35 large",
+    why: "Cohen's benchmarks for f² = R² / (1 − R²). An R² that is small by these standards can still matter in practice, and one that is large can come from a trivial predictor.",
+    refs: ["cohen1988"],
+  },
+  {
+    id: "vif",
+    step: "regression",
+    check: "Overlapping predictors (VIF)",
+    value: "VIF above 5 or 10 worth attention",
+    why: "James et al. give a variance inflation factor above 5 or 10 as a sign of problematic collinearity: the predictors carry so much of the same information that their separate effects are estimated imprecisely.",
+    refs: ["james2013"],
+  },
+  {
+    id: "expected5",
+    step: "categorical",
+    check: "Expected counts for chi-square",
+    value: "Expected count of at least 5 in most cells",
+    why: "Cochran's guidance: the chi-square approximation is unreliable when expected counts are small (no more than 20% of cells below 5, and none below 1).",
+    refs: ["cochran1954"],
+  },
+  {
+    id: "v-size",
+    step: "categorical",
+    check: "Size of an association (Cramér's V)",
+    value: ".10 small, .30 medium, .50 large (2 × 2 tables)",
+    why: "For a 2 × 2 table, Cramér's V equals Cohen's w, with these benchmarks. Larger tables have lower benchmarks.",
+    refs: ["cohen1988"],
+  },
+  {
+    id: "epv",
+    step: "categorical",
+    check: "Events per predictor in logistic regression",
+    value: "At least 10 events per predictor",
+    why: "Peduzzi et al.'s simulations found unreliable estimates when there were fewer than about 10 cases of the rarer outcome for each predictor.",
+    refs: ["peduzzi1996"],
+  },
+
   // ------------------------------------------------------------ step 5
   {
     id: "cfa-fit",

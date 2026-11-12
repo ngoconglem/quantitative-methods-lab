@@ -1,4 +1,4 @@
-// Psychometric statistics for the Scale Validation Lab.
+// Psychometric statistics for the Quantitative Methods Lab (Module 6).
 // Mirrors analysis/psychometrics.py function by function; tests/compare_outputs.py checks they agree.
 
 export type Mat = number[][];

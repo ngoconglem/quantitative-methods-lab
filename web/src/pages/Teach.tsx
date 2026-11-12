@@ -2,6 +2,37 @@ import { REPO_URL } from "../config";
 
 const PLANS = [
   {
+    id: "methods-course",
+    title: "A six-week introduction to quantitative methods",
+    who: "Undergraduate or postgraduate linguistics, applied linguistics, TESOL or education",
+    length: "Six weekly sessions of about 90 minutes",
+    outcome:
+      "Students can choose an appropriate method for a research question, run it on real language data, interpret effect sizes and confidence intervals as well as p-values, and report results in APA style.",
+    steps: [
+      ["Week 1", <><a href="#describe">Module 1</a>: describing data. Students write a one-paragraph description of reaction times and argue for mean or median.</>],
+      ["Week 2", <><a href="#correlate">Module 2</a>: correlation. Run the guess-the-correlation game as a warm-up; discuss correlation and cause with the essay ratings.</>],
+      ["Week 3", <><a href="#groups">Module 3</a>: comparing two groups. Contrast the grade comparison (significant but trivial) with the dative (medium and meaningful); use the sample-size simulation to introduce power.</>],
+      ["Week 4", <><a href="#regress">Module 4</a>: linear regression. Pairs build the word-recognition model step by step and explain what happens to frequency when familiarity enters.</>],
+      ["Week 5", <><a href="#categorical">Module 5</a>: categorical outcomes. Groups predict the dative form from one factor, then several; link to end weight and information structure.</>],
+      ["Week 6", <><a href="#analyse-simulated">Module 6</a>: measurement. Students find the four planted problems in the simulated questionnaire (see the next plan).</>],
+    ],
+    after: "Each module ends with R and Python code, so a lab-based course can follow every session with the same analysis in software.",
+  },
+  {
+    id: "significance-vs-size",
+    title: "Significant is not the same as important",
+    who: "Any methods class or research training workshop",
+    length: "45 minutes",
+    outcome: "Participants can explain why a p-value does not show the size or importance of an effect, and report an effect size with its confidence interval.",
+    steps: [
+      ["0–10 min", <>Show the grade 8 versus grade 12 comparison in <a href="#groups">Module 3</a>: p = .014. Ask: does grade 12 have weaker vocabulary?</>],
+      ["10–25 min", <>Reveal d = −0.10 and the overlapping dots. Then switch to the dative example (d = 0.57) and compare.</>],
+      ["25–40 min", <>Run the sample-size simulation for both examples at 20, 50 and 200 per group. Record how often each reaches p &lt; .05.</>],
+      ["40–45 min", <>Each participant rewrites a results sentence from their own field to report the effect size and interval first.</>],
+    ],
+    after: "Reading: Wasserstein and Lazar (2016), The ASA statement on p-values.",
+  },
+  {
     id: "broken-scale",
     title: "Diagnose a broken scale",
     who: "Research methods seminar, postgraduate or advanced undergraduate",
@@ -49,15 +80,19 @@ export default function Teach() {
     <>
       <h1>Teach with it</h1>
       <p className="lede">
-        The Scale Validation Lab is free, needs no login and runs on a projector or students' own laptops. These session plans can be used as
-        they are or adapted.
+        The Quantitative Methods Lab is free, needs no login and runs on a projector or students' own laptops. These session plans can be used
+        as they are or adapted.
       </p>
       <section className="prose">
         <h2>First time teaching with it?</h2>
         <p>You do not need to be a statistician. Allow about an hour to prepare the first time:</p>
         <ol>
           <li>
-            <strong>Run the simulated questionnaire yourself</strong> on <a href="#analyse-simulated">Analyse</a> with the Guidance switch on.
+            <strong>Work through the module you will teach</strong> with the Guidance switch on, including the activity and the quiz. Each
+            module takes 20 to 40 minutes.
+          </li>
+          <li>
+            <strong>For the measurement module, run the simulated questionnaire yourself</strong> on <a href="#analyse-simulated">Analyse</a> with the Guidance switch on.
             Find the four planted problems; the answers are in the data notes on the <a href="#about">About</a> page.
           </li>
           <li>
@@ -65,7 +100,7 @@ export default function Teach() {
             start.
           </li>
           <li>
-            <strong>Learn five terms well enough to explain them</strong>: <a href="#glossary/alpha">Cronbach's alpha</a>,{" "}
+            <strong>For the measurement module, learn five terms well enough to explain them</strong>: <a href="#glossary/alpha">Cronbach's alpha</a>,{" "}
             <a href="#glossary/citc">corrected item-total correlation</a>, <a href="#glossary/factor">factor</a>,{" "}
             <a href="#glossary/loading">loading</a> and <a href="#glossary/parallel">parallel analysis</a>. Everything else can be looked up
             during the session.
@@ -76,8 +111,8 @@ export default function Teach() {
         </ol>
         <h3>Explaining the big idea in two sentences</h3>
         <p>
-          “A questionnaire score is only meaningful if the questions behind it work together. These checks show whether they do, and point to
-          the questions that need rewriting.”
+          “Statistics describe patterns in data and how sure we can be about them. Every method here answers a plain question, and the first
+          job is always to say what that question is.”
         </p>
       </section>
 

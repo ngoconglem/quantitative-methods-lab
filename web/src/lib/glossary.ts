@@ -12,6 +12,148 @@ export interface GlossaryEntry {
 }
 
 export const GLOSSARY: GlossaryEntry[] = [
+  // ---------------------------------------------------------------- statistics modules
+  {
+    id: "median",
+    term: "Median",
+    plain: "The middle value when all values are put in order. Half the cases are below it and half above, so a few extreme values hardly move it.",
+    topic: "Describing data",
+  },
+  {
+    id: "iqr",
+    term: "Interquartile range (IQR)",
+    plain: "The range covered by the middle half of the values, from the 25th to the 75th percentile. Like the median, it ignores extremes.",
+    topic: "Describing data",
+  },
+  {
+    id: "histogram",
+    term: "Histogram",
+    plain: "A bar chart of how many cases fall in each range of values. It shows the shape of a distribution: where values cluster, how spread out they are, and whether there is a long tail.",
+    topic: "Describing data",
+  },
+  {
+    id: "log-transform",
+    term: "Log transformation",
+    plain: "Replacing each value with its logarithm. It squeezes large values more than small ones, turning a long right tail into a more symmetric shape. Common for reaction times, word frequencies and essay lengths.",
+    rule: "On a log scale, differences become ratios: a difference of 0.1 in log units is roughly a 10% difference in the original units.",
+    topic: "Describing data",
+  },
+  {
+    id: "lexical-decision",
+    term: "Lexical decision task",
+    plain: "An experiment in which people see a string of letters and decide as quickly as possible whether it is a real word. The time they take shows how easily the word is recognised.",
+    topic: "Describing data",
+  },
+  {
+    id: "r-squared",
+    term: "R² (r squared)",
+    plain: "The share of variation in one measure that is accounted for by another (for a correlation) or by all the predictors together (for a regression), from 0 to 1.",
+    example: "r = .50 gives r² = .25: a quarter of the variation is shared.",
+    topic: "Relationships and differences",
+  },
+  {
+    id: "spearman",
+    term: "Spearman's rho",
+    plain: "A correlation computed on the ranks of the values instead of the values themselves. It captures any steadily rising or falling relationship and is less affected by extreme values than Pearson's r.",
+    topic: "Relationships and differences",
+  },
+  {
+    id: "effect-size",
+    term: "Effect size",
+    plain: "A number that describes how big a difference or relationship is, separately from whether it is statistically significant. Examples: Cohen's d, r, odds ratios, Cramér's V.",
+    topic: "Relationships and differences",
+  },
+  {
+    id: "cohen-d",
+    term: "Cohen's d",
+    plain: "The difference between two group means divided by their pooled standard deviation: how many standard deviations apart the groups are.",
+    rule: "Cohen (1988): 0.2 small, 0.5 medium, 0.8 large. Even at 0.8, the two groups overlap a great deal.",
+    topic: "Relationships and differences",
+  },
+  {
+    id: "t-test",
+    term: "t-test",
+    plain: "A test of whether the difference between two means is larger than you would expect from sampling alone. It divides the difference by its standard error.",
+    topic: "Relationships and differences",
+  },
+  {
+    id: "welch",
+    term: "Welch's t-test",
+    plain: "The version of the t-test for two independent groups that does not assume the groups have equal variances. Recommended as the default (Delacre et al., 2017).",
+    topic: "Relationships and differences",
+  },
+  {
+    id: "paired-t",
+    term: "Paired t-test",
+    plain: "The t-test for two measurements of the same people or items, such as before and after a course. It tests the average of the differences within each pair.",
+    topic: "Relationships and differences",
+  },
+  {
+    id: "power",
+    term: "Statistical power",
+    plain: "The chance that a study detects a real effect of a given size. Small studies have low power: they often miss real effects, and the effects they do find tend to be overestimated.",
+    rule: "80% power is a common target when planning a study.",
+    topic: "Relationships and differences",
+  },
+  {
+    id: "regression",
+    term: "Linear regression",
+    plain: "A model that predicts a numerical outcome from one or more predictors by fitting the best straight-line (or flat-plane) relationship.",
+    topic: "Regression",
+  },
+  {
+    id: "coefficient",
+    term: "Regression coefficient (b)",
+    plain: "How much the predicted outcome changes for a one-unit increase in a predictor, with the other predictors held constant.",
+    topic: "Regression",
+  },
+  {
+    id: "residual",
+    term: "Residual",
+    plain: "The difference between a case's actual value and the value the model predicts for it: the model's error for that case.",
+    topic: "Regression",
+  },
+  {
+    id: "vif",
+    term: "Variance inflation factor (VIF)",
+    plain: "How much a predictor overlaps with the other predictors. 1 means no overlap. High values mean its coefficient is estimated imprecisely because other predictors carry much the same information.",
+    rule: "Above 5 or 10 is commonly treated as a problem (James et al., 2013).",
+    topic: "Regression",
+  },
+  {
+    id: "dative",
+    term: "Dative alternation",
+    plain: "The choice in English between “gave the student a book” (double object, recipient as a noun phrase) and “gave a book to the student” (recipient in a prepositional phrase).",
+    detail: "Bresnan, J., Cueni, A., Nikitina, T., & Baayen, R. H. (2007). Predicting the dative alternation. In G. Bouma, I. Krämer, & J. Zwarts (Eds.), Cognitive foundations of interpretation (pp. 69–94). Royal Netherlands Academy of Science.",
+    topic: "Categorical data",
+  },
+  {
+    id: "chi-square-test",
+    term: "Chi-square test of independence",
+    plain: "A test of whether two categorical variables are related, comparing the counts in a table with the counts expected if they were unrelated.",
+    rule: "Needs expected counts of about 5 or more in most cells (Cochran, 1954).",
+    topic: "Categorical data",
+  },
+  {
+    id: "cramer-v",
+    term: "Cramér's V",
+    plain: "The strength of association in a table of counts, from 0 (none) to 1 (perfect).",
+    rule: "For 2 × 2 tables, Cohen (1988): .10 small, .30 medium, .50 large.",
+    topic: "Categorical data",
+  },
+  {
+    id: "odds-ratio",
+    term: "Odds ratio",
+    plain: "Odds are the chance of something happening divided by the chance of it not happening. An odds ratio compares the odds in two situations: 1 means no difference, 2 means twice the odds, 0.5 half the odds.",
+    topic: "Categorical data",
+  },
+  {
+    id: "logistic",
+    term: "Logistic regression",
+    plain: "Regression for an outcome with two categories, such as which of two forms a speaker uses. It models the log odds of one outcome, so its results are reported as odds ratios.",
+    rule: "Aim for at least 10 cases of the rarer outcome per predictor (Peduzzi et al., 1996).",
+    topic: "Categorical data",
+  },
   // ---------------------------------------------------------------- the data
   {
     id: "item",

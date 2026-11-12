@@ -1,0 +1,33 @@
+{
+  "title": "Quantitative Methods Lab: Plain-language statistics for language and education research",
+  "upload_type": "software",
+  "description": "<p>A free, browser-based guide to the statistics most used in applied linguistics and education research. Six modules (describing data, correlation, comparing two groups, linear regression, categorical outcomes and logistic regression, and measurement: reliability and factor analysis) each explain one method in plain language, offer interactive activities on real published datasets (recognition times for 2,284 English words and the dative alternation, both from the languageR package, and the ELLIPSE learner essay corpus), a short quiz, an APA-style reporting sentence and equivalent R and Python code. Every statistic is verified against SciPy, statsmodels and factor_analyzer.</p><p>Live site: https://quantitative-methods-lab.vercel.app</p>",
+  "creators": [
+    {
+      "name": "Cong-Lem, Ngo",
+      "affiliation": "BehaviourWorks Australia, Monash University",
+      "orcid": "0000-0002-5257-8264"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "statistics education",
+    "quantitative methods",
+    "applied linguistics",
+    "education research",
+    "effect size",
+    "regression",
+    "logistic regression",
+    "psychometrics",
+    "reliability",
+    "factor analysis",
+    "open educational resource"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://quantitative-methods-lab.vercel.app",
+      "relation": "isDocumentedBy",
+      "resource_type": "other"
+    }
+  ]
+}

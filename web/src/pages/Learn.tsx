@@ -142,7 +142,7 @@ export default function Learn({ focus }: { focus?: string }) {
   }, [focus]);
   return (
     <div className="prose">
-      <h1>Learn the ideas</h1>
+      <h1>Measurement: background reading</h1>
       <p className="lede">Short explanations of each step in the lab, with the sources to cite.</p>
 
       <h2>The big picture, for complete beginners</h2>

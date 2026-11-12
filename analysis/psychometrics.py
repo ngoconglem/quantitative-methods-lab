@@ -1,4 +1,4 @@
-"""Reference implementation of every statistic in the Scale Validation Lab.
+"""Reference implementation of every measurement statistic (Module 6) in the Quantitative Methods Lab.
 
 web/src/lib/stats.ts mirrors these functions; tests/compare_outputs.py checks that the
 two agree, and tests/check_against_factor_analyzer.py cross-checks this module against

@@ -32,7 +32,7 @@ def load(name):
 
 NOTEBOOKS = {
     "01_items_and_reliability.ipynb": [
-        ("md", "# Items and reliability\n\nReproduces steps 2–3 of the Scale Validation Lab for the simulated *Academic Writing with AI* questionnaire, before and after fixing the reverse-worded item."),
+        ("md", "# Items and reliability\n\nReproduces steps 2–3 of the measurement module (Module 6) of the Quantitative Methods Lab for the simulated *Academic Writing with AI* questionnaire, before and after fixing the reverse-worded item."),
         ("code", SETUP),
         ("code", """df, meta = load("writing_ai_simulated")
 print(meta["name"], "| n =", len(df), "| complete cases:", len(df.dropna()))

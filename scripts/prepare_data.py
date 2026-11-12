@@ -1,4 +1,4 @@
-"""Build the two sample datasets used by the Scale Validation Lab.
+"""Build the two sample datasets used by the measurement module of the Quantitative Methods Lab.
 
 1. bfi.csv: 2,800 responses to 25 IPIP Big Five items (6-point scale), from the
    psychTools R package (Revelle), data from the SAPA project. Licence: GPL (>= 2).
