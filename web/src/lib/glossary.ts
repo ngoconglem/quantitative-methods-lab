@@ -12,6 +12,25 @@ export interface GlossaryEntry {
 }
 
 export const GLOSSARY: GlossaryEntry[] = [
+  // ---------------------------------------------------------------- choosing a test
+  { id: "nominal", term: "Nominal scale", plain: "Categories with no order, such as first language or which construction a speaker chose. You can count them, not average them.", topic: "Choosing a test" },
+  { id: "ordinal", term: "Ordinal scale", plain: "Ordered categories whose gaps are not known to be equal, such as CEFR levels or a single agree–disagree item. Medians and ranks are safe; means are debatable.", topic: "Choosing a test" },
+  { id: "interval", term: "Interval scale", plain: "Numbers with equal gaps but no true zero, such as a standardised test score. Means and standard deviations make sense.", topic: "Choosing a test" },
+  { id: "ratio", term: "Ratio scale", plain: "Equal gaps and a true zero, such as reaction time or number of words. You can say one value is twice another. Often skewed to the right.", topic: "Choosing a test" },
+  { id: "parametric", term: "Parametric test", plain: "A test that works with means and assumes something about the shape of the data or of the errors, such as the t-test, ANOVA and regression.", topic: "Choosing a test" },
+  { id: "nonparametric", term: "Rank-based (non-parametric) test", plain: "A test that replaces values with their ranks, so the shape of the distribution matters less. It compares typical rank, not means.", rule: "Use it for ordinal outcomes, or small samples with strong skew or outliers.", topic: "Choosing a test" },
+  { id: "mann-whitney", term: "Mann–Whitney U test", plain: "The rank-based version of the independent-groups t-test (also called the Wilcoxon rank-sum test). It asks whether values in one group tend to be higher than in the other.", topic: "Choosing a test" },
+  { id: "wilcoxon", term: "Wilcoxon signed-rank test", plain: "The rank-based version of the paired t-test: it ranks the differences within pairs.", topic: "Choosing a test" },
+  { id: "kruskal", term: "Kruskal–Wallis test", plain: "The rank-based version of one-way ANOVA, for three or more independent groups. Follow it with pairwise comparisons such as Dunn's test.", topic: "Choosing a test" },
+  { id: "anova", term: "ANOVA", plain: "Analysis of variance: compares the means of three or more groups at once. Welch's ANOVA does not assume equal spreads; follow it with pairwise comparisons (e.g. Games–Howell).", topic: "Choosing a test" },
+  { id: "mixed-model", term: "Mixed-effects model", plain: "A regression that also models who and what was measured more than once, such as participants and test items. The standard choice for repeated-measures language data.", topic: "Choosing a test" },
+  { id: "qq-plot", term: "Q–Q plot", plain: "Plots your values (or residuals) against what a normal distribution would give. Points on the line mean roughly normal; a curve away from it at one end means skew.", topic: "Choosing a test" },
+  { id: "bootstrap", term: "Bootstrap", plain: "Resample your own data thousands of times, with replacement, to see how much a statistic varies. Gives confidence intervals without assuming a normal shape.", topic: "Choosing a test" },
+  { id: "trimmed-mean", term: "Trimmed mean", plain: "The mean after dropping a fixed share of the highest and lowest values (often 20%). Less swayed by outliers; Yuen's test compares two trimmed means.", topic: "Choosing a test" },
+  { id: "ordinal-regression", term: "Ordinal regression", plain: "Regression for an ordered outcome, such as a 5-point rating, that does not pretend the gaps between points are equal (also called cumulative-link or proportional-odds regression).", topic: "Choosing a test" },
+  { id: "poisson", term: "Poisson / negative binomial regression", plain: "Regression for counts, such as the number of errors in an essay. Negative binomial allows more variation than Poisson and is usually safer.", topic: "Choosing a test" },
+  { id: "kappa", term: "Cohen's kappa", plain: "Agreement between two raters on categories, corrected for the agreement expected by chance. Weighted kappa gives partial credit for near misses on ordered categories.", topic: "Choosing a test" },
+  { id: "icc", term: "Intraclass correlation (ICC)", plain: "Agreement or consistency between raters who give numerical scores. Report which ICC form you used.", topic: "Choosing a test" },
   // ---------------------------------------------------------------- statistics modules
   {
     id: "median",

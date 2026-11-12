@@ -1,11 +1,11 @@
 const STEPS = [
   {
-    title: "Find the method for your question",
+    title: "Find the test for your question",
     time: "2 minutes",
-    href: "#",
-    link: "Open the chooser",
-    doIt: "On the home page, answer “Which method do I need?” for a question from your own research.",
-    notice: "The choice depends on two things: what kind of outcome you measured (a number or a category) and how many things you compare.",
+    href: "#tests",
+    link: "Open Which test?",
+    doIt: "Answer three questions about a study of your own: what you want to know, who is in each group, and what kind of outcome you have.",
+    notice: "The answer names the test, the fallback when assumptions fail, the effect size to report and the R code.",
   },
   {
     title: "Look at your numbers first",

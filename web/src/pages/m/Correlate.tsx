@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ModuleLayout, Section } from "../../components/ModuleLayout";
+import { ModuleLayout, Section, KeyIdea } from "../../components/ModuleLayout";
 import { CodeTabs, Quiz, Scatter } from "../../components/plots";
 import { Guide, Term } from "../../components/Guide";
 import { useDataset, num, str, f, pFmt, type Dataset } from "../../lib/datasets";
@@ -120,28 +120,14 @@ export default function Correlate() {
 
   return (
     <ModuleLayout moduleKey="correlate" cutoffs="correlation">
-      <Section title="In plain words">
-        <p>
-          A <Term id="correlation">correlation</Term> measures how closely two measures move together. Pearson's <em>r</em> runs from −1 to
-          +1. Positive means that cases high on one measure tend to be high on the other; negative means high on one, low on the other; 0 means
-          no straight-line relationship.
-        </p>
-        <ul>
-          <li>
-            <strong>Size:</strong> the further from 0, the tighter the points cluster around a straight line. Squaring <em>r</em> gives{" "}
-            <Term id="r-squared">r²</Term>, the share of variation in one measure that goes with variation in the other: <em>r</em> = .50 means
-            25%.
-          </li>
-          <li>
-            <strong>Uncertainty:</strong> the <Term id="ci">95% confidence interval</Term> gives a range of values for <em>r</em> consistent with
-            the data. The <Term id="p-value">p-value</Term> asks only whether <em>r</em> could plausibly be 0.
-          </li>
-          <li>
-            <strong>Limits:</strong> <em>r</em> captures straight-line relationships only, can be swayed by a few extreme points, and says
-            nothing about what causes what. <Term id="spearman">Spearman's rho</Term> works on ranks and is less affected by extreme values.
-          </li>
-        </ul>
-      </Section>
+      <KeyIdea
+        gist={<>A <Term id="correlation">correlation</Term> (<em>r</em>, from −1 to +1) says how closely two measures move together along a straight line.</>}
+        points={[
+          ["Size", <>Further from 0 = tighter. <Term id="r-squared">r²</Term> is the shared variation: <em>r</em> = .50 means 25%.</>],
+          ["Uncertainty", <>Report the <Term id="ci">95% CI</Term>. The <Term id="p-value">p-value</Term> only asks whether <em>r</em> could be 0.</>],
+          ["Watch out", <>Straight lines only; a few extreme points can sway it; it says nothing about cause. <Term id="spearman">Spearman's rho</Term> uses ranks and resists outliers.</>],
+        ]}
+      />
 
       <Section title="Try it: explore real relationships">
         {(eng.error || ell.error) && <p className="error">{eng.error ?? ell.error}</p>}
@@ -267,7 +253,7 @@ export default function Correlate() {
         <p className="small muted">The number in brackets after r is its degrees of freedom: the number of cases minus 2.</p>
       </Section>
 
-      <Section title="Do it in R or Python">
+      <Section title="Do it in R or Python" folded>
         <CodeTabs
           r={`library(languageR); data(english)
 cor.test(english$WrittenFrequency, english$RTlexdec)                      # Pearson r, CI and p

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ModuleLayout, Section } from "../../components/ModuleLayout";
+import { ModuleLayout, Section, KeyIdea } from "../../components/ModuleLayout";
 import { CodeTabs, Histogram, Quiz } from "../../components/plots";
 import { Guide, Term } from "../../components/Guide";
 import { useDataset, num, str, f } from "../../lib/datasets";
@@ -55,27 +55,15 @@ export default function Describe() {
 
   return (
     <ModuleLayout moduleKey="describe" cutoffs="describe">
-      <Section title="In plain words">
-        <p>
-          Before you test anything, look at your numbers. Three questions cover most of what you need to know about a measure: where is the
-          middle, how spread out are the values, and what shape do they make? The answers decide which summaries are honest and which analyses
-          are safe.
-        </p>
-        <ul>
-          <li>
-            <strong>The middle.</strong> The <Term id="mean">mean</Term> is the average. The <Term id="median">median</Term> is the value in the
-            middle when everything is lined up in order. When a few very high values pull the mean up, the median is the better summary.
-          </li>
-          <li>
-            <strong>The spread.</strong> The <Term id="sd">standard deviation</Term> is the typical distance from the mean. The{" "}
-            <Term id="iqr">interquartile range</Term> is the width of the middle half of the values, and ignores extremes.
-          </li>
-          <li>
-            <strong>The shape.</strong> A <Term id="histogram">histogram</Term> shows how often each range of values occurs.{" "}
-            <Term id="skew">Skew</Term> puts the lopsidedness into one number: 0 is symmetric, positive means a tail to the right.
-          </li>
-        </ul>
-      </Section>
+      <KeyIdea
+        gist="Before any test, look at your numbers: where the middle is, how spread out they are, and what shape they make."
+        points={[
+          ["Middle", <>The <Term id="mean">mean</Term>, or the <Term id="median">median</Term> when a few extreme values pull the mean.</>],
+          ["Spread", <>The <Term id="sd">standard deviation</Term>; the <Term id="iqr">IQR</Term> ignores extremes.</>],
+          ["Shape", <>A <Term id="histogram">histogram</Term> and its <Term id="skew">skew</Term>. Times and counts usually have a long right tail; a <Term id="log-transform">log scale</Term> evens it out.</>],
+          ["Why it matters", <>The shape decides which summaries are honest and which tests are safe. See <a href="#tests/normality">what to do when data are not normal</a>.</>],
+        ]}
+      />
 
       <Section title="The data: how quickly do people recognise words?">
         <p>
@@ -231,7 +219,7 @@ export default function Describe() {
         </p>
       </Section>
 
-      <Section title="Do it in R or Python">
+      <Section title="Do it in R or Python" folded>
         <CodeTabs
           r={`# install.packages("languageR")  # once
 library(languageR)

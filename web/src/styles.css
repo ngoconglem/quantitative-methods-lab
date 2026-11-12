@@ -147,15 +147,15 @@ p {
 
 .nav {
   display: flex;
-  gap: 4px;
+  gap: 0;
   flex-wrap: wrap;
 }
 
 .nav a {
   text-decoration: none;
-  padding: 6px 12px;
+  padding: 6px 8px;
   border-radius: 6px;
-  font-size: 0.95rem;
+  font-size: 0.93rem;
   color: var(--ink-2);
 }
 
@@ -853,13 +853,44 @@ td.load {
 }
 
 .guide {
+  margin: 10px 0 14px;
+  max-width: 78ch;
+  font-size: 0.95rem;
+}
+
+.guide > summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #3f5f80;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 3px 0;
+}
+
+.guide > summary::-webkit-details-marker { display: none; }
+.guide > summary:hover { color: var(--ink); }
+.guide > summary:focus-visible { outline: 3px solid #2a6fdb; outline-offset: 2px; border-radius: 4px; }
+
+.guide-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  font: italic 700 0.72rem/1 Georgia, serif;
+}
+
+.guide[open] > summary { margin-bottom: 6px; }
+
+.guide-body {
   background: #f3f6f9;
   border-left: 3px solid #6f8fb0;
   border-radius: 0 8px 8px 0;
-  padding: 14px 18px;
-  margin: 16px 0 20px;
-  max-width: 78ch;
-  font-size: 0.95rem;
+  padding: 12px 16px;
 }
 
 .guide-title {
@@ -867,8 +898,11 @@ td.load {
   margin: 0 0 6px;
 }
 
-.guide > :last-child {
+.guide-body > :last-child {
   margin-bottom: 0;
+}
+.guide-body > :first-child {
+  margin-top: 0;
 }
 
 .guide ul,
@@ -888,6 +922,7 @@ td.load {
 }
 
 .term {
+  text-align: inherit;
   font: inherit;
   color: inherit;
   background: none;
@@ -1521,3 +1556,56 @@ ol.tour > li::before {
 ol.tour h2 { font-size: 1.45rem; margin: 0 0 6px; }
 ol.tour p { margin: 0 0 8px; }
 .tour-time { font-family: var(--sans); font-size: 0.85rem; color: #6b7a87; font-weight: 400; margin-left: 6px; white-space: nowrap; }
+
+/* Key idea card and folded sections */
+.key-idea {
+  margin: 8px 0 28px;
+  padding: 18px 22px;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: #fbfcfd;
+  max-width: 78ch;
+}
+.key-gist { font-size: 1.12rem; line-height: 1.5; margin: 0 0 12px; color: var(--ink); }
+.key-idea dl { margin: 0; display: grid; gap: 8px; }
+.key-idea dl > div { display: grid; grid-template-columns: minmax(120px, 13em) 1fr; gap: 4px 16px; align-items: baseline; }
+.key-idea dt { font-weight: 600; color: var(--ink); font-size: 0.95rem; }
+.key-idea dd { margin: 0; font-size: 0.95rem; color: var(--ink-2); }
+@media (max-width: 560px) { .key-idea dl > div { grid-template-columns: 1fr; } }
+
+details.fold { margin: 20px 0; border-top: 1px solid var(--rule); padding-top: 10px; }
+details.fold > summary {
+  cursor: pointer;
+  font-family: var(--display);
+  font-size: 1.45rem;
+  color: var(--ink);
+  padding: 4px 0;
+}
+details.fold > summary:focus-visible { outline: 3px solid #2a6fdb; outline-offset: 2px; }
+details.fold[open] > summary { margin-bottom: 12px; }
+
+/* Which test? */
+.section-lede { max-width: 72ch; color: var(--ink-2); }
+.test-card { margin-top: 16px; padding: 14px 18px; border-left: 4px solid #2a78d6; background: #fff; border-radius: 0 8px 8px 0; }
+.test-card dl { margin: 0 0 6px; display: grid; gap: 6px; }
+.test-card dl > div { display: grid; grid-template-columns: 11em 1fr; gap: 12px; align-items: baseline; }
+.test-card dt { color: var(--ink-3); font-size: 0.9rem; }
+.test-card dd { margin: 0; }
+.test-card code { font-size: 0.85rem; background: #f1f4f6; padding: 2px 6px; border-radius: 4px; overflow-wrap: anywhere; }
+@media (max-width: 560px) { .test-card dl > div { grid-template-columns: 1fr; gap: 2px; } }
+.scale-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin: 14px 0; }
+.scale-card { border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; font-size: 0.92rem; }
+.scale-card p { margin: 0 0 6px; }
+.scale-card .muted { display: block; font-size: 0.78rem; }
+.scale-name { font-family: var(--display); font-size: 1.35rem; }
+.note { max-width: 78ch; padding: 12px 16px; background: #f7f5ef; border-radius: 8px; font-size: 0.95rem; }
+.steps-compact { max-width: 78ch; padding-left: 1.3em; }
+.steps-compact li { margin: 6px 0; }
+.fix-table td, .fix-table th { vertical-align: top; font-size: 0.93rem; }
+.qq-pair { display: flex; flex-wrap: wrap; gap: 16px; }
+.qq { margin: 0; flex: 1 1 280px; max-width: 360px; }
+.qq svg { width: 100%; height: auto; }
+.qq figcaption { font-size: 0.88rem; color: var(--ink-2); text-align: center; }
+.test-map th[scope="row"] { font-weight: 600; font-size: 0.9rem; min-width: 12em; }
+.test-map td { font-size: 0.88rem; vertical-align: top; min-width: 11em; }
+.test-map .alt { display: block; color: var(--ink-3); font-size: 0.8rem; margin-top: 4px; }

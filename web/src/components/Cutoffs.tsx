@@ -4,8 +4,8 @@ import { CUTOFFS, REFS, cite, type StepKey } from "../lib/cutoffs";
 export function CutoffTable({ step, title = "Cut-off values used in this step" }: { step?: StepKey; title?: string }) {
   const rows = step ? CUTOFFS.filter((c) => c.step === step) : CUTOFFS;
   return (
-    <section className="cutoffs" aria-label={title}>
-      <h3>{title}</h3>
+    <section className="cutoffs" aria-label={title || "Cut-off values"}>
+      {title && <h3>{title}</h3>}
       <p className="small muted">
         Cut-offs are conventions that help you decide what to look at, not rules that decide for you. Each one is listed with its reason and
         source; full references are on the <a href="#learn/cutoffs">Learn</a> page.

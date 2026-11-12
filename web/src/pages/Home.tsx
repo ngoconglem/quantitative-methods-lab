@@ -240,6 +240,9 @@ function Chooser() {
           {rec.why}
         </p>
       )}
+    <p className="small" style={{ marginTop: 10 }}>
+        Other designs, ordinal data or skewed scores? <a href="#tests">Which test?</a> covers every combination.
+      </p>
     </div>
   );
 }

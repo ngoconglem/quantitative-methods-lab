@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ModuleLayout, Section } from "../../components/ModuleLayout";
+import { ModuleLayout, Section, KeyIdea } from "../../components/ModuleLayout";
 import { CodeTabs, Quiz, Scatter } from "../../components/plots";
 import { Guide, Term } from "../../components/Guide";
 import { useDataset, num, str, f, pFmt, type Dataset } from "../../lib/datasets";
@@ -93,34 +93,14 @@ export default function Regress() {
 
   return (
     <ModuleLayout moduleKey="regress" cutoffs="regression">
-      <Section title="In plain words">
-        <p>
-          <Term id="regression">Linear regression</Term> predicts an outcome from one or more predictors at once. Each predictor gets a{" "}
-          <Term id="coefficient">coefficient</Term>: how much the outcome changes for a one-unit increase in that predictor,{" "}
-          <em>holding the other predictors constant</em>. That last phrase is the point of using several predictors together: it separates
-          their contributions.
-        </p>
-        <ul>
-          <li>
-            <strong>
-              <Term id="r-squared">R²</Term>
-            </strong>{" "}
-            is the share of variation in the outcome the model accounts for, from 0 to 1.
-          </li>
-          <li>
-            <strong>
-              <Term id="residual">Residuals</Term>
-            </strong>{" "}
-            are what the model gets wrong for each case. Plotting them shows whether the straight-line assumptions are reasonable.
-          </li>
-          <li>
-            <strong>
-              <Term id="vif">Overlapping predictors</Term>
-            </strong>{" "}
-            that carry the same information make each one's coefficient less certain. The variance inflation factor (VIF) measures this.
-          </li>
-        </ul>
-      </Section>
+      <KeyIdea
+        gist={<><Term id="regression">Linear regression</Term> predicts one outcome from several predictors at once. Each <Term id="coefficient">coefficient</Term> is that predictor's effect while the others are held constant.</>}
+        points={[
+          [<Term id="r-squared">R²</Term>, "The share of variation in the outcome the model explains, from 0 to 1."],
+          [<Term id="residual">Residuals</Term>, "What the model gets wrong for each case. Their shape, not the outcome's, is what should look normal."],
+          [<Term id="vif">Overlap (VIF)</Term>, "Predictors carrying the same information blur each other's coefficients."],
+        ]}
+      />
 
       <Section title="Try it: build a model">
         {(eng.error || ell.error) && <p className="error">{eng.error ?? ell.error}</p>}
@@ -305,7 +285,7 @@ export default function Regress() {
         )}
       </Section>
 
-      <Section title="Do it in R or Python">
+      <Section title="Do it in R or Python" folded>
         <CodeTabs
           r={`library(languageR); data(english)
 m <- lm(RTlexdec ~ WrittenFrequency + Familiarity + LengthInLetters + AgeSubject, data = english)

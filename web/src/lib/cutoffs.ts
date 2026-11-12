@@ -144,6 +144,40 @@ Object.assign(REFS, {
     full: "Wasserstein, R. L., & Lazar, N. A. (2016). The ASA statement on p-values: Context, process, and purpose. The American Statistician, 70(2), 129–133.",
     url: "https://doi.org/10.1080/00031305.2016.1154108",
   },
+  stevens1946: {
+    short: "Stevens (1946)",
+    full: "Stevens, S. S. (1946). On the theory of scales of measurement. Science, 103(2684), 677–680.",
+    url: "https://doi.org/10.1126/science.103.2684.677",
+  },
+  norman2010: {
+    short: "Norman (2010)",
+    full: "Norman, G. (2010). Likert scales, levels of measurement and the “laws” of statistics. Advances in Health Sciences Education, 15(5), 625–632.",
+    url: "https://doi.org/10.1007/s10459-010-9222-y",
+  },
+  liddell2018: {
+    short: "Liddell & Kruschke (2018)",
+    full: "Liddell, T. M., & Kruschke, J. K. (2018). Analyzing ordinal data with metric models: What could possibly go wrong? Journal of Experimental Social Psychology, 79, 328–348.",
+    url: "https://doi.org/10.1016/j.jesp.2018.08.009",
+  },
+  lumley2002: {
+    short: "Lumley et al. (2002)",
+    full: "Lumley, T., Diehr, P., Emerson, S., & Chen, L. (2002). The importance of the normality assumption in large public health data sets. Annual Review of Public Health, 23, 151–169.",
+    url: "https://doi.org/10.1146/annurev.publhealth.23.100901.140546",
+  },
+  wilcox2017: {
+    short: "Wilcox (2017)",
+    full: "Wilcox, R. R. (2017). Introduction to robust estimation and hypothesis testing (4th ed.). Academic Press.",
+  },
+  plonsky2014: {
+    short: "Plonsky & Oswald (2014)",
+    full: "Plonsky, L., & Oswald, F. L. (2014). How big is “big”? Interpreting effect sizes in L2 research. Language Learning, 64(4), 878–912.",
+    url: "https://doi.org/10.1111/lang.12079",
+  },
+  baayen2008mixed: {
+    short: "Baayen et al. (2008)",
+    full: "Baayen, R. H., Davidson, D. J., & Bates, D. M. (2008). Mixed-effects modeling with crossed random effects for subjects and items. Journal of Memory and Language, 59(4), 390–412.",
+    url: "https://doi.org/10.1016/j.jml.2007.12.005",
+  },
   delacre2017: {
     short: "Delacre et al. (2017)",
     full: "Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch's t-test instead of Student's t-test. International Review of Social Psychology, 30(1), 92–101.",

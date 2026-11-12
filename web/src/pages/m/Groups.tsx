@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ModuleLayout, Section } from "../../components/ModuleLayout";
+import { ModuleLayout, Section, KeyIdea } from "../../components/ModuleLayout";
 import { BLUE, CodeTabs, MeansPlot, ORANGE, Quiz } from "../../components/plots";
 import { Guide, Term } from "../../components/Guide";
 import { useDataset, num, str, f, pFmt, type Dataset } from "../../lib/datasets";
@@ -141,24 +141,15 @@ export default function Groups() {
 
   return (
     <ModuleLayout moduleKey="groups" cutoffs="groups">
-      <Section title="In plain words">
-        <p>
-          Comparing two groups asks two separate questions, and it is worth keeping them apart. <strong>How big is the difference?</strong>{" "}
-          That is the <Term id="effect-size">effect size</Term>, here <Term id="cohen-d">Cohen's d</Term>: the difference between the means in
-          standard-deviation units. <strong>Could a difference this size be a fluke of sampling?</strong> That is what the{" "}
-          <Term id="t-test">t-test</Term> and its <Term id="p-value">p-value</Term> address.
-        </p>
-        <ul>
-          <li>
-            <strong>Independent groups</strong> contain different people or items, such as nouns and verbs. Use{" "}
-            <Term id="welch">Welch's t-test</Term>.
-          </li>
-          <li>
-            <strong>Paired measurements</strong> come from the same people or items measured twice, such as the same word read by young and
-            older adults. Use the <Term id="paired-t">paired t-test</Term>, which compares each pair directly and is far more sensitive.
-          </li>
-        </ul>
-      </Section>
+      <KeyIdea
+        gist="Keep two questions apart: how big is the difference, and could it be a fluke of sampling?"
+        points={[
+          ["How big", <>The <Term id="effect-size">effect size</Term>, here <Term id="cohen-d">Cohen's d</Term>: the difference in standard-deviation units.</>],
+          ["A fluke?", <>The <Term id="t-test">t-test</Term> and its <Term id="p-value">p-value</Term>.</>],
+          ["Different people or items", <><Term id="welch">Welch's t-test</Term>, e.g. nouns vs verbs.</>],
+          ["Same people or items twice", <>The <Term id="paired-t">paired t-test</Term>, which is far more sensitive. Ordinal or skewed data? See <a href="#tests">Which test?</a></>],
+        ]}
+      />
 
       <Section title="Try it: four real comparisons">
         {(eng.error || dat.error || ell.error) && <p className="error">{eng.error ?? dat.error ?? ell.error}</p>}
@@ -332,7 +323,7 @@ export default function Groups() {
         )}
       </Section>
 
-      <Section title="Do it in R or Python">
+      <Section title="Do it in R or Python" folded>
         <CodeTabs
           r={`library(languageR); data(dative)
 # Welch's t-test (R's default for two independent groups)

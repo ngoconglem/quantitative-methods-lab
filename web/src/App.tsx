@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Start from "./pages/Start";
+import Tests from "./pages/Tests";
 import Home from "./pages/Home";
 import Analyse from "./pages/Analyse";
 import Learn from "./pages/Learn";
@@ -32,6 +33,7 @@ const MODULE_KEYS = ["describe", "correlate", "groups", "regress", "categorical"
 
 const NAV = [
   { href: "#start", key: "start", label: "Start here" },
+  { href: "#tests", key: "tests", label: "Which test?" },
   { href: "#describe", key: "modules", label: "Modules" },
   { href: "#analyse", key: "analyse", label: "Measurement" },
   { href: "#teach", key: "teach", label: "Teach with it" },
@@ -41,6 +43,7 @@ const NAV = [
 
 const TITLES: Record<string, string> = {
   start: "Start here",
+  tests: "Which test?",
   describe: "Describing data",
   correlate: "Correlation",
   groups: "Comparing two groups",
@@ -55,7 +58,7 @@ const TITLES: Record<string, string> = {
 
 export default function App() {
   const route = useRoute();
-  const page = route.startsWith("analyse") ? "analyse" : route.startsWith("glossary") ? "glossary" : route.startsWith("learn") ? "learn" : route;
+  const page = route.startsWith("tests") ? "tests" : route.startsWith("analyse") ? "analyse" : route.startsWith("glossary") ? "glossary" : route.startsWith("learn") ? "learn" : route;
 
   useEffect(() => {
     document.title = TITLES[page] ? `${TITLES[page]} · Quantitative Methods Lab` : "Quantitative Methods Lab: statistics for language research, explained with real data";
@@ -92,10 +95,11 @@ export default function App() {
           {page === "analyse" && <Analyse key={route} initialSample={route === "analyse-simulated" ? "writing_ai_simulated" : route === "analyse-bfi" ? "bfi" : undefined} />}
           {page === "learn" && <Learn key={route} focus={route.split("/")[1]} />}
           {page === "start" && <Start />}
+          {page === "tests" && <Tests key={route} focus={route.split("/")[1]} />}
           {page === "teach" && <Teach />}
           {page === "about" && <About />}
           {page === "glossary" && <Glossary key={route} focus={route.split("/")[1]} />}
-          {![...MODULE_KEYS, "start", "teach", "about", "glossary"].includes(page) && <Home />}
+          {![...MODULE_KEYS, "start", "tests", "teach", "about", "glossary"].includes(page) && <Home />}
         </div>
       </main>
       <footer>

@@ -27,7 +27,12 @@ export function ModuleLayout({ moduleKey, children, cutoffs }: { moduleKey: stri
       <h1>{mod.title}</h1>
       <p className="lede">{mod.question}</p>
       {children}
-      {cutoffs && <CutoffTable step={cutoffs} title="Cut-off values and conventions used in this module" />}
+      {cutoffs && (
+        <details className="fold">
+          <summary>Cut-off values used in this module, with sources</summary>
+          <CutoffTable step={cutoffs} title="" />
+        </details>
+      )}
       <nav className="module-pager" aria-label="Previous and next module">
         {prev ? <a href={prev.href}>Previous: {prev.title}</a> : <span />}
         {next ? <a href={next.href}>Next: {next.title}</a> : <span />}
@@ -36,11 +41,37 @@ export function ModuleLayout({ moduleKey, children, cutoffs }: { moduleKey: stri
   );
 }
 
-export function Section({ title, children, id }: { title: string; children: ReactNode; id?: string }) {
+export function Section({ title, children, id, folded }: { title: string; children: ReactNode; id?: string; folded?: boolean }) {
+  if (folded)
+    return (
+      <section className="module-section" id={id}>
+        <details className="fold">
+          <summary>{title}</summary>
+          {children}
+        </details>
+      </section>
+    );
   return (
     <section className="module-section" id={id}>
       <h2>{title}</h2>
       {children}
+    </section>
+  );
+}
+
+/** The one-paragraph idea at the top of a module: a short statement plus three scannable points. */
+export function KeyIdea({ gist, points }: { gist: ReactNode; points: [ReactNode, ReactNode][] }) {
+  return (
+    <section className="key-idea" aria-label="The key idea">
+      <p className="key-gist">{gist}</p>
+      <dl>
+        {points.map(([k, v], i) => (
+          <div key={i}>
+            <dt>{k}</dt>
+            <dd>{v}</dd>
+          </div>
+        ))}
+      </dl>
     </section>
   );
 }

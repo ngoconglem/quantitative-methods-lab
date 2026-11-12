@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ModuleLayout, Section } from "../../components/ModuleLayout";
+import { ModuleLayout, Section, KeyIdea } from "../../components/ModuleLayout";
 import { BLUE, CodeTabs, ORANGE, Quiz, ShareBars } from "../../components/plots";
 import { Guide, Term } from "../../components/Guide";
 import { useDataset, num, str, f, pFmt, type Dataset } from "../../lib/datasets";
@@ -63,30 +63,18 @@ export default function Categorical() {
 
   return (
     <ModuleLayout moduleKey="categorical" cutoffs="categorical">
-      <Section title="In plain words">
-        <p>
-          Many linguistic outcomes are choices, not measurements. English speakers can say <em>gave the student a book</em> (the recipient as a
-          noun phrase, “NP”) or <em>gave a book to the student</em> (the recipient in a prepositional phrase, “PP”). This is the{" "}
-          <Term id="dative">dative alternation</Term>. What makes speakers choose one form over the other?
-        </p>
-        <ul>
-          <li>
-            For one factor at a time, a <Term id="chi-square-test">chi-square test</Term> asks whether the choice depends on the factor, and{" "}
-            <Term id="cramer-v">Cramér's V</Term> says how strongly.
-          </li>
-          <li>
-            The <Term id="odds-ratio">odds ratio</Term> compares the odds of one form in two situations. 1 means no difference; 3 means three
-            times the odds.
-          </li>
-          <li>
-            <Term id="logistic">Logistic regression</Term> weighs several factors at once, as linear regression does for measurements.
-          </li>
-        </ul>
-        <p className="small muted">
-          Data: 3,263 dative clauses from spoken (Switchboard) and written (Wall Street Journal) American English, coded by Bresnan et al.
-          (2007), distributed with Baayen (2008).
-        </p>
-      </Section>
+      <KeyIdea
+        gist={<>Many linguistic outcomes are choices, not measurements: <em>gave the student a book</em> (NP) or <em>gave a book to the student</em> (PP), the <Term id="dative">dative alternation</Term>. What makes speakers choose?</>}
+        points={[
+          ["One factor", <>A <Term id="chi-square-test">chi-square test</Term> asks whether the choice depends on it; <Term id="cramer-v">Cramér's V</Term> says how strongly.</>],
+          ["Size of a contrast", <>The <Term id="odds-ratio">odds ratio</Term>: 1 = no difference, 3 = three times the odds.</>],
+          ["Several factors", <><Term id="logistic">Logistic regression</Term> weighs them together, as linear regression does for measurements.</>],
+        ]}
+      />
+      <p className="small muted">
+        Data: 3,263 dative clauses from spoken (Switchboard) and written (Wall Street Journal) American English, coded by Bresnan et al. (2007),
+        distributed with Baayen (2008).
+      </p>
 
       <Section title="Try it: one factor at a time">
         {error && <p className="error">{error}</p>}
@@ -323,7 +311,7 @@ export default function Categorical() {
         )}
       </Section>
 
-      <Section title="Do it in R or Python">
+      <Section title="Do it in R or Python" folded>
         <CodeTabs
           r={`library(languageR); data(dative)
 tab <- table(dative$PronomOfRec, dative$RealizationOfRecipient)

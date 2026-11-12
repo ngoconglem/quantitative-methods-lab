@@ -37,15 +37,80 @@ export function GuideToggle() {
   );
 }
 
-/** A beginner explanation panel. Hidden when the reader switches guidance off. */
-export function Guide({ title = "How to read this", children }: { title?: string; children: ReactNode }) {
+/** A beginner explanation, folded into a one-line hint the reader opens when needed. Hidden when guidance is off. */
+export function Guide({ title = "How to read this", children, open = false }: { title?: string; children: ReactNode; open?: boolean }) {
   const { on } = useGuide();
   if (!on) return null;
   return (
-    <aside className="guide" aria-label={title}>
-      <p className="guide-title">{title}</p>
-      {children}
-    </aside>
+    <details className="guide" open={open}>
+      <summary className="guide-title">
+        <span className="guide-icon" aria-hidden="true">
+          i
+        </span>
+        {title}
+      </summary>
+      <div className="guide-body">{children}</div>
+    </details>
+  );
+}
+
+/* ------------------------------------------------------------------ popovers */
+
+function usePopover() {
+  const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState<{ top: number; left: number; width: number }>({ top: 0, left: 0, width: 320 });
+  const btn = useRef<HTMLButtonElement>(null);
+  const pop = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: Event) => {
+      if (e.type === "keydown" && (e as KeyboardEvent).key !== "Escape") return;
+      if (e.type === "mousedown" && (pop.current?.contains(e.target as Node) || btn.current?.contains(e.target as Node))) return;
+      setOpen(false);
+      if (e.type === "keydown") btn.current?.focus();
+    };
+    document.addEventListener("mousedown", close);
+    document.addEventListener("keydown", close);
+    window.addEventListener("scroll", close, { passive: true });
+    window.addEventListener("resize", close);
+    return () => {
+      document.removeEventListener("mousedown", close);
+      document.removeEventListener("keydown", close);
+      window.removeEventListener("scroll", close);
+      window.removeEventListener("resize", close);
+    };
+  }, [open]);
+  const toggle = () => {
+    if (!open && btn.current) {
+      const r = btn.current.getBoundingClientRect();
+      const width = Math.min(360, window.innerWidth - 24);
+      const left = Math.max(12, Math.min(r.left, window.innerWidth - width - 12));
+      const below = r.bottom + 8;
+      setPos({ top: below + 240 > window.innerHeight && r.top > 260 ? r.top - 8 : below, left, width });
+    }
+    setOpen(!open);
+  };
+  const above = btn.current ? pos.top < btn.current.getBoundingClientRect().top : false;
+  const style = { top: pos.top, left: pos.left, width: pos.width, transform: above ? "translateY(-100%)" : undefined };
+  return { open, setOpen, btn, pop, toggle, style };
+}
+
+/** An inline note: a dotted-underlined phrase that opens a short explanation. */
+export function Pop({ label, title, children }: { label: ReactNode; title?: string; children: ReactNode }) {
+  const p = usePopover();
+  const id = useId();
+  return (
+    <>
+      <button ref={p.btn} type="button" className="term" aria-expanded={p.open} aria-controls={id} onClick={p.toggle}>
+        {label}
+      </button>
+      {p.open && (
+        <div ref={p.pop} id={id} role="note" className="term-pop" style={p.style}>
+          {title && <p className="term-pop-title">{title}</p>}
+          {children}
+        </div>
+      )}
+    </>
   );
 }
 

@@ -17,7 +17,7 @@ The Quantitative Methods Lab is a free, browser-based guide to the statistics mo
 | **5. Categorical outcomes** | Which factors predict a choice between two forms? | The English dative alternation (Bresnan et al., 2007) | Chi-square, Cramér's *V*, odds ratios with expected counts; logistic regression with a predicted-probability curve |
 | **6. Measurement** | Does my questionnaire measure what I think it measures? | Your own CSV, or two sample questionnaires | Item screening, Cronbach's α and McDonald's ω, KMO, parallel analysis, exploratory factor analysis, a draft APA paragraph and lavaan CFA code |
 
-Also: a "Which method do I need?" chooser, a searchable glossary (72 terms), a table of every cut-off value with the paper that supports it, and **Teach with it** session plans, including a six-week methods course.
+Also: a **Which test?** guide (pick a test by aim, design and scale of measurement, with fallbacks when assumptions fail, effect sizes and R code; scales of measurement; what to do when data are not normal, with a Q–Q plot of real reaction times), a "Which method do I need?" chooser, a searchable glossary (90 terms), a table of every cut-off value with the paper that supports it, and **Teach with it** session plans, including a six-week methods course.
 
 ## Data
 
