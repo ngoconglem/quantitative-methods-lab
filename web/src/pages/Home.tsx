@@ -38,7 +38,6 @@ export default function Home({ focus }: { focus?: string }) {
           <a className="button" href="#intro">
             New to research? Start with the introduction
           </a>
-          <a href="#start">Or take the 15-minute tour</a>
           <span className="small muted">No statistics background needed.</span>
         </p>
         <Chooser />

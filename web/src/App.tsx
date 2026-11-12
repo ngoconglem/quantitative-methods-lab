@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Start from "./pages/Start";
 import Tests from "./pages/Tests";
 import Home from "./pages/Home";
 import Analyse from "./pages/Analyse";
@@ -52,7 +51,7 @@ const NAV = [
 
 const TITLES: Record<string, string> = {
   intro: "Introduction to quantitative research",
-  start: "Start here",
+  start: "Introduction to quantitative research",
   tests: "Which test?",
   describe: "Describing data",
   correlate: "Correlation",
@@ -120,8 +119,7 @@ export default function App() {
           {page === "scales" && <Scales />}
           {page === "analyse" && <Analyse key={route} initialSample={route === "analyse-simulated" ? "writing_ai_simulated" : route === "analyse-bfi" ? "bfi" : undefined} />}
           {page === "learn" && <Learn key={route} focus={route.split("/")[1]} />}
-          {page === "start" && <Start />}
-          {page === "intro" && <Intro />}
+          {(page === "intro" || page === "start") && <Intro />}
           {page === "tests" && <Tests key={route} focus={route.split("/")[1]} />}
           {page === "about" && <About />}
           {![...MODULE_KEYS, ...LEVEL_KEYS, "intro", "start", "tests", "about"].includes(page) && <Home key={route} focus={page === "levels" ? "levels" : undefined} />}

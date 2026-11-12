@@ -1821,3 +1821,7 @@ a.module-kicker:hover { text-decoration: underline; }
   .topbar .shell { gap: 4px 10px; padding-top: 6px; padding-bottom: 4px; min-height: 0; }
   .guide-toggle { font-size: 0.8rem; padding: 4px 10px; }
 }
+.level-cards.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 760px) { .level-cards.three { grid-template-columns: 1fr; } }
+.positivism-table td:first-child { width: 62%; }
+.positivism-table td strong { display: block; margin-bottom: 2px; }

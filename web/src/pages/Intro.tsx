@@ -89,126 +89,150 @@ export default function Intro() {
       <p className="module-kicker level-descriptive">Introduction</p>
       <h1>Quantitative research methods: the big picture</h1>
       <p className="lede">
-        Quantitative research answers questions with numbers: it measures people, situations or texts, and uses statistics to describe patterns,
-        test ideas and judge how far the results might apply beyond the people studied.
+        Quantitative research answers questions with numbers. You measure something, such as test scores, opinions on a 1–5 scale or how often a
+        word is used, and then use statistics to find patterns and check whether they are likely to be real.
       </p>
 
       <div className="flow" aria-label="The quantitative research process">
         {[
-          ["Question", "what you want to know"],
-          ["Design", "survey, experiment, correlational"],
+          ["Question", "what you want to find out"],
+          ["Design", "how the study is set up"],
           ["Sample", "who takes part"],
-          ["Measure", "tests, scales, counts"],
-          ["Analyse", "describe, test, model"],
-          ["Report", "effect sizes, limits"],
-        ].map(([t, s], i) => (
+          ["Measure", "tests, questionnaires, counts"],
+          ["Analyse", "describe and test"],
+          ["Report", "what you found, and its limits"],
+        ].map(([t, sub], i) => (
           <div key={t} style={{ display: "contents" }}>
             {i > 0 && <span className="flow-arrow" aria-hidden="true" />}
             <div className="flow-box">
               <strong>{t}</strong>
-              <span>{s}</span>
+              <span>{sub}</span>
             </div>
           </div>
         ))}
       </div>
 
-      <h2>Research paradigms, briefly</h2>
+      <h2>The thinking behind it: positivism</h2>
       <p className="intro-p">
-        A paradigm is a set of beliefs about what reality is and how we can know it. It shapes which methods count as good evidence (Guba &amp;
-        Lincoln, <Pop label="1994">{REFS.guba1994.full}</Pop>; Creswell &amp; Creswell, <Pop label="2018">{REFS.creswell2018.full}</Pop>).
+        Every kind of research rests on beliefs about what is real and how we can know it. Researchers call these beliefs a <em>paradigm</em>.
+        Quantitative research, and everything in this lab, rests on <strong>positivism</strong>: the idea that we learn about the world by
+        observing and measuring it carefully, and by testing our ideas against the evidence (Creswell &amp; Creswell,{" "}
+        <Pop label="2018">{REFS.creswell2018.full}</Pop>).
       </p>
-      <table className="theory-table paradigm-table">
+      <table className="theory-table positivism-table">
         <thead>
           <tr>
-            <th>Paradigm</th>
-            <th>Reality and knowledge</th>
-            <th>Typical methods</th>
-            <th>Example question</th>
+            <th>Positivist idea, in plain words</th>
+            <th>Where you see it in this lab</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>
-              <strong>Positivism</strong>
-            </td>
-            <td>Reality can be observed and measured objectively; the aim is general laws.</td>
-            <td>Controlled experiments, measurement</td>
-            <td>Is reading time a function of word frequency?</td>
-          </tr>
-          <tr className="hl">
-            <td>
-              <strong>Postpositivism</strong>
-              <span className="small muted"> the usual home of quantitative work</span>
-            </td>
-            <td>There is a reality to study, but we only know it imperfectly. Evidence supports or weakens a claim; it never proves it.</td>
-            <td>Surveys, experiments, statistical tests and models</td>
-            <td>Does weekly intercultural contact predict willingness to communicate?</td>
+            <td><strong>There is a real world we can observe and measure.</strong> Language ability, attitudes and reading speed show up in what people do and say.</td>
+            <td><a href="#describe">Describing data</a>: look at the measurements first</td>
           </tr>
           <tr>
-            <td>
-              <strong>Interpretivism / constructivism</strong>
-            </td>
-            <td>Reality is built by people's meanings; the aim is understanding from the inside.</td>
-            <td>Interviews, observation, discourse analysis (qualitative)</td>
-            <td>How do international students make sense of their first semester?</td>
+            <td><strong>Turn an idea into a prediction you can test.</strong> This is a hypothesis, such as “students who spend time abroad speak up more”.</td>
+            <td><a href="#tests">Which test?</a> matches each kind of question to a test</td>
           </tr>
           <tr>
-            <td>
-              <strong>Pragmatism</strong>
-            </td>
-            <td>Use whatever works to answer the question.</td>
-            <td>Mixed methods: numbers and words together</td>
-            <td>How large is the effect of study abroad, and why does it differ between students?</td>
+            <td><strong>Measure carefully, and the same way for everyone.</strong> A poor questionnaire gives poor numbers.</td>
+            <td><a href="#scales">Scales</a>: build and check a questionnaire</td>
+          </tr>
+          <tr>
+            <td><strong>Separate real patterns from chance.</strong> Any sample can show a difference by luck alone.</td>
+            <td>p-values, confidence intervals and effect sizes in every module</td>
+          </tr>
+          <tr>
+            <td><strong>Learn about many people from some of them.</strong> A well-chosen sample lets you apply results to the wider group.</td>
+            <td>The sampling activity below</td>
+          </tr>
+          <tr>
+            <td><strong>Keep the researcher's views out of the result.</strong> Others should be able to check and repeat the work.</td>
+            <td>The R and Python code that comes with every module</td>
           </tr>
         </tbody>
       </table>
-      <p className="small muted">
-        Applied linguistics and education draw on all four; quantitative studies are usually postpositivist in spirit (Dörnyei,{" "}
-        <Pop label="2007">{REFS.dornyei2007.full}</Pop>).
+      <p className="small muted intro-p">
+        Today most quantitative researchers add a note of humility: every measure has some error, and one study never proves anything for good.
+        That is why this lab reports how big an effect is and how sure we can be, not just “significant or not”.
       </p>
 
-      <h2>Common quantitative designs</h2>
+      <h3>How it compares with other paradigms</h3>
+      <table className="theory-table paradigm-table">
+        <thead>
+          <tr>
+            <th>Paradigm</th>
+            <th>What is real?</th>
+            <th>How do we find out?</th>
+            <th>Example question</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="hl">
+            <td><strong>Positivism</strong></td>
+            <td>A real world we can measure</td>
+            <td>Numbers: tests, questionnaires, experiments</td>
+            <td>Does time abroad raise willingness to speak English?</td>
+          </tr>
+          <tr>
+            <td><strong>Interpretivism</strong></td>
+            <td>What things mean to people, which differs from person to person</td>
+            <td>Words: interviews, observation, close reading</td>
+            <td>What is it like to study in a second language?</td>
+          </tr>
+          <tr>
+            <td><strong>Pragmatism</strong></td>
+            <td>Whatever helps answer the question</td>
+            <td>Both numbers and words (mixed methods)</td>
+            <td>How much does time abroad help, and why more for some students?</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Common study designs</h2>
       <table className="theory-table">
         <thead>
           <tr>
             <th>Design</th>
             <th>What it does</th>
-            <th>Can it show cause?</th>
+            <th>Can it show that A causes B?</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>Descriptive survey</strong></td>
-            <td>Describes a group at one time: attitudes, habits, levels.</td>
+            <td><strong>Survey</strong></td>
+            <td>Describes a group at one point in time.</td>
             <td>No</td>
           </tr>
           <tr>
             <td><strong>Correlational</strong></td>
-            <td>Looks at how measures go together, without changing anything.</td>
-            <td>No: other factors may explain the link</td>
+            <td>Checks whether two measures go together, without changing anything.</td>
+            <td>No: something else may explain the link</td>
           </tr>
           <tr>
             <td><strong>Quasi-experiment</strong></td>
-            <td>Compares existing groups (classes, schools) given different treatments.</td>
-            <td>Partly: groups may differ from the start</td>
+            <td>Compares groups that already exist, such as two classes taught differently.</td>
+            <td>Partly: the groups may have differed from the start</td>
           </tr>
           <tr>
-            <td><strong>True experiment</strong></td>
-            <td>Assigns people to conditions at random, then compares outcomes.</td>
-            <td>Yes, within the study's setting</td>
+            <td><strong>Experiment</strong></td>
+            <td>Puts people into groups by chance (like a coin toss), then compares them.</td>
+            <td>Yes</td>
           </tr>
           <tr>
             <td><strong>Longitudinal</strong></td>
             <td>Measures the same people several times.</td>
-            <td>Shows change and order in time; cause still needs care</td>
+            <td>Shows change over time; cause still needs care</td>
           </tr>
         </tbody>
       </table>
 
       <h2>Sampling: who takes part</h2>
       <p className="intro-p">
-        You rarely study everyone. The sample is the group you actually measure; the population is the larger group you want to say something
-        about. How you choose the sample decides how far you can generalise.
+        You can rarely study everyone. The <strong>population</strong> is the whole group you care about, such as all language students at a
+        university. The <strong>sample</strong> is the smaller group you actually study. How you choose the sample decides whether your results
+        apply to everyone else.
       </p>
       <SamplingTree />
       <SamplingSim />
@@ -223,7 +247,7 @@ export default function Intro() {
         <tbody>
           <tr><td><strong>Simple random</strong></td><td>You have a full list of the population</td><td>Small groups may be missed by chance</td></tr>
           <tr><td><strong>Stratified</strong></td><td>Subgroups (year, gender, school) must be represented</td><td>Needs the subgroup of every person in advance</td></tr>
-          <tr><td><strong>Cluster</strong></td><td>People come in natural groups (classes, schools)</td><td>People in a cluster are alike, so you need more of them</td></tr>
+          <tr><td><strong>Cluster</strong></td><td>People come in ready-made groups (classes, schools)</td><td>People in one group tend to be alike, so you need more groups</td></tr>
           <tr><td><strong>Systematic</strong></td><td>Working down a list is easier than random draws</td><td>A repeating pattern in the list can bias it</td></tr>
           <tr><td><strong>Convenience</strong></td><td>Piloting, or access is very limited</td><td>Results may not generalise; say so</td></tr>
           <tr><td><strong>Purposive</strong></td><td>You need people with specific experience</td><td>Depends on the researcher's judgement</td></tr>
@@ -232,9 +256,9 @@ export default function Intro() {
         </tbody>
       </table>
       <p className="small muted">
-        Most applied linguistics and education studies use convenience or purposive samples (Etikan et al.,{" "}
-        <Pop label="2016">{REFS.etikan2016.full}</Pop>). That is acceptable when you describe the sample fully and limit your claims to similar
-        people. How many to recruit is a separate question: see the sample-size activity in <a href="#groups">Two groups</a>.
+        Most studies in education and linguistics use convenience or purposive samples (Etikan et al.,{" "}
+        <Pop label="2016">{REFS.etikan2016.full}</Pop>). That is fine if you describe who took part and only claim results for similar people.
+        For how many people you need, see the sample-size activity in <a href="#groups">Two groups</a>.
       </p>
 
       <h2>Strengths and limitations</h2>
@@ -242,39 +266,35 @@ export default function Intro() {
         <div className="sl-box sl-plus">
           <h3>Strengths</h3>
           <ul>
-            <li>Large samples, so results can generalise when the sampling is sound</li>
-            <li>Precise answers: how big an effect is, and how sure we are</li>
-            <li>Others can repeat and check the study</li>
-            <li>Tests theories and compares groups fairly</li>
-            <li>Efficient: one survey can reach hundreds of people</li>
+            <li>Can study many people, so results can apply to a wider group</li>
+            <li>Gives clear answers: how big a difference is, and how sure we can be</li>
+            <li>Others can repeat the study and check it</li>
+            <li>Tests ideas and compares groups fairly</li>
+            <li>Quick to reach many people, for example with one online survey</li>
           </ul>
         </div>
         <div className="sl-box sl-minus">
           <h3>Limitations</h3>
           <ul>
-            <li>Only as good as its measures: a poor scale gives poor numbers</li>
-            <li>Shows what and how much, less often why</li>
-            <li>Fixed answer options can miss what matters to participants</li>
-            <li>Correlation is not cause unless the design allows it</li>
-            <li>Significance depends on sample size; report effect sizes too</li>
+            <li>Only as good as its measures: a poor questionnaire gives poor numbers</li>
+            <li>Shows what happens and how much, but rarely why</li>
+            <li>Fixed answer options can miss what matters to people</li>
+            <li>Two things going together does not mean one causes the other</li>
+            <li>“Significant” depends on sample size, so always say how big the effect is</li>
           </ul>
         </div>
       </div>
-      <p className="small muted">When the &ldquo;why&rdquo; matters, combine numbers with interviews or open answers (mixed methods).</p>
+      <p className="small muted">When the “why” matters, add interviews or open-ended questions (mixed methods).</p>
 
       <h2>Where next?</h2>
-      <div className="level-cards four">
+      <div className="level-cards three">
         <a className="level-card level-descriptive" href="#descriptive">
           <strong>Learn step by step</strong>
-          <span>Start at Level 1, Descriptive, and work up to modelling.</span>
+          <span>Start at Level 1 and work up, one module at a time.</span>
         </a>
         <a className="level-card level-basic" href="#tests">
           <strong>Choose a test for your study</strong>
-          <span>Answer three questions and get the test, fallback and R code.</span>
-        </a>
-        <a className="level-card level-advanced" href="#start">
-          <strong>Take the 15-minute tour</strong>
-          <span>Five short activities across the site.</span>
+          <span>Answer three questions about your study to find the right test.</span>
         </a>
         <a className="level-card level-scales" href="#scales">
           <strong>Build a questionnaire</strong>
@@ -292,7 +312,7 @@ function SamplingTree() {
     <div className="tree sampling-tree" aria-label="Types of sampling">
       <div className="st-col">
         <p className="st-head st-prob">Probability sampling</p>
-        <p className="small muted">Everyone has a known chance of being chosen. Supports generalising to the population.</p>
+        <p className="small muted">Chance decides who is chosen. Results can be applied to the whole group.</p>
         <ul>
           <li>Simple random</li>
           <li>Stratified</li>
@@ -302,7 +322,7 @@ function SamplingTree() {
       </div>
       <div className="st-col">
         <p className="st-head st-non">Non-probability sampling</p>
-        <p className="small muted">The researcher or circumstance decides who takes part. Quicker; generalise with care.</p>
+        <p className="small muted">The researcher, or whoever is available, decides. Quicker, but results may not apply to everyone.</p>
         <ul>
           <li>Convenience</li>
           <li>Purposive</li>
@@ -330,8 +350,8 @@ function SamplingSim() {
   return (
     <figure className="sampling-sim">
       <p className="intro-p" style={{ marginBottom: 6 }}>
-        <strong>Try it.</strong> A university department has 200 students in 10 classes. Each class is one year level, and there are more
-        first-years than fourth-years. Choose a technique to draw 20 students. <span className="sim-tag">Simulated data</span>
+        <strong>Try it.</strong> A department has 200 students in 10 classes, with more first-years than fourth-years. Pick a way to choose 20
+        of them, and see how well the 20 represent the whole department. <span className="sim-tag">Simulated data</span>
       </p>
       <div className="chips" role="group" aria-label="Sampling technique">
         {METHODS.map((x) => (
@@ -401,8 +421,8 @@ function SamplingSim() {
         </div>
       </div>
       <figcaption className="small muted">
-        Scores rise with year level, so a sample with too many first-years underestimates the department's mean. Click Draw again a few times:
-        random methods vary around the true value; convenience sampling misses it every time.
+        Older students score higher, so a sample with too many first-years makes the department look weaker than it is. Click Draw again a few
+        times: chance-based methods land close to the true average; convenience sampling misses it every time.
       </figcaption>
     </figure>
   );

@@ -40,9 +40,9 @@ const STEPS = [
       </>
     ),
   },
-  { title: "Read the key idea", body: <>Each module opens with a short box: what the method does and the few terms you need.</> },
-  { title: "Try it", body: <>Change the buttons, sliders and tick-boxes. Charts and numbers update straight away, using real or clearly labelled simulated data.</> },
-  { title: "Check, report, run", body: <>Answer the quiz, copy the reporting sentence, and open the R or Python code to repeat it on your own data.</> },
+  { title: "Read the key idea", body: <>Each module starts with a short box: what the method is for, and the few words you need to know.</> },
+  { title: "Try it", body: <>Click the buttons and move the sliders. The charts and numbers change straight away.</> },
+  { title: "Check and use it", body: <>Answer the short quiz, copy the example sentence for your report, and get the R or Python code for your own data.</> },
 ];
 
 /** A dismissible “how to use this site” box for first-time visitors. */
@@ -67,19 +67,19 @@ export function Walkthrough() {
       </ol>
       <ul className="walkthrough-tips">
         <li>
-          <span className="wt-under">Underlined words</span> show a short definition when clicked.
+          Click an <span className="wt-under">underlined word</span> to see what it means.
         </li>
         <li>
-          <span className="guide-icon" aria-hidden="true">i</span> lines open a longer explanation; the <strong>Guidance</strong> button
-          at the top hides or shows them.
+          Click a line marked <span className="guide-icon" aria-hidden="true">i</span> for more explanation. The <strong>Guidance</strong>{" "}
+          button at the top hides or shows these.
         </li>
         <li>
-          <span className="sim-tag">Simulated data</span> marks invented data made for teaching.
+          <span className="sim-tag">Simulated data</span> means made-up data, created for teaching.
         </li>
       </ul>
       <div className="walkthrough-actions">
-        <a className="button" href="#start">
-          Take the 15-minute tour
+        <a className="button" href="#intro">
+          Read the introduction
         </a>
         <button className="button-quiet" onClick={() => write(true)}>
           Got it, hide this guide

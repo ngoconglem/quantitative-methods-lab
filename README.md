@@ -24,7 +24,7 @@ The site opens with an **Introduction** to quantitative research (paradigms, com
 | **Scale development** | From items to a validated scale | Intercultural competence survey (simulated) | Workflow diagram; parallel analysis; EFA loading heat map (half A); CFA with fit table, path diagram, CR and AVE (half B) |
 | | Questionnaire analyser | Your own CSV, or two sample questionnaires | Item screening, alpha and omega, KMO, parallel analysis, EFA, APA paragraph, lavaan code |
 
-Also: **Which test?** (decision tree; a picker by aim, design and scale of measurement with fallbacks, effect sizes and R code; what to do when data are not normal, with Q–Q plots of real reaction times), a 15-minute **Start here** tour, plain-language definitions of every term, every cut-off value with its source.
+Also: **Which test?** (decision tree; a picker by aim, design and scale of measurement with fallbacks, effect sizes and R code; what to do when data are not normal, with Q–Q plots of real reaction times), an **Introduction** to quantitative research, plain-language definitions of every term, every cut-off value with its source.
 
 ## Data
 
