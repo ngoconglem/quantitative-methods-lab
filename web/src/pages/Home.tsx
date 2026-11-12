@@ -35,9 +35,10 @@ export default function Home({ focus }: { focus?: string }) {
           lets you try it on real data, and gives you the sentence to report it and the code to run it.
         </p>
         <p className="start-cta">
-          <a className="button" href="#start">
-            New here? Take the 15-minute tour
+          <a className="button" href="#intro">
+            New to research? Start with the introduction
           </a>
+          <a href="#start">Or take the 15-minute tour</a>
           <span className="small muted">No statistics background needed.</span>
         </p>
         <Chooser />

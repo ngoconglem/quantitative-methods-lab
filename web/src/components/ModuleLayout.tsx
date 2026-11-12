@@ -30,7 +30,7 @@ export function ModuleLayout({ moduleKey, children, cutoffs }: { moduleKey: stri
   return (
     <article className="module">
       <ModuleNav current={moduleKey} />
-      <p className={`module-kicker level-${mod.level}`}>{levelOf(moduleKey)?.title}</p>
+      <a className={`module-kicker level-${mod.level}`} href={`#${mod.level}`}>{levelOf(moduleKey)?.title}</a>
       <h1>{mod.title}</h1>
       <p className="lede">{mod.question}</p>
       {children}

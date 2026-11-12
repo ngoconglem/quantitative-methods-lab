@@ -8,6 +8,8 @@ The Quantitative Methods Lab is a free, browser-based guide to the statistics mo
 
 ## Modules, by level
 
+The site opens with an **Introduction** to quantitative research (paradigms, common designs, sampling techniques with an interactive sampling simulation, strengths and limitations). Each level has its own page in the main menu, and a dismissible "How to use this site" box guides first-time visitors.
+
 | Level | Module | Real or simulated data | Activities |
 |---|---|---|---|
 | **Descriptive** | Describing data | Word recognition times (Balota et al., 2004) | Histogram on raw or log scale; mean, median, SD, IQR, skew; which chart for which data |

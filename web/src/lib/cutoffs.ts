@@ -201,6 +201,23 @@ Object.assign(REFS, {
     full: "Polit, D. F., Beck, C. T., & Owen, S. V. (2007). Is the CVI an acceptable indicator of content validity? Appraisal and recommendations. Research in Nursing & Health, 30(4), 459–467.",
     url: "https://doi.org/10.1002/nur.20199",
   },
+  guba1994: {
+    short: "Guba & Lincoln (1994)",
+    full: "Guba, E. G., & Lincoln, Y. S. (1994). Competing paradigms in qualitative research. In N. K. Denzin & Y. S. Lincoln (Eds.), Handbook of qualitative research (pp. 105–117). Sage.",
+  },
+  creswell2018: {
+    short: "Creswell & Creswell (2018)",
+    full: "Creswell, J. W., & Creswell, J. D. (2018). Research design: Qualitative, quantitative, and mixed methods approaches (5th ed.). Sage.",
+  },
+  dornyei2007: {
+    short: "Dörnyei (2007)",
+    full: "Dörnyei, Z. (2007). Research methods in applied linguistics: Quantitative, qualitative, and mixed methodologies. Oxford University Press.",
+  },
+  etikan2016: {
+    short: "Etikan et al. (2016)",
+    full: "Etikan, I., Musa, S. A., & Alkassim, R. S. (2016). Comparison of convenience sampling and purposive sampling. American Journal of Theoretical and Applied Statistics, 5(1), 1–4.",
+    url: "https://doi.org/10.11648/j.ajtas.20160501.11",
+  },
   lee2013: {
     short: "Lee & Wagenmakers (2013)",
     full: "Lee, M. D., & Wagenmakers, E.-J. (2013). Bayesian cognitive modeling: A practical course. Cambridge University Press.",

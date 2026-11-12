@@ -13,6 +13,10 @@ import Categorical from "./pages/m/Categorical";
 import Anova from "./pages/m/Anova";
 import Sem from "./pages/m/Sem";
 import Bayes from "./pages/m/Bayes";
+import LevelPage from "./pages/LevelPage";
+import Intro from "./pages/Intro";
+import { Walkthrough, ShowWalkthrough } from "./components/Walkthrough";
+import { MODULES, type LevelKey } from "./lib/modules";
 import Scales from "./pages/Scales";
 import { GuideProvider, GuideToggle } from "./components/Guide";
 import { REPO_URL } from "./config";
@@ -33,16 +37,21 @@ function useRoute(): string {
 
 const LESSONS = ["describe", "correlate", "groups", "chisquare", "categorical", "anova", "regress", "sem", "bayes", "logistic"];
 const MODULE_KEYS = [...LESSONS, "scales", "analyse", "learn"];
+const LEVEL_KEYS = ["descriptive", "basic", "advanced", "modelling"];
 
 const NAV = [
-  { href: "#start", key: "start", label: "Start here" },
+  { href: "#intro", key: "intro", label: "Introduction" },
   { href: "#tests", key: "tests", label: "Which test?" },
-  { href: "#levels", key: "modules", label: "Modules" },
-  { href: "#scales", key: "scales", label: "Scale development" },
+  { href: "#descriptive", key: "descriptive", label: "Descriptive" },
+  { href: "#basic", key: "basic", label: "Basic" },
+  { href: "#advanced", key: "advanced", label: "Advanced" },
+  { href: "#modelling", key: "modelling", label: "Modelling" },
+  { href: "#scales", key: "scales", label: "Scales" },
   { href: "#about", key: "about", label: "About" },
 ];
 
 const TITLES: Record<string, string> = {
+  intro: "Introduction to quantitative research",
   start: "Start here",
   tests: "Which test?",
   describe: "Describing data",
@@ -54,7 +63,11 @@ const TITLES: Record<string, string> = {
   bayes: "Bayesian modelling",
   logistic: "Logistic regression",
   scales: "Scale development",
-  levels: "Modules",
+  levels: "All modules",
+  descriptive: "Descriptive statistics",
+  basic: "Basic tests",
+  advanced: "Advanced statistics",
+  modelling: "Modelling",
   regress: "Multiple regression",
   categorical: "Categorical outcomes",
   analyse: "Measurement",
@@ -82,7 +95,7 @@ export default function App() {
               <a
                 key={n.key}
                 href={n.href}
-                aria-current={page === n.key || (n.key === "modules" && LESSONS.includes(page)) || (n.key === "scales" && ["analyse", "learn"].includes(page)) ? "page" : undefined}
+                aria-current={page === n.key || MODULES.find((m) => m.key === page)?.level === n.key || (n.key === "scales" && ["analyse", "learn"].includes(page)) || (n.key === "modelling" && page === "categorical") ? "page" : undefined}
               >
                 {n.label}
               </a>
@@ -93,6 +106,8 @@ export default function App() {
       </header>
       <main>
         <div className="shell">
+          <Walkthrough />
+          {LEVEL_KEYS.includes(page) && <LevelPage key={page} level={page as LevelKey} />}
           {page === "describe" && <Describe />}
           {page === "correlate" && <Correlate />}
           {page === "groups" && <Groups />}
@@ -106,9 +121,10 @@ export default function App() {
           {page === "analyse" && <Analyse key={route} initialSample={route === "analyse-simulated" ? "writing_ai_simulated" : route === "analyse-bfi" ? "bfi" : undefined} />}
           {page === "learn" && <Learn key={route} focus={route.split("/")[1]} />}
           {page === "start" && <Start />}
+          {page === "intro" && <Intro />}
           {page === "tests" && <Tests key={route} focus={route.split("/")[1]} />}
           {page === "about" && <About />}
-          {![...MODULE_KEYS, "start", "tests", "about"].includes(page) && <Home key={route} focus={page === "levels" ? "levels" : undefined} />}
+          {![...MODULE_KEYS, ...LEVEL_KEYS, "intro", "start", "tests", "about"].includes(page) && <Home key={route} focus={page === "levels" ? "levels" : undefined} />}
         </div>
       </main>
       <footer>
@@ -125,7 +141,10 @@ export default function App() {
               An open resource by <a href="https://research.monash.edu/en/persons/cong-ngo/">Dr Cong Ngo</a>. Code MIT; data under their own
               licences.
             </span>
-            <a href={REPO_URL}>Source code and Python notebooks</a>
+            <span className="footer-links">
+              <ShowWalkthrough />
+              <a href={REPO_URL}>Source code and Python notebooks</a>
+            </span>
           </div>
         </div>
       </footer>
