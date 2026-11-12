@@ -5,7 +5,7 @@ export default function About() {
     <div className="prose">
       <h1>About the lab</h1>
       <p className="lede">
-        The Quantitative Methods Lab is an open teaching resource for quantitative methods in language and education research. Modules at
+        The Quantitative Methods Lab is an open resource for quantitative methods in the applied social sciences. Modules at
         four levels (descriptive, basic, advanced, modelling) plus a scale development section explain each method in plain words and let you
         try it on data. It runs entirely in your browser: files you load are read on the
         page and never uploaded.
@@ -82,8 +82,9 @@ export default function About() {
         Welch's and paired t-tests, Cohen's d, linear regression with VIF, chi-square tests, odds ratios and logistic regression) is compared with
         SciPy and statsmodels on the real datasets: 152 comparisons, all matching (<code>tests/check_methods.py</code>). One-way and
         Welch's ANOVA, ω², Kruskal–Wallis and Holm-adjusted pairwise tests are compared with SciPy, pingouin and statsmodels, and the
-        confirmatory factor analysis (χ², CFI, TLI, RMSEA and every standardised loading) with semopy: 49 comparisons, all matching
-        (<code>tests/check_advanced.py</code>).
+        confirmatory factor analysis and the structural equation model (χ², fit indices and every standardised estimate) with semopy. Standard
+        errors, the indirect effect and its confidence interval are checked against an independent Python fit, and the Bayesian posterior
+        against numerical integration: 118 comparisons, all matching (<code>tests/check_advanced.py</code>).
       </p>
       <p>
         Scale development: every psychometric statistic is implemented twice, in the browser and in Python. A test compares the two on both sample
@@ -135,8 +136,8 @@ export default function About() {
 
       <h3>How to cite</h3>
       <p className="small">
-        Cong-Lem, N. (2026). <em>Quantitative Methods Lab: Statistics for language research, explained with real data</em> (Version 0.3.0)
-        [Computer software]. {REPO_URL}
+        Cong-Lem, N. (2026). <em>Quantitative Methods Lab: Plain-language statistics for the applied social sciences</em> (Version 0.4.0)
+        [Computer software]. https://quantitative-methods-lab.vercel.app
       </p>
       <p className="small">
         Source code (MIT licence) and notebooks: <a href={REPO_URL}>{REPO_URL.replace("https://", "")}</a>

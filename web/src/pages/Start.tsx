@@ -72,12 +72,7 @@ export default function Start() {
         <li>
           Work through the modules in order, or pick the one your study needs. <a href="#chisquare">Counting categories</a> and <a href="#logistic">Logistic regression</a> cover choices between forms; <a href="#scales">Scale development</a> takes a questionnaire from items to EFA and CFA.
         </li>
-        <li>
-          Unfamiliar term? Every underlined word links to the <a href="#glossary">glossary</a>.
-        </li>
-        <li>
-          Teaching? <a href="#teach">Teach with it</a> has a six-week methods course and shorter session plans.
-        </li>
+        <li>Unfamiliar term? Click any underlined word for a short definition.</li>
       </ul>
     </article>
   );

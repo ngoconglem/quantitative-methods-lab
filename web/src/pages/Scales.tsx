@@ -7,6 +7,12 @@ import * as S from "../lib/stats";
 import { fitCfa, type CfaFit } from "../lib/cfa";
 import { REFS } from "../lib/cutoffs";
 
+const PHASES: { title: string; start: number; steps: [string, string][] }[] = [
+  { title: "Develop the items", start: 1, steps: [["Define", "the construct from theory"], ["Review", "previous research and existing scales"], ["Write", "a pool of items for each dimension"], ["Ask experts", "to rate each item's relevance"]] },
+  { title: "Pilot", start: 5, steps: [["Interview", "a few people as they answer (cognitive interviews)"], ["Screen", "items in a small pilot survey; revise"]] },
+  { title: "Test", start: 7, steps: [["Explore", "the structure (EFA) on half the main sample"], ["Confirm", "it (CFA) on the other half; report"]] },
+];
+
 const DIMS = ["KN", "AT", "SK", "AW"] as const;
 const DIM_NAME: Record<string, string> = { KN: "Knowledge", AT: "Attitudes", SK: "Skills of interaction", AW: "Critical cultural awareness" };
 const DIM_COLOR: Record<string, string> = { KN: "#2a78d6", AT: "#2f8f6f", SK: "#b26b1f", AW: "#8a4fa3" };
@@ -46,6 +52,18 @@ export default function Scales() {
     return { items, n: X.length, eig, pa, L: res.loadings.map((r) => order.map((o) => r[o])), h2: res.communalities };
   }, [data]);
 
+  const pilot = useMemo(() => {
+    if (!data) return null;
+    const items = itemsOf(data);
+    const X = matrix(data, items, "A").slice(0, 60);
+    return items.map((it, i) => {
+      const counts = [1, 2, 3, 4, 5].map((v) => X.filter((r) => r[i] === v).length);
+      const same = items.map((k, j) => (k.slice(0, 2) === it.slice(0, 2) ? j : -1)).filter((j) => j >= 0);
+      const stats = S.itemStats(X.map((r) => same.map((j) => r[j])));
+      return { item: it, counts, n: X.length, citc: stats[same.indexOf(i)].citc };
+    });
+  }, [data]);
+
   const cfa = useMemo(() => {
     if (!data) return null;
     const items = itemsOf(data).filter((k) => !(dropAT5 && k === "AT5"));
@@ -58,32 +76,38 @@ export default function Scales() {
   return (
     <ModuleLayout moduleKey="scales" cutoffs="cfa">
       <KeyIdea
-        gist="A questionnaire score is only as good as the evidence that its items measure what you claim. The usual path: write items, check them, explore their structure, then confirm it in new data."
+        gist="A questionnaire score is only as good as the evidence that its items measure what you claim. Build items from theory and previous research, check them with experts and a pilot, then test their structure in new data."
         points={[
+          ["Start from theory", "Define each dimension from a theory and earlier studies before writing a single item."],
+          ["Pilot before the main study", "Ask a few people to think aloud as they answer, then screen the items in a small survey."],
           [<Term id="efa">Explore (EFA)</Term>, "Let the data show how many dimensions there are and which items belong together."],
           [<Term id="cfa">Confirm (CFA)</Term>, "Test the structure you expect, in a different sample, and see how well it fits."],
           ["Never both on the same people", "Exploring and confirming on the same data proves little: the model was shaped to fit it."],
         ]}
       />
 
-      <div className="flow" aria-label="Scale development steps">
-        {[
-          ["1. Define", "the construct and its dimensions"],
-          ["2. Write", "items for each dimension"],
-          ["3. Screen", "items: missing, floor, ceiling"],
-          ["4. Explore", "EFA on half the sample"],
-          ["5. Confirm", "CFA on the other half"],
-          ["6. Report", "fit, loadings, reliability"],
-        ].map(([a, b], i, all) => (
-          <span key={a} style={{ display: "contents" }}>
-            <div className="flow-box">
-              <strong>{a}</strong>
-              <span>{b}</span>
+      <div className="phase-flow" aria-label="Scale development phases and steps">
+        {PHASES.map((ph, pi) => (
+          <span key={ph.title} style={{ display: "contents" }}>
+            <div className="phase">
+              <p className="phase-title">{ph.title}</p>
+              <ol start={ph.start}>
+                {ph.steps.map(([a, b]) => (
+                  <li key={a}>
+                    <strong>{a}</strong> <span>{b}</span>
+                  </li>
+                ))}
+              </ol>
             </div>
-            {i < all.length - 1 && <span className="flow-arrow" aria-hidden="true" />}
+            {pi < PHASES.length - 1 && <span className="flow-arrow" aria-hidden="true" />}
           </span>
         ))}
       </div>
+      <p className="small muted">
+        Steps follow DeVellis and Thorpe{" "}
+        <Pop label="(2022)">{REFS.devellis2022.full}</Pop> and Boateng et al.{" "}
+        <Pop label="(2018)">{REFS.boateng2018.full}</Pop>.
+      </p>
 
       <Section title="The example: an intercultural competence survey">
         <p>
@@ -130,8 +154,104 @@ export default function Scales() {
         {error && <p className="error">{error}</p>}
       </Section>
 
+      <Section title="Steps 1–3: from theory and previous research to items">
+        <p>
+          Each dimension is defined first, from Byram's model and from Deardorff's{" "}
+          <Pop label="(2006)" title="Deardorff (2006)">
+            {REFS.deardorff2006.full} An expert-consensus study of how intercultural competence should be defined and assessed.
+          </Pop>{" "}
+          consensus study. Items are then written to cover each definition, in the words students use.
+        </p>
+        <div className="table-wrap">
+          <table className="theory-table">
+            <thead>
+              <tr>
+                <th>Dimension</th>
+                <th>Theory (Byram, 1997)</th>
+                <th>Previous research (Deardorff, 2006)</th>
+                <th>Example item</th>
+              </tr>
+            </thead>
+            <tbody>
+              {THEORY.map((r) => (
+                <tr key={r.dim}>
+                  <td style={{ color: DIM_COLOR[r.dim] }}>
+                    <strong>{DIM_NAME[r.dim]}</strong>
+                  </td>
+                  <td>{r.byram}</td>
+                  <td>{r.deardorff}</td>
+                  <td className="small">
+                    <strong>{r.item}</strong> {data?.meta?.items?.[r.item]}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <h3>Writing good items</h3>
+        <div className="table-wrap">
+          <table className="dodont">
+            <thead>
+              <tr>
+                <th>Rule</th>
+                <th>Avoid</th>
+                <th>Better</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ITEM_RULES.map(([rule, bad, good]) => (
+                <tr key={rule}>
+                  <td><strong>{rule}</strong></td>
+                  <td className="bad">{bad}</td>
+                  <td className="good">{good}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="small muted">Write more items than you need: the weakest are dropped in the next steps.</p>
+      </Section>
+
+      <Section title="Step 4: expert review (content validity)">
+        <p>
+          Six experts rate how relevant each draft item is to its dimension, from 1 (not relevant) to 4 (highly relevant). Click a rating to
+          change it.
+        </p>
+        <ExpertPanel />
+      </Section>
+
+      <Section title="Steps 5–6: pilot the items">
+        <div className="two-col">
+          <div>
+            <h3>Cognitive interviews</h3>
+            <p className="small">
+              Five to ten people from the target group answer the items while thinking aloud, and the interviewer probes (Willis{" "}
+              <Pop label="2005">{REFS.willis2005.full}</Pop>).
+            </p>
+            <table className="mini">
+              <tbody>
+                {PROBES.map(([kind, q]) => (
+                  <tr key={kind}>
+                    <td><strong>{kind}</strong></td>
+                    <td className="small">{q}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <h3>Pilot survey: screen the items</h3>
+            <p className="small">
+              A small pilot survey shows how people use each item. Look for piled-up answers at one end and items that do not go with the rest
+              of their dimension. Illustrated with 60 respondents from the simulated survey.
+            </p>
+            {pilot && <PilotBars rows={pilot} />}
+          </div>
+        </div>
+      </Section>
+
       {efa && (
-        <Section title="Step 4: explore the structure (EFA, half A)">
+        <Section title="Step 7: explore the structure (EFA, half A)">
           <h3>How many factors?</h3>
           <ScreeChart eig={efa.eig} pa={efa.pa} />
           <ParallelVerdict eig={efa.eig} pa={efa.pa} />
@@ -158,7 +278,7 @@ export default function Scales() {
       )}
 
       {cfa && (
-        <Section title="Step 5: confirm it (CFA, half B)">
+        <Section title="Step 8: confirm it (CFA, half B)">
           <div className="controls">
             <label className="check">
               <input type="checkbox" checked={dropAT5} onChange={(e) => setDropAT5(e.target.checked)} /> Drop AT5 (the weak item)
@@ -268,6 +388,140 @@ print(semopy.calc_stats(m).T); print(m.inspect(std_est=True))`}
         file in the browser.
       </p>
     </ModuleLayout>
+  );
+}
+
+/* ------------------------------------------------------------------ item development */
+
+const THEORY = [
+  { dim: "KN", item: "KN4", byram: "Knowledge of social groups and their practices, in one's own and the other's country.", deardorff: "Cultural self-awareness and a deep understanding of culture." },
+  { dim: "AT", item: "AT3", byram: "Curiosity and openness; readiness to suspend disbelief about other cultures and belief about one's own.", deardorff: "Respect, openness, and curiosity and discovery, seen as the foundation." },
+  { dim: "SK", item: "SK1", byram: "Skills of interpreting and relating, and of discovery and interaction.", deardorff: "Listening, observing and interpreting; analysing, evaluating and relating." },
+  { dim: "AW", item: "AW1", byram: "Critical cultural awareness: evaluating practices in one's own and other cultures on explicit criteria.", deardorff: "An ethnorelative view: seeing one's own culture as one among many." },
+];
+
+const ITEM_RULES: [string, string, string][] = [
+  ["One idea per item", "I enjoy meeting people from other cultures and travelling abroad.", "I enjoy meeting people from other cultures."],
+  ["No double negatives", "I do not dislike unfamiliar customs.", "I am comfortable with unfamiliar customs."],
+  ["Plain, specific words", "I possess intercultural sensitivity.", "I notice when someone feels uncomfortable because of a cultural difference."],
+  ["Stay on the construct", "I like trying food from other countries.", "I am curious about how people from other cultures live."],
+  ["Use negative wording with care", "I never fail to respect other cultures.", "Keep a few clearly worded negative items, e.g. AT2, and reverse-score them."],
+];
+
+const PROBES: [string, string][] = [
+  ["Comprehension", "What does “clear criteria” mean to you in this statement?"],
+  ["Paraphrase", "Can you say this item in your own words?"],
+  ["Recall", "What situation were you thinking of when you answered?"],
+  ["Confidence", "How sure are you of your answer? Why?"],
+];
+
+const EXPERT_ITEMS: [string, number[]][] = [
+  ["KN2 I can explain how communication styles differ between cultures.", [4, 4, 3, 4, 4, 3]],
+  ["AT1 I enjoy meeting people from other cultures.", [4, 3, 4, 4, 3, 4]],
+  ["AT5 I like trying food from other countries.", [2, 1, 3, 2, 2, 3]],
+  ["AW1 I evaluate cultural practices, including my own, using clear criteria.", [4, 3, 4, 2, 4, 4]],
+  ["Draft: I enjoy meeting people from other cultures and travelling abroad.", [3, 2, 4, 2, 3, 2]],
+];
+
+function ExpertPanel() {
+  const [ratings, setRatings] = useState(EXPERT_ITEMS.map(([, r]) => r));
+  const icvi = ratings.map((r) => r.filter((v) => v >= 3).length / r.length);
+  const scvi = icvi.reduce((a, b) => a + b, 0) / icvi.length;
+  return (
+    <>
+      <div className="table-wrap">
+        <table className="expert-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              {[1, 2, 3, 4, 5, 6].map((e) => (
+                <th key={e} className="num">E{e}</th>
+              ))}
+              <th className="num">I-CVI</th>
+              <th>Decision</th>
+            </tr>
+          </thead>
+          <tbody>
+            {EXPERT_ITEMS.map(([text], i) => (
+              <tr key={text}>
+                <td className="small">{text}</td>
+                {ratings[i].map((v, j) => (
+                  <td key={j} className="num">
+                    <button
+                      className={`rating r${v}`}
+                      aria-label={`Expert ${j + 1} rating ${v}; click to change`}
+                      onClick={() => setRatings((rs) => rs.map((row, a) => (a === i ? row.map((x, b) => (b === j ? (x % 4) + 1 : x)) : row)))}
+                    >
+                      {v}
+                    </button>
+                  </td>
+                ))}
+                <td className="num">
+                  <strong>{f(icvi[i], 2, true)}</strong>
+                </td>
+                <td>
+                  <span className={`pill ${icvi[i] >= 0.78 ? "pill-yes" : "pill-flag"}`}>{icvi[i] >= 0.78 ? "Keep" : "Revise or drop"}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="verdict">
+        I-CVI is the share of experts rating an item 3 or 4. Keep items at .78 or above (Polit et al.,{" "}
+        <Pop label="2007">{REFS.polit2007.full}</Pop>). Scale average (S-CVI/Ave) = <strong>{f(scvi, 2, true)}</strong>.
+      </p>
+    </>
+  );
+}
+
+function PilotBars({ rows }: { rows: { item: string; counts: number[]; n: number; citc: number }[] }) {
+  const COLS = ["#d9653b", "#f0a77f", "#d7dde2", "#8db8ea", "#2a78d6"];
+  return (
+    <div className="pilot-bars">
+      <div className="pilot-legend small">
+        {["Strongly disagree", "", "Neutral", "", "Strongly agree"].map((l, i) => (
+          <span key={i}>
+            <span className="swatch" style={{ background: COLS[i] }} />
+            {l || (i === 1 ? "Disagree" : "Agree")}
+          </span>
+        ))}
+      </div>
+      {rows.map((r) => {
+        const neg = (r.counts[0] + r.counts[1] + r.counts[2] / 2) / r.n;
+        const flag = r.citc < 0.3 ? "Weak link to its dimension" : r.counts[4] / r.n > 0.5 ? "Ceiling" : "";
+        return (
+          <div key={r.item} className="pilot-row" title={`${r.item}: item–rest r = ${r.citc.toFixed(2)}`}>
+            <span className="pilot-label" style={{ color: DIM_COLOR[r.item.slice(0, 2)] }}>{r.item}</span>
+            <div className="pilot-track">
+              <div className="pilot-bar" style={{ marginLeft: `${(0.5 - neg) * 100}%` }}>
+                {r.counts.map((c, i) => (
+                  <span key={i} style={{ width: `${(100 * c) / r.n}%`, background: COLS[i] }} />
+                ))}
+              </div>
+              <span className="pilot-mid" />
+            </div>
+            <span className={`pilot-r small${flag ? " pilot-flag" : ""}`}>
+              r = {f(r.citc, 2, true)}
+              {flag && " ⚑"}
+            </span>
+          </div>
+        );
+      })}
+      {(() => {
+        const weak = rows.filter((r) => r.citc < 0.3).map((r) => r.item);
+        const ceil = rows.filter((r) => r.citc >= 0.3 && r.counts[4] / r.n > 0.5).map((r) => r.item);
+        return weak.length || ceil.length ? (
+          <p className="verdict">
+            ⚑ Flagged for revision:{" "}
+            {weak.length > 0 && `${weak.join(", ")} (weak link to its dimension)`}
+            {weak.length > 0 && ceil.length > 0 && "; "}
+            {ceil.length > 0 && `${ceil.join(", ")} (most people strongly agree)`}.
+          </p>
+        ) : null;
+      })()}
+      <p className="small muted">Bars are centred on the neutral point: disagreement left, agreement right. r = correlation with the rest of the item's dimension (aim for .30 or more).</p>
+    </div>
   );
 }
 

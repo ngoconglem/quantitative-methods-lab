@@ -4,15 +4,15 @@ import Tests from "./pages/Tests";
 import Home from "./pages/Home";
 import Analyse from "./pages/Analyse";
 import Learn from "./pages/Learn";
-import Teach from "./pages/Teach";
 import About from "./pages/About";
-import Glossary from "./pages/Glossary";
 import Describe from "./pages/m/Describe";
 import Correlate from "./pages/m/Correlate";
 import Groups from "./pages/m/Groups";
 import Regress from "./pages/m/Regress";
 import Categorical from "./pages/m/Categorical";
 import Anova from "./pages/m/Anova";
+import Sem from "./pages/m/Sem";
+import Bayes from "./pages/m/Bayes";
 import Scales from "./pages/Scales";
 import { GuideProvider, GuideToggle } from "./components/Guide";
 import { REPO_URL } from "./config";
@@ -31,7 +31,7 @@ function useRoute(): string {
   return route;
 }
 
-const LESSONS = ["describe", "correlate", "groups", "chisquare", "categorical", "anova", "regress", "logistic"];
+const LESSONS = ["describe", "correlate", "groups", "chisquare", "categorical", "anova", "regress", "sem", "bayes", "logistic"];
 const MODULE_KEYS = [...LESSONS, "scales", "analyse", "learn"];
 
 const NAV = [
@@ -39,8 +39,6 @@ const NAV = [
   { href: "#tests", key: "tests", label: "Which test?" },
   { href: "#levels", key: "modules", label: "Modules" },
   { href: "#scales", key: "scales", label: "Scale development" },
-  { href: "#teach", key: "teach", label: "Teach with it" },
-  { href: "#glossary", key: "glossary", label: "Glossary" },
   { href: "#about", key: "about", label: "About" },
 ];
 
@@ -52,6 +50,8 @@ const TITLES: Record<string, string> = {
   groups: "Two groups",
   chisquare: "Counting categories",
   anova: "Three or more groups",
+  sem: "Structural equation modelling",
+  bayes: "Bayesian modelling",
   logistic: "Logistic regression",
   scales: "Scale development",
   levels: "Modules",
@@ -59,8 +59,6 @@ const TITLES: Record<string, string> = {
   categorical: "Categorical outcomes",
   analyse: "Measurement",
   learn: "Measurement: background",
-  teach: "Teach with it",
-  glossary: "Glossary",
   about: "About & data",
 };
 
@@ -69,7 +67,7 @@ export default function App() {
   const page = route.startsWith("tests") ? "tests" : route.startsWith("analyse") ? "analyse" : route.startsWith("glossary") ? "glossary" : route.startsWith("learn") ? "learn" : route;
 
   useEffect(() => {
-    document.title = TITLES[page] ? `${TITLES[page]} · Quantitative Methods Lab` : "Quantitative Methods Lab: statistics for language research, explained with real data";
+    document.title = TITLES[page] ? `${TITLES[page]} · Quantitative Methods Lab` : "Quantitative Methods Lab: plain-language statistics for the applied social sciences";
   }, [page]);
 
   return (
@@ -102,26 +100,33 @@ export default function App() {
           {(page === "chisquare" || page === "categorical") && <Categorical part="chisq" />}
           {page === "logistic" && <Categorical part="logistic" />}
           {page === "anova" && <Anova />}
+          {page === "sem" && <Sem />}
+          {page === "bayes" && <Bayes />}
           {page === "scales" && <Scales />}
           {page === "analyse" && <Analyse key={route} initialSample={route === "analyse-simulated" ? "writing_ai_simulated" : route === "analyse-bfi" ? "bfi" : undefined} />}
           {page === "learn" && <Learn key={route} focus={route.split("/")[1]} />}
           {page === "start" && <Start />}
           {page === "tests" && <Tests key={route} focus={route.split("/")[1]} />}
-          {page === "teach" && <Teach />}
           {page === "about" && <About />}
-          {page === "glossary" && <Glossary key={route} focus={route.split("/")[1]} />}
-          {![...MODULE_KEYS, "start", "tests", "teach", "about", "glossary"].includes(page) && <Home key={route} focus={page === "levels" ? "levels" : undefined} />}
+          {![...MODULE_KEYS, "start", "tests", "about"].includes(page) && <Home key={route} focus={page === "levels" ? "levels" : undefined} />}
         </div>
       </main>
       <footer>
         <div className="shell">
-          <span>
-            Quantitative Methods Lab, an open resource by <a href="https://research.monash.edu/en/persons/cong-ngo/">Dr Cong Ngo</a>. Code MIT; sample
-            data under their own licences.
-          </span>
-          <span>
+          <div className="footer-cite">
+            <p className="footer-label">How to cite</p>
+            <p>
+              Cong-Lem, N. (2026). <em>Quantitative Methods Lab: Plain-language statistics for the applied social sciences</em> (Version 0.4.0)
+              [Computer software]. https://quantitative-methods-lab.vercel.app
+            </p>
+          </div>
+          <div className="footer-meta">
+            <span>
+              An open resource by <a href="https://research.monash.edu/en/persons/cong-ngo/">Dr Cong Ngo</a>. Code MIT; data under their own
+              licences.
+            </span>
             <a href={REPO_URL}>Source code and Python notebooks</a>
-          </span>
+          </div>
         </div>
       </footer>
     </GuideProvider>

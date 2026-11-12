@@ -178,9 +178,6 @@ export function Term({ id, children }: { id: string; children?: ReactNode }) {
               <strong>Rule of thumb:</strong> {entry.rule}
             </p>
           )}
-          <a href={`#glossary/${entry.id}`} onClick={() => setOpen(false)} className="small">
-            Full glossary entry
-          </a>
         </div>
       )}
     </>

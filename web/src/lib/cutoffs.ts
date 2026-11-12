@@ -178,6 +178,38 @@ Object.assign(REFS, {
     full: "Baayen, R. H., Davidson, D. J., & Bates, D. M. (2008). Mixed-effects modeling with crossed random effects for subjects and items. Journal of Memory and Language, 59(4), 390–412.",
     url: "https://doi.org/10.1016/j.jml.2007.12.005",
   },
+  boateng2018: {
+    short: "Boateng et al. (2018)",
+    full: "Boateng, G. O., Neilands, T. B., Frongillo, E. A., Melgar-Quiñonez, H. R., & Young, S. L. (2018). Best practices for developing and validating scales for health, social, and behavioral research: A primer. Frontiers in Public Health, 6, 149.",
+    url: "https://doi.org/10.3389/fpubh.2018.00149",
+  },
+  devellis2022: {
+    short: "DeVellis & Thorpe (2022)",
+    full: "DeVellis, R. F., & Thorpe, C. T. (2022). Scale development: Theory and applications (5th ed.). SAGE.",
+  },
+  deardorff2006: {
+    short: "Deardorff (2006)",
+    full: "Deardorff, D. K. (2006). Identification and assessment of intercultural competence as a student outcome of internationalization. Journal of Studies in International Education, 10(3), 241–266.",
+    url: "https://doi.org/10.1177/1028315306287002",
+  },
+  willis2005: {
+    short: "Willis (2005)",
+    full: "Willis, G. B. (2005). Cognitive interviewing: A tool for improving questionnaire design. SAGE.",
+  },
+  polit2007: {
+    short: "Polit et al. (2007)",
+    full: "Polit, D. F., Beck, C. T., & Owen, S. V. (2007). Is the CVI an acceptable indicator of content validity? Appraisal and recommendations. Research in Nursing & Health, 30(4), 459–467.",
+    url: "https://doi.org/10.1002/nur.20199",
+  },
+  lee2013: {
+    short: "Lee & Wagenmakers (2013)",
+    full: "Lee, M. D., & Wagenmakers, E.-J. (2013). Bayesian cognitive modeling: A practical course. Cambridge University Press.",
+  },
+  preacher2008: {
+    short: "Preacher & Hayes (2008)",
+    full: "Preacher, K. J., & Hayes, A. F. (2008). Asymptotic and resampling strategies for assessing and comparing indirect effects in multiple mediator models. Behavior Research Methods, 40(3), 879–891.",
+    url: "https://doi.org/10.3758/BRM.40.3.879",
+  },
   fornell1981: {
     short: "Fornell & Larcker (1981)",
     full: "Fornell, C., & Larcker, D. F. (1981). Evaluating structural equation models with unobservable variables and measurement error. Journal of Marketing Research, 18(1), 39–50.",
@@ -235,7 +267,7 @@ Object.assign(REFS, {
   },
 });
 
-export type StepKey = "items" | "reliability" | "structure" | "report" | "describe" | "correlation" | "groups" | "regression" | "categorical" | "anova" | "cfa";
+export type StepKey = "items" | "reliability" | "structure" | "report" | "describe" | "correlation" | "groups" | "regression" | "categorical" | "anova" | "cfa" | "sem" | "bayes";
 
 export interface Cutoff {
   id: string;
@@ -247,7 +279,39 @@ export interface Cutoff {
 }
 
 export const CUTOFFS: Cutoff[] = [
+  {
+    id: "sem-fit",
+    step: "sem",
+    check: "Model fit",
+    value: "CFI and TLI ≥ .95; RMSEA ≤ .06; SRMR ≤ .08",
+    why: "The same guides as for CFA. Treat them as guides, not pass marks, and compare alternative models.",
+    refs: ["hu1999"],
+  },
+  {
+    id: "indirect",
+    step: "sem",
+    check: "Indirect (mediated) effect",
+    value: "95% CI excluding 0; bootstrap preferred",
+    why: "The product a × b is not normally distributed in small samples, so bootstrap confidence intervals are recommended over the normal-theory (Sobel) test.",
+    refs: ["preacher2008"],
+  },
+  {
+    id: "bf",
+    step: "bayes",
+    check: "Bayes factor",
+    value: "1–3 anecdotal, 3–10 moderate, 10–30 strong, 30–100 very strong, > 100 extreme",
+    why: "A widely used labelling, adapted from Jeffreys. The same bands apply in reverse (1/3, 1/10…) for evidence for no effect.",
+    refs: ["lee2013"],
+  },
   // ------------------------------------------------------------ confirmatory factor analysis
+  {
+    id: "i-cvi",
+    step: "cfa",
+    check: "Expert relevance ratings (I-CVI)",
+    value: "≥ .78 per item",
+    why: "The share of experts rating an item relevant (3 or 4 on a 4-point scale). Polit, Beck and Owen suggest .78 or higher, with three or more experts, as good content validity; revise or drop items below it.",
+    refs: ["polit2007"],
+  },
   {
     id: "cfa-fit-indices",
     step: "cfa",

@@ -263,6 +263,7 @@ const TREE: { root: string; scale: string; leaves: [string, string, string?][] }
       ["3+ groups", "Welch's ANOVA", "#anova"],
       ["Two measures", "Pearson's r", "#correlate"],
       ["Several predictors", "Multiple regression", "#regress"],
+      ["Latent variables, mediation", "Structural equation model", "#sem"],
     ],
   },
   {
@@ -273,6 +274,7 @@ const TREE: { root: string; scale: string; leaves: [string, string, string?][] }
       ["3+ groups", "Kruskal–Wallis", "#anova"],
       ["Two measures", "Spearman's rho", "#correlate"],
       ["Several predictors", "Ordinal regression"],
+      ["Questionnaire items", "CFA (ordinal estimator)", "#scales"],
     ],
   },
   {
@@ -283,6 +285,7 @@ const TREE: { root: string; scale: string; leaves: [string, string, string?][] }
       ["Several factors", "Logistic regression", "#logistic"],
       ["Same people twice", "McNemar's test"],
       ["Raters agree?", "Cohen's kappa"],
+      ["Two related categories", "Cramér's V"],
     ],
   },
 ];
@@ -309,7 +312,10 @@ function DecisionTree() {
           </div>
         ))}
       </div>
-      <p className="small muted" style={{ marginTop: 8 }}>Linked tests have a module with real data. Repeated measures and counts: use the picker below.</p>
+      <p className="small muted" style={{ marginTop: 8 }}>
+        Linked tests have a module with data to try. Any of these can also be run as a <a href="#bayes">Bayesian model</a>. Repeated measures and
+        counts: use the picker below.
+      </p>
     </div>
   );
 }

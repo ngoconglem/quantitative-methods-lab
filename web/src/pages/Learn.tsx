@@ -168,7 +168,7 @@ export default function Learn({ focus }: { focus?: string }) {
       <p>
         Passing these checks is necessary but not enough to show a questionnaire is valid: you also need evidence that the items cover the
         construct well and that scores relate to other measures as expected (<Term id="validity">validity evidence</Term>). The rest of this page
-        explains each check in more depth. For any single term, see the <a href="#glossary">glossary</a>.
+        explains each check in more depth. Underlined terms open a short definition.
       </p>
 
       <h2>Topics</h2>

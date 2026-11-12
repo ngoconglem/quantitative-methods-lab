@@ -113,7 +113,7 @@ function objective(theta: number[], model: CfaModel, S: Mat, logDetS: number): {
   return { f, g };
 }
 
-function isPD(A: Mat): boolean {
+export function isPD(A: Mat): boolean {
   const n = A.length;
   const L = zeros(n, n);
   for (let i = 0; i < n; i++)
@@ -128,7 +128,7 @@ function isPD(A: Mat): boolean {
   return true;
 }
 
-function bfgs(fn: (x: number[]) => { f: number; g: number[] }, x0: number[], maxIter = 2000) {
+export function bfgs(fn: (x: number[]) => { f: number; g: number[] }, x0: number[], maxIter = 2000) {
   const n = x0.length;
   let x = [...x0];
   let { f, g } = fn(x);

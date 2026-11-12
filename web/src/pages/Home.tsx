@@ -28,9 +28,10 @@ export default function Home({ focus }: { focus?: string }) {
   return (
     <>
       <section className="hero">
-        <h1 style={{ maxWidth: "22ch" }}>Statistics for language and intercultural research, in plain words.</h1>
+        <h1 style={{ maxWidth: "22ch" }}>Statistics for the applied social sciences, in plain words.</h1>
         <p className="lede">
-          Short, hands-on modules from describing your data to modelling and questionnaire validation. Each one shows the idea in a picture,
+          Short, hands-on modules for students and researchers in education, linguistics, psychology, communication and related fields: from
+          describing your data to structural equation and Bayesian models, and questionnaire validation. Each one shows the idea in a picture,
           lets you try it on real data, and gives you the sentence to report it and the code to run it.
         </p>
         <p className="start-cta">
@@ -63,8 +64,9 @@ export default function Home({ focus }: { focus?: string }) {
         ))}
       </div>
       <p className="small muted" style={{ maxWidth: "var(--measure)" }}>
-        Examples come from language research (word recognition, learner essays, the dative alternation) and from a simulated intercultural
-        competence survey, labelled as simulated wherever it appears. Every result is computed in your browser and checked against SciPy,
+        The worked examples use open research data (word recognition times, learner essays, a corpus of spoken and written English) and a
+        simulated intercultural competence survey, labelled as simulated wherever it appears. The methods apply to any field that measures
+        people. Every result is computed in your browser and checked against SciPy,
         statsmodels and semopy.
       </p>
 
@@ -158,21 +160,9 @@ export default function Home({ focus }: { focus?: string }) {
           </a>
         </li>
         <li>
-          <a href="#teach">
-            <span className="index-title">Teach with it</span>
-            <span className="index-desc">Session plans for a methods course, an HDR workshop on validating your own instrument, and lecture demonstrations.</span>
-          </a>
-        </li>
-        <li>
-          <a href="#glossary">
-            <span className="index-title">Glossary</span>
-            <span className="index-desc">Every statistical term on the site in plain language, with rules of thumb for reading each number.</span>
-          </a>
-        </li>
-        <li>
           <a href="#about">
             <span className="index-title">About and data</span>
-            <span className="index-desc">The four real datasets, how every result is verified, and the author's related research.</span>
+            <span className="index-desc">The datasets, how every result is verified, and the author's related research.</span>
           </a>
         </li>
       </ul>

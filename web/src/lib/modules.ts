@@ -30,6 +30,8 @@ export const MODULES: ModuleInfo[] = [
   { key: "chisquare", href: "#chisquare", level: "basic", title: "Counting categories", question: "Does a choice depend on the situation?", data: "The English dative alternation" },
   { key: "anova", href: "#anova", level: "advanced", title: "Three or more groups", question: "Do several groups differ, and which ones?", data: "Learner essays by grade; time abroad (simulated)" },
   { key: "regress", href: "#regress", level: "advanced", title: "Multiple regression", question: "How well do several measures together predict an outcome?", data: "Word recognition times; essay ratings" },
+  { key: "sem", href: "#sem", level: "advanced", title: "Structural equation modelling", question: "How do several variables, some unobserved, influence each other?", data: "Contact, intercultural competence and willingness to communicate (simulated)" },
+  { key: "bayes", href: "#bayes", level: "advanced", title: "Bayesian modelling", question: "How should my beliefs about an effect change, given the data?", data: "Time abroad (simulated); learner essays by grade" },
   { key: "logistic", href: "#logistic", level: "modelling", title: "Logistic regression", question: "Which factors together predict a choice?", data: "The English dative alternation" },
   { key: "scales", href: "#scales", level: "scales", title: "From items to a validated scale", question: "How do I show my questionnaire works? EFA, then CFA", data: "Intercultural competence survey (simulated)" },
   { key: "analyse", href: "#analyse", level: "scales", title: "Questionnaire analyser", question: "Check reliability and factor structure of your own data", data: "Your own CSV, or sample questionnaires" },

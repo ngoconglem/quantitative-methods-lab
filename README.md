@@ -1,10 +1,10 @@
 # Quantitative Methods Lab
 
-**Plain-language statistics for language and education research, with interactive activities on real data.**
+**Plain-language statistics for the applied social sciences, with interactive activities on real and simulated data.**
 
 **Live site: https://quantitative-methods-lab.vercel.app** (previously scale-validation-lab.vercel.app)
 
-The Quantitative Methods Lab is a free, browser-based guide to the statistics most often used in applied linguistics and education research. Each module explains one method in plain words, lets you try it on a real published dataset, checks understanding with a short quiz, writes an APA-style reporting sentence from your results, and gives the equivalent R and Python code. The Scale development section ends with a questionnaire-validation tool that works on your own CSV file; files are read in the browser and never uploaded.
+The Quantitative Methods Lab is a free, browser-based guide to the statistics most often used in the applied social sciences (education, linguistics, psychology, communication and related fields). Each module explains one method in plain words, lets you try it on a real published dataset, checks understanding with a short quiz, writes an APA-style reporting sentence from your results, and gives the equivalent R and Python code. The Scale development section ends with a questionnaire-validation tool that works on your own CSV file; files are read in the browser and never uploaded.
 
 ## Modules, by level
 
@@ -16,11 +16,13 @@ The Quantitative Methods Lab is a free, browser-based guide to the statistics mo
 | | Counting categories | The dative alternation (Bresnan et al., 2007) | Chi-square, Cramér's V, odds ratios, expected counts |
 | **Advanced** | Three or more groups | ELLIPSE essays by grade; time abroad (simulated) | Welch's ANOVA, ω², Kruskal–Wallis, Holm-adjusted pairs; false-alarm chart |
 | | Multiple regression | Word recognition times; ELLIPSE ratings | Build a model; coefficients in plain words; VIF; prediction; residuals |
+| | Structural equation modelling | Contact, intercultural competence and willingness to communicate (simulated) | Latent factor plus mediation; path diagram with live coefficients; indirect effect with CI; fit indices |
+| | Bayesian modelling | Time abroad (simulated); ELLIPSE grades | Prior, likelihood and posterior chart; prior presets and sliders; credible interval, P(effect > 0), Bayes factor |
 | **Modelling** | Logistic regression | The dative alternation | Odds ratios with other factors held constant; probability curve |
 | **Scale development** | From items to a validated scale | Intercultural competence survey (simulated) | Workflow diagram; parallel analysis; EFA loading heat map (half A); CFA with fit table, path diagram, CR and AVE (half B) |
 | | Questionnaire analyser | Your own CSV, or two sample questionnaires | Item screening, alpha and omega, KMO, parallel analysis, EFA, APA paragraph, lavaan code |
 
-Also: **Which test?** (decision tree; a picker by aim, design and scale of measurement with fallbacks, effect sizes and R code; what to do when data are not normal, with Q–Q plots of real reaction times), a 15-minute **Start here** tour, a searchable glossary, every cut-off value with its source, and **Teach with it** session plans.
+Also: **Which test?** (decision tree; a picker by aim, design and scale of measurement with fallbacks, effect sizes and R code; what to do when data are not normal, with Q–Q plots of real reaction times), a 15-minute **Start here** tour, plain-language definitions of every term, every cut-off value with its source.
 
 ## Data
 
@@ -41,7 +43,7 @@ Every number in the browser is checked against established Python libraries.
 
 - `web/src/lib/methods.ts`: browser implementation of the descriptive, basic, advanced and modelling modules.
 - `tests/check_methods.py`: 152 comparisons with SciPy and statsmodels on the real datasets. Status: **all match**.
-- `web/src/lib/anova.ts`, `web/src/lib/cfa.ts` and `tests/check_advanced.py`: ANOVA, Welch's ANOVA, Kruskal–Wallis, Holm-adjusted pairs (SciPy, pingouin, statsmodels) and maximum-likelihood CFA (semopy): 49 comparisons. Status: **all match**.
+- `web/src/lib/anova.ts`, `cfa.ts`, `sem.ts`, `bayes.ts` and `tests/check_advanced.py`: ANOVA, Welch's ANOVA, Kruskal–Wallis, Holm-adjusted pairs (SciPy, pingouin, statsmodels); maximum-likelihood CFA and SEM (semopy, plus an independent SciPy fit for standard errors and the indirect effect); Bayesian posterior (numerical integration): 118 comparisons. Status: **all match**.
 - `web/src/lib/stats.ts` and `analysis/psychometrics.py`: browser and Python implementations of the Questionnaire analyser, mirroring each other function by function.
 - `tests/compare_outputs.py`: 42 comparisons between them. Status: **all match**.
 - `tests/check_against_factor_analyzer.py`: cross-check with the independent `factor_analyzer` package.
@@ -74,7 +76,7 @@ Created by Ngo Cong-Lem (ORCID [0000-0002-5257-8264](https://orcid.org/0000-0002
 
 ## Citation
 
-Cong-Lem, N. (2026). *Quantitative Methods Lab: Plain-language statistics for language and education research* (Version 0.3.0) [Computer software]. https://github.com/ngoconglem/quantitative-methods-lab
+Cong-Lem, N. (2026). *Quantitative Methods Lab: Plain-language statistics for the applied social sciences* (Version 0.4.0) [Computer software]. https://quantitative-methods-lab.vercel.app
 
 ### References
 

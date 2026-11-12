@@ -181,6 +181,23 @@ footer {
 }
 
 footer .shell {
+  display: grid;
+  gap: 18px;
+}
+
+.footer-cite {
+  max-width: 78ch;
+  padding: 12px 16px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: #fbfcfd;
+  color: var(--ink-2);
+}
+
+.footer-cite p { margin: 0; }
+.footer-label { font-weight: 600; color: var(--ink); margin-bottom: 4px !important; }
+
+.footer-meta {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -1686,3 +1703,32 @@ label.check { display: inline-flex; gap: 8px; align-items: center; font-size: 0.
 .chart-guide td { vertical-align: middle; }
 .chart-guide svg { display: block; }
 main a { overflow-wrap: anywhere; }
+
+/* scale development: phases, theory, experts, pilot */
+.phase-flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; margin: 6px 0 6px; }
+.phase { flex: 1 1 220px; border: 1px solid var(--rule); border-top: 4px solid #a34a4a; border-radius: 0 0 8px 8px; padding: 10px 14px; background: #fff; }
+.phase-title { margin: 0 0 6px; font-weight: 700; font-size: 0.95rem; }
+.phase ol { margin: 0; padding-left: 1.4em; display: grid; gap: 4px; font-size: 0.9rem; }
+.phase ol span { color: var(--ink-2); }
+.theory-table td { vertical-align: top; font-size: 0.9rem; }
+.dodont td { vertical-align: top; font-size: 0.9rem; }
+.dodont td.bad { color: #9a3d14; text-decoration: line-through; text-decoration-color: rgba(154, 61, 20, 0.4); }
+.dodont td.good { color: #1e6b4b; }
+.expert-table td { vertical-align: middle; }
+button.rating { width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--rule); font: inherit; font-weight: 600; cursor: pointer; }
+button.rating.r1 { background: #fde7dc; color: #9a3d14; }
+button.rating.r2 { background: #fbf0e8; color: #9a3d14; }
+button.rating.r3 { background: #e7f1fb; color: #1f5ea8; }
+button.rating.r4 { background: #cfe2f7; color: #163f73; }
+button.rating:focus-visible { outline: 3px solid #2a6fdb; outline-offset: 1px; }
+.pilot-bars { display: grid; gap: 4px; }
+.pilot-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 6px; color: var(--ink-2); }
+.pilot-row { display: grid; grid-template-columns: 3em minmax(0, 1fr) 5em; gap: 8px; align-items: center; font-size: 0.85rem; }
+.pilot-label { font-weight: 700; }
+.pilot-track { position: relative; height: 14px; overflow: hidden; background: #f6f8f9; border-radius: 3px; }
+.pilot-bar { display: flex; height: 100%; width: 100%; }
+.pilot-bar span { height: 100%; }
+.pilot-mid { position: absolute; left: 50%; top: -2px; bottom: -2px; border-left: 1.5px solid #1c2b3a; }
+.pilot-r { color: var(--ink-3); white-space: nowrap; }
+
+.pilot-flag { color: #b5462a; font-weight: 700; }
