@@ -1492,3 +1492,32 @@ table.mini.mistake-table {
   padding-top: 8px;
   border-top: 1px solid var(--rule);
 }
+
+/* Start-here tour */
+a.button {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+a.button:hover { opacity: 0.9; }
+a.button:focus-visible { outline: 3px solid #2a6fdb; outline-offset: 2px; }
+.start-cta { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin: 18px 0 8px; }
+ol.tour { list-style: none; counter-reset: tour; padding: 0; margin: 28px 0; max-width: 68ch; }
+ol.tour > li { counter-increment: tour; position: relative; padding: 0 0 26px 56px; border-left: 2px solid #d5dde1; margin-left: 18px; }
+ol.tour > li:last-child { border-left-color: transparent; }
+ol.tour > li::before {
+  content: counter(tour);
+  position: absolute; left: -19px; top: -2px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #fff; border: 2px solid var(--ink);
+  display: grid; place-items: center;
+  font-weight: 600; font-size: 1rem;
+}
+ol.tour h2 { font-size: 1.45rem; margin: 0 0 6px; }
+ol.tour p { margin: 0 0 8px; }
+.tour-time { font-family: var(--sans); font-size: 0.85rem; color: #6b7a87; font-weight: 400; margin-left: 6px; white-space: nowrap; }

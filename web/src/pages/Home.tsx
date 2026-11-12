@@ -31,6 +31,12 @@ export default function Home() {
           explains the idea in plain words, works through real language data, lets you try it, checks your understanding, and shows how to
           report it and run it in R or Python.
         </p>
+        <p className="start-cta">
+          <a className="button" href="#start">
+            New here? Take the 15-minute tour
+          </a>
+          <span className="small muted">No statistics background needed.</span>
+        </p>
         <Chooser />
       </section>
 

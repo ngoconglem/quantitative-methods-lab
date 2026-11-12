@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Start from "./pages/Start";
 import Home from "./pages/Home";
 import Analyse from "./pages/Analyse";
 import Learn from "./pages/Learn";
@@ -30,14 +31,16 @@ function useRoute(): string {
 const MODULE_KEYS = ["describe", "correlate", "groups", "regress", "categorical", "analyse", "learn"];
 
 const NAV = [
+  { href: "#start", key: "start", label: "Start here" },
   { href: "#describe", key: "modules", label: "Modules" },
   { href: "#analyse", key: "analyse", label: "Measurement" },
   { href: "#teach", key: "teach", label: "Teach with it" },
   { href: "#glossary", key: "glossary", label: "Glossary" },
-  { href: "#about", key: "about", label: "About & data" },
+  { href: "#about", key: "about", label: "About" },
 ];
 
 const TITLES: Record<string, string> = {
+  start: "Start here",
   describe: "Describing data",
   correlate: "Correlation",
   groups: "Comparing two groups",
@@ -88,10 +91,11 @@ export default function App() {
           {page === "categorical" && <Categorical />}
           {page === "analyse" && <Analyse key={route} initialSample={route === "analyse-simulated" ? "writing_ai_simulated" : route === "analyse-bfi" ? "bfi" : undefined} />}
           {page === "learn" && <Learn key={route} focus={route.split("/")[1]} />}
+          {page === "start" && <Start />}
           {page === "teach" && <Teach />}
           {page === "about" && <About />}
           {page === "glossary" && <Glossary key={route} focus={route.split("/")[1]} />}
-          {![...MODULE_KEYS, "teach", "about", "glossary"].includes(page) && <Home />}
+          {![...MODULE_KEYS, "start", "teach", "about", "glossary"].includes(page) && <Home />}
         </div>
       </main>
       <footer>
