@@ -7,7 +7,7 @@ import * as M from "../../lib/methods";
 
 interface Pair {
   key: string;
-  ds: "english" | "ellipse";
+  ds: "english" | "ellipse" | "intercultural";
   label: string;
   x: string;
   y: string;
@@ -18,6 +18,11 @@ interface Pair {
 }
 
 const g = (d: Dataset, c: string) => num(d, c);
+const gi = (d: Dataset, c: string) => {
+  if (c !== "icc") return num(d, c);
+  const items = Object.keys(d.columns).filter((k) => /^(KN|AT|SK|AW)\d$/.test(k));
+  return num(d, "id").map((_, i) => items.reduce((s, k) => s + (k === "AT2" ? 6 - num(d, k)[i] : num(d, k)[i]), 0) / items.length);
+};
 const PAIRS: Pair[] = [
   { key: "freq", ds: "english", label: "Word frequency and reaction time", x: "log_freq", y: "log_rt", xLabel: "Word frequency (log)", yLabel: "Reaction time (log ms)", get: g, note: "More frequent words are recognised faster: a classic finding in reading research." },
   { key: "fam", ds: "english", label: "Familiarity and reaction time", x: "familiarity", y: "log_rt", xLabel: "Familiarity rating", yLabel: "Reaction time (log ms)", get: g, note: "Words people rate as more familiar are recognised faster." },
@@ -25,6 +30,9 @@ const PAIRS: Pair[] = [
   { key: "freqfam", ds: "english", label: "Word frequency and familiarity", x: "log_freq", y: "familiarity", xLabel: "Word frequency (log)", yLabel: "Familiarity rating", get: g, note: "Two measures of how well-known a word is: they overlap strongly, which matters again in the regression module." },
   { key: "vg", ds: "ellipse", label: "Vocabulary and grammar ratings of learner essays", x: "vocabulary", y: "grammar", xLabel: "Vocabulary rating (1–5)", yLabel: "Grammar rating (1–5)", get: g, note: "Essays rated high on vocabulary tend to be rated high on grammar. Ratings move in half-point steps, so many points sit on top of each other." },
   { key: "mtld", ds: "ellipse", label: "Lexical diversity and overall rating", x: "mtld", y: "overall", xLabel: "Lexical diversity (MTLD)", yLabel: "Overall rating (1–5)", get: g, note: "Essays with more varied vocabulary receive somewhat higher overall ratings." },
+  { key: "contact", ds: "intercultural", label: "Intercultural contact and intercultural competence", x: "contact_hours", y: "icc", xLabel: "Weekly hours of contact with people from other cultures", yLabel: "Intercultural competence (1–5)", get: gi, note: "Students with more intercultural contact report higher competence. Contact hours are skewed, so compare Pearson's r with Spearman's rho." },
+  { key: "anx", ds: "intercultural", label: "Speaking anxiety and willingness to communicate", x: "anxiety", y: "wtc", xLabel: "Speaking anxiety (1–5)", yLabel: "Willingness to communicate (1–7)", get: gi, note: "A negative correlation: more anxious speakers are less willing to communicate in English." },
+  { key: "prof", ds: "intercultural", label: "English proficiency and willingness to communicate", x: "proficiency", y: "wtc", xLabel: "English test score (0–100)", yLabel: "Willingness to communicate (1–7)", get: gi, note: "More proficient students are more willing to communicate, but the cloud is wide: proficiency is far from the whole story." },
   { key: "words", ds: "ellipse", label: "Essay length and overall rating", x: "words", y: "overall", xLabel: "Essay length (words)", yLabel: "Overall rating (1–5)", get: g, note: "Longer essays are rated only slightly higher, and a few very long essays stretch the picture." },
 ];
 
@@ -38,7 +46,8 @@ function GuessGame({ eng, ell }: { eng: Dataset; ell: Dataset }) {
   const [guess, setGuess] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [errors, setErrors] = useState<number[]>([]);
-  const pair = PAIRS[(round * 3) % PAIRS.length];
+  const POOL = PAIRS.filter((p) => p.ds !== "intercultural");
+  const pair = POOL[(round * 3) % POOL.length];
   const ds = pair.ds === "english" ? eng : ell;
   const pts = useMemo(() => {
     const idx = M.sample(
@@ -95,10 +104,11 @@ function GuessGame({ eng, ell }: { eng: Dataset; ell: Dataset }) {
 export default function Correlate() {
   const eng = useDataset("english");
   const ell = useDataset("ellipse");
+  const ic = useDataset("intercultural");
   const [key, setKey] = useState("freq");
   const [group, setGroup] = useState<"all" | "young" | "old">("all");
   const pair = PAIRS.find((p) => p.key === key)!;
-  const ds = pair.ds === "english" ? eng.data : ell.data;
+  const ds = pair.ds === "english" ? eng.data : pair.ds === "ellipse" ? ell.data : ic.data;
 
   const res = useMemo(() => {
     if (!ds) return null;
@@ -149,6 +159,13 @@ export default function Correlate() {
                   </option>
                 ))}
               </optgroup>
+              <optgroup label="Intercultural survey (simulated)">
+                {PAIRS.filter((p) => p.ds === "intercultural").map((p) => (
+                  <option key={p.key} value={p.key}>
+                    {p.label}
+                  </option>
+                ))}
+              </optgroup>
             </select>
           </label>
           {pair.ds === "english" && (
@@ -191,7 +208,8 @@ export default function Correlate() {
               </div>
             </div>
             <p className="verdict">
-              A <strong>{sizeWord(res.c.r)}</strong>, {res.c.r < 0 ? "negative" : "positive"} correlation (Cohen, 1988). {pair.note} The two
+              {pair.ds === "intercultural" && <span className="sim-tag" style={{ marginRight: 8 }}>Simulated data</span>}A{" "}
+              <strong>{sizeWord(res.c.r)}</strong>, {res.c.r < 0 ? "negative" : "positive"} correlation (Cohen, 1988). {pair.note} The two
               measures share about {Math.round(100 * res.c.r ** 2)}% of their variation, so {100 - Math.round(100 * res.c.r ** 2)}% is down to
               other things. {res.c.n > 1000 && "With this many cases even a tiny correlation is statistically significant, so the size matters more than the p-value."}
             </p>

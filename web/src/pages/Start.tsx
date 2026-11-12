@@ -11,7 +11,7 @@ const STEPS = [
     title: "Look at your numbers first",
     time: "3 minutes",
     href: "#describe",
-    link: "Open Module 1",
+    link: "Open Describing data",
     doIt: "Look at the histogram of reaction times for 2,284 English words. Then tick “Show on a log scale”.",
     notice: "The raw times bunch up with a long tail to the right; on the log scale the shape is more even. The mean and median tell different stories when data are skewed.",
   },
@@ -19,7 +19,7 @@ const STEPS = [
     title: "Guess the correlation",
     time: "3 minutes",
     href: "#correlate",
-    link: "Open Module 2",
+    link: "Open Correlation",
     doIt: "Play a few rounds of the guessing game: look at the cloud of dots and set the slider to your guess.",
     notice: "A correlation of .3 looks weak in a scatterplot, yet correlations of this size are common in language research. Seeing the cloud helps you read the number.",
   },
@@ -27,7 +27,7 @@ const STEPS = [
     title: "See why one p-value is not enough",
     time: "4 minutes",
     href: "#groups",
-    link: "Open Module 3",
+    link: "Open Two groups",
     doIt: "Scroll to the sample-size activity. Run 200 studies with a small sample, then move the slider to a large sample and run them again.",
     notice: "The true difference never changes, but small studies often miss it. The effect size travels with the data; significance depends on sample size.",
   },
@@ -35,7 +35,7 @@ const STEPS = [
     title: "Build a regression model",
     time: "4 minutes",
     href: "#regress",
-    link: "Open Module 4",
+    link: "Open Multiple regression",
     doIt: "Tick one predictor, read the “In plain words” column, then add a second predictor and watch the first one's coefficient.",
     notice: "A predictor's effect can shrink when an overlapping predictor joins the model. That is what “holding the others constant” means.",
   },
@@ -70,8 +70,7 @@ export default function Start() {
       <h2>After the tour</h2>
       <ul className="lab-steps">
         <li>
-          Work through the modules in order, or pick the one your study needs. <a href="#categorical">Module 5</a> covers choices between two
-          forms; <a href="#analyse">Module 6</a> checks a questionnaire, including your own CSV file.
+          Work through the modules in order, or pick the one your study needs. <a href="#chisquare">Counting categories</a> and <a href="#logistic">Logistic regression</a> cover choices between forms; <a href="#scales">Scale development</a> takes a questionnaire from items to EFA and CFA.
         </li>
         <li>
           Unfamiliar term? Every underlined word links to the <a href="#glossary">glossary</a>.

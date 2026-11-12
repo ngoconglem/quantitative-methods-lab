@@ -5,11 +5,14 @@ export interface Dataset {
   source: string;
   n: number;
   columns: Record<string, (number | string | null)[]>;
+  meta?: { simulated?: boolean; note?: string; items?: Record<string, string>; reversed?: string[]; dimensions?: Record<string, string> };
 }
 
 const cache = new Map<string, Promise<Dataset>>();
 
-export function loadDataset(name: "english" | "dative" | "ellipse"): Promise<Dataset> {
+export type DatasetName = "english" | "dative" | "ellipse" | "intercultural";
+
+export function loadDataset(name: DatasetName): Promise<Dataset> {
   if (!cache.has(name)) {
     cache.set(
       name,
@@ -22,7 +25,7 @@ export function loadDataset(name: "english" | "dative" | "ellipse"): Promise<Dat
   return cache.get(name)!;
 }
 
-export function useDataset(name: "english" | "dative" | "ellipse") {
+export function useDataset(name: DatasetName) {
   const [state, setState] = useState<{ data?: Dataset; error?: string }>({});
   useEffect(() => {
     let live = true;

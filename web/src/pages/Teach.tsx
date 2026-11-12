@@ -9,12 +9,12 @@ const PLANS = [
     outcome:
       "Students can choose an appropriate method for a research question, run it on real language data, interpret effect sizes and confidence intervals as well as p-values, and report results in APA style.",
     steps: [
-      ["Week 1", <><a href="#describe">Module 1</a>: describing data. Students write a one-paragraph description of reaction times and argue for mean or median.</>],
-      ["Week 2", <><a href="#correlate">Module 2</a>: correlation. Run the guess-the-correlation game as a warm-up; discuss correlation and cause with the essay ratings.</>],
-      ["Week 3", <><a href="#groups">Module 3</a>: comparing two groups. Contrast the grade comparison (significant but trivial) with the dative (medium and meaningful); use the sample-size simulation to introduce power.</>],
-      ["Week 4", <><a href="#regress">Module 4</a>: linear regression. Pairs build the word-recognition model step by step and explain what happens to frequency when familiarity enters.</>],
-      ["Week 5", <><a href="#categorical">Module 5</a>: categorical outcomes. Groups predict the dative form from one factor, then several; link to end weight and information structure.</>],
-      ["Week 6", <><a href="#analyse-simulated">Module 6</a>: measurement. Students find the four planted problems in the simulated questionnaire (see the next plan).</>],
+      ["Week 1", <><a href="#describe">Describing data</a>: students write a one-paragraph description of reaction times and argue for mean or median.</>],
+      ["Week 2", <><a href="#correlate">Correlation</a>: run the guess-the-correlation game as a warm-up; discuss correlation and cause with the essay ratings.</>],
+      ["Week 3", <><a href="#groups">Two groups</a>. Contrast the grade comparison (significant but trivial) with the dative (medium and meaningful); use the sample-size simulation to introduce power.</>],
+      ["Week 4", <><a href="#regress">Multiple regression</a>. Pairs build the word-recognition model step by step and explain what happens to frequency when familiarity enters.</>],
+      ["Week 5", <><a href="#chisquare">Counting categories</a> and <a href="#logistic">Logistic regression</a>: groups predict the dative form from one factor, then several; link to end weight and information structure.</>],
+      ["Week 6", <><a href="#scales">Scale development</a>: walk through EFA and CFA on the simulated intercultural competence survey, then students find the four planted problems in the <a href="#analyse-simulated">Questionnaire analyser</a>.</>],
     ],
     after: "Each module ends with R and Python code, so a lab-based course can follow every session with the same analysis in software.",
   },
@@ -25,7 +25,7 @@ const PLANS = [
     length: "45 minutes",
     outcome: "Participants can explain why a p-value does not show the size or importance of an effect, and report an effect size with its confidence interval.",
     steps: [
-      ["0–10 min", <>Show the grade 8 versus grade 12 comparison in <a href="#groups">Module 3</a>: p = .014. Ask: does grade 12 have weaker vocabulary?</>],
+      ["0–10 min", <>Show the grade 8 versus grade 12 comparison in <a href="#groups">Two groups</a>: p = .014. Ask: does grade 12 have weaker vocabulary?</>],
       ["10–25 min", <>Reveal d = −0.10 and the overlapping dots. Then switch to the dative example (d = 0.57) and compare.</>],
       ["25–40 min", <>Run the sample-size simulation for both examples at 20, 50 and 200 per group. Record how often each reaches p &lt; .05.</>],
       ["40–45 min", <>Each participant rewrites a results sentence from their own field to report the effect size and interval first.</>],

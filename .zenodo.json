@@ -1,7 +1,7 @@
 {
   "title": "Quantitative Methods Lab: Plain-language statistics for language and education research",
   "upload_type": "software",
-  "description": "<p>A free, browser-based guide to the statistics most used in applied linguistics and education research. Six modules (describing data, correlation, comparing two groups, linear regression, categorical outcomes and logistic regression, and measurement: reliability and factor analysis) each explain one method in plain language, offer interactive activities on real published datasets (recognition times for 2,284 English words and the dative alternation, both from the languageR package, and the ELLIPSE learner essay corpus), a short quiz, an APA-style reporting sentence and equivalent R and Python code. Every statistic is verified against SciPy, statsmodels and factor_analyzer.</p><p>Live site: https://quantitative-methods-lab.vercel.app</p>",
+  "description": "<p>A free, browser-based guide to the statistics most used in applied linguistics, education and intercultural communication research, organised in four levels (descriptive; basic: correlation, two groups, chi-square; advanced: three or more groups, multiple regression; modelling: logistic regression) plus a scale development section (EFA and CFA). Each module explains one method in plain language with charts and diagrams, offers interactive activities on published datasets (recognition times for 2,284 English words and the dative alternation, both from the languageR package, and the ELLIPSE learner essay corpus) and a clearly labelled simulated intercultural competence survey, with a short quiz, an APA-style reporting sentence and equivalent R and Python code. Every statistic is verified against SciPy, statsmodels, pingouin, semopy and factor_analyzer.</p><p>Live site: https://quantitative-methods-lab.vercel.app</p>",
   "creators": [
     {
       "name": "Cong-Lem, Ngo",
@@ -11,17 +11,20 @@
   ],
   "license": "MIT",
   "keywords": [
-    "statistics education",
-    "quantitative methods",
+    "ANOVA",
     "applied linguistics",
+    "confirmatory factor analysis",
     "education research",
     "effect size",
-    "regression",
-    "logistic regression",
-    "psychometrics",
-    "reliability",
     "factor analysis",
-    "open educational resource"
+    "intercultural communication",
+    "logistic regression",
+    "open educational resource",
+    "psychometrics",
+    "quantitative methods",
+    "regression",
+    "reliability",
+    "statistics education"
   ],
   "related_identifiers": [
     {

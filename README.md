@@ -4,30 +4,34 @@
 
 **Live site: https://quantitative-methods-lab.vercel.app** (previously scale-validation-lab.vercel.app)
 
-The Quantitative Methods Lab is a free, browser-based guide to the statistics most often used in applied linguistics and education research. Each module explains one method in plain words, lets you try it on a real published dataset, checks understanding with a short quiz, writes an APA-style reporting sentence from your results, and gives the equivalent R and Python code. The last module is a full questionnaire-validation tool that works on your own CSV file; files are read in the browser and never uploaded.
+The Quantitative Methods Lab is a free, browser-based guide to the statistics most often used in applied linguistics and education research. Each module explains one method in plain words, lets you try it on a real published dataset, checks understanding with a short quiz, writes an APA-style reporting sentence from your results, and gives the equivalent R and Python code. The Scale development section ends with a questionnaire-validation tool that works on your own CSV file; files are read in the browser and never uploaded.
 
-## Modules
+## Modules, by level
 
-| Module | Question it answers | Real data | Activities |
+| Level | Module | Real or simulated data | Activities |
 |---|---|---|---|
-| **1. Describing data** | What do my numbers look like? | Word recognition times (Balota et al., 2004) | Histogram on the raw or log scale; mean, median, SD, IQR and skew; young vs older readers |
-| **2. Correlation** | Do two measures go up and down together? | Word frequency and reading speed; ELLIPSE essay ratings | Pearson and Spearman with CIs; a guess-the-correlation game |
-| **3. Comparing two groups** | Do two groups differ, and by how much? | Young and older readers; the English dative; ELLIPSE grade 8 vs grade 12 | Welch and paired *t*-tests, Cohen's *d* with CIs; a 200-study simulation of what sample size does to *p*-values |
-| **4. Linear regression** | How well do several measures predict an outcome? | Word recognition times; ELLIPSE essay ratings | Build a model by ticking predictors; coefficient table read in plain words; VIF; prediction calculator; residual plot |
-| **5. Categorical outcomes** | Which factors predict a choice between two forms? | The English dative alternation (Bresnan et al., 2007) | Chi-square, Cramér's *V*, odds ratios with expected counts; logistic regression with a predicted-probability curve |
-| **6. Measurement** | Does my questionnaire measure what I think it measures? | Your own CSV, or two sample questionnaires | Item screening, Cronbach's α and McDonald's ω, KMO, parallel analysis, exploratory factor analysis, a draft APA paragraph and lavaan CFA code |
+| **Descriptive** | Describing data | Word recognition times (Balota et al., 2004) | Histogram on raw or log scale; mean, median, SD, IQR, skew; which chart for which data |
+| **Basic** | Correlation | Word frequency and reading speed; ELLIPSE essay ratings; intercultural contact (simulated) | Pearson and Spearman with CIs; guess-the-correlation game |
+| | Two groups | Young and older readers; the dative; ELLIPSE grades | Welch and paired t-tests, Cohen's d; 200-study sample-size simulation |
+| | Counting categories | The dative alternation (Bresnan et al., 2007) | Chi-square, Cramér's V, odds ratios, expected counts |
+| **Advanced** | Three or more groups | ELLIPSE essays by grade; time abroad (simulated) | Welch's ANOVA, ω², Kruskal–Wallis, Holm-adjusted pairs; false-alarm chart |
+| | Multiple regression | Word recognition times; ELLIPSE ratings | Build a model; coefficients in plain words; VIF; prediction; residuals |
+| **Modelling** | Logistic regression | The dative alternation | Odds ratios with other factors held constant; probability curve |
+| **Scale development** | From items to a validated scale | Intercultural competence survey (simulated) | Workflow diagram; parallel analysis; EFA loading heat map (half A); CFA with fit table, path diagram, CR and AVE (half B) |
+| | Questionnaire analyser | Your own CSV, or two sample questionnaires | Item screening, alpha and omega, KMO, parallel analysis, EFA, APA paragraph, lavaan code |
 
-Also: a **Which test?** guide (pick a test by aim, design and scale of measurement, with fallbacks when assumptions fail, effect sizes and R code; scales of measurement; what to do when data are not normal, with a Q–Q plot of real reaction times), a "Which method do I need?" chooser, a searchable glossary (90 terms), a table of every cut-off value with the paper that supports it, and **Teach with it** session plans, including a six-week methods course.
+Also: **Which test?** (decision tree; a picker by aim, design and scale of measurement with fallbacks, effect sizes and R code; what to do when data are not normal, with Q–Q plots of real reaction times), a 15-minute **Start here** tour, a searchable glossary, every cut-off value with its source, and **Teach with it** session plans.
 
 ## Data
 
 | Dataset | Used in | Source | Licence |
 |---|---|---|---|
-| `english` | Modules 1–4 | Visual lexical decision and naming latencies for 2,284 monosyllabic English words, young and older adults (Balota et al., 2004), from the languageR R package (Baayen, 2008) | GPL (>= 2) |
-| `dative` | Modules 3, 5 | 3,263 dative clauses from Switchboard and the Wall Street Journal (Bresnan et al., 2007), from languageR | GPL (>= 2) |
-| `ellipse` | Modules 2–4 | ELLIPSE corpus of English learner essays with analytic ratings, grades 8–12 (Crossley et al., 2023). Demographic columns removed | CC BY 4.0 |
-| `writing_ai_simulated` | Module 6 | Simulated 15-item questionnaire with four planted problems | Released with this repository |
-| `bfi` | Module 6 | 25 Big Five items, 2,800 respondents, from the psychTools R package (Revelle) | GPL (>= 2) |
+| `english` | Describing data, Correlation, Two groups, Multiple regression | Visual lexical decision and naming latencies for 2,284 monosyllabic English words, young and older adults (Balota et al., 2004), from the languageR R package (Baayen, 2008) | GPL (>= 2) |
+| `dative` | Two groups, Counting categories, Logistic regression | 3,263 dative clauses from Switchboard and the Wall Street Journal (Bresnan et al., 2007), from languageR | GPL (>= 2) |
+| `ellipse` | Correlation, Two groups, Three or more groups, Multiple regression | ELLIPSE corpus of English learner essays with analytic ratings, grades 8–12 (Crossley et al., 2023). Demographic columns removed | CC BY 4.0 |
+| `intercultural_simulated` | Correlation, Three or more groups, Scale development | SIMULATED survey of 600 language learners: time abroad, contact, proficiency, a 20-item intercultural competence scale modelled on Byram (1997), willingness to communicate, anxiety. `scripts/simulate_intercultural.py` | Released with this repository |
+| `writing_ai_simulated` | Questionnaire analyser | Simulated 15-item questionnaire with four planted problems | Released with this repository |
+| `bfi` | Questionnaire analyser | 25 Big Five items, 2,800 respondents, from the psychTools R package (Revelle) | GPL (>= 2) |
 
 The data files keep their original licences; the code is MIT. `scripts/prepare_methods_data.py` and `scripts/prepare_data.py` rebuild every file from the original sources.
 
@@ -35,17 +39,19 @@ The data files keep their original licences; the code is MIT. `scripts/prepare_m
 
 Every number in the browser is checked against established Python libraries.
 
-- `web/src/lib/methods.ts`: browser implementation of Modules 1–5.
+- `web/src/lib/methods.ts`: browser implementation of the descriptive, basic, advanced and modelling modules.
 - `tests/check_methods.py`: 152 comparisons with SciPy and statsmodels on the real datasets. Status: **all match**.
-- `web/src/lib/stats.ts` and `analysis/psychometrics.py`: browser and Python implementations of Module 6, mirroring each other function by function.
+- `web/src/lib/anova.ts`, `web/src/lib/cfa.ts` and `tests/check_advanced.py`: ANOVA, Welch's ANOVA, Kruskal–Wallis, Holm-adjusted pairs (SciPy, pingouin, statsmodels) and maximum-likelihood CFA (semopy): 49 comparisons. Status: **all match**.
+- `web/src/lib/stats.ts` and `analysis/psychometrics.py`: browser and Python implementations of the Questionnaire analyser, mirroring each other function by function.
 - `tests/compare_outputs.py`: 42 comparisons between them. Status: **all match**.
 - `tests/check_against_factor_analyzer.py`: cross-check with the independent `factor_analyzer` package.
-- `notebooks/`: executed notebooks reproducing Module 6.
+- `notebooks/`: executed notebooks reproducing the Questionnaire analyser.
 
 ```bash
 pip install -r requirements.txt
 cd web && npm install && cd ..
 python -I tests/check_methods.py
+python -I tests/check_advanced.py
 python -I tests/compare_outputs.py
 python -I tests/check_against_factor_analyzer.py
 
@@ -58,9 +64,9 @@ A static Vite + React build in `web/`. On Vercel, import the repository, set the
 
 ## Limitations
 
-- Modules 1–5 teach one method at a time on prepared data; they do not replace a statistics package for your own analyses (the R and Python code on each page is the bridge).
+- The modules teach one method at a time on prepared data; they do not replace a statistics package for your own analyses (the R and Python code on each page is the bridge).
 - Mixed-effects models, which suit repeated-measures language data, are not yet covered.
-- Module 6 uses Pearson correlations and listwise deletion. For few response options or heavy skew, polychoric correlations are preferable; the generated lavaan code uses them.
+- The Questionnaire analyser uses Pearson correlations and listwise deletion. For few response options or heavy skew, polychoric correlations are preferable; the generated lavaan code uses them.
 
 ## About
 

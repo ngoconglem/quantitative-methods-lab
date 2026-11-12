@@ -12,6 +12,8 @@ import Correlate from "./pages/m/Correlate";
 import Groups from "./pages/m/Groups";
 import Regress from "./pages/m/Regress";
 import Categorical from "./pages/m/Categorical";
+import Anova from "./pages/m/Anova";
+import Scales from "./pages/Scales";
 import { GuideProvider, GuideToggle } from "./components/Guide";
 import { REPO_URL } from "./config";
 
@@ -29,13 +31,14 @@ function useRoute(): string {
   return route;
 }
 
-const MODULE_KEYS = ["describe", "correlate", "groups", "regress", "categorical", "analyse", "learn"];
+const LESSONS = ["describe", "correlate", "groups", "chisquare", "categorical", "anova", "regress", "logistic"];
+const MODULE_KEYS = [...LESSONS, "scales", "analyse", "learn"];
 
 const NAV = [
   { href: "#start", key: "start", label: "Start here" },
   { href: "#tests", key: "tests", label: "Which test?" },
-  { href: "#describe", key: "modules", label: "Modules" },
-  { href: "#analyse", key: "analyse", label: "Measurement" },
+  { href: "#levels", key: "modules", label: "Modules" },
+  { href: "#scales", key: "scales", label: "Scale development" },
   { href: "#teach", key: "teach", label: "Teach with it" },
   { href: "#glossary", key: "glossary", label: "Glossary" },
   { href: "#about", key: "about", label: "About" },
@@ -46,8 +49,13 @@ const TITLES: Record<string, string> = {
   tests: "Which test?",
   describe: "Describing data",
   correlate: "Correlation",
-  groups: "Comparing two groups",
-  regress: "Linear regression",
+  groups: "Two groups",
+  chisquare: "Counting categories",
+  anova: "Three or more groups",
+  logistic: "Logistic regression",
+  scales: "Scale development",
+  levels: "Modules",
+  regress: "Multiple regression",
   categorical: "Categorical outcomes",
   analyse: "Measurement",
   learn: "Measurement: background",
@@ -76,7 +84,7 @@ export default function App() {
               <a
                 key={n.key}
                 href={n.href}
-                aria-current={page === n.key || (n.key === "modules" && ["describe", "correlate", "groups", "regress", "categorical"].includes(page)) || (n.key === "analyse" && page === "learn") ? "page" : undefined}
+                aria-current={page === n.key || (n.key === "modules" && LESSONS.includes(page)) || (n.key === "scales" && ["analyse", "learn"].includes(page)) ? "page" : undefined}
               >
                 {n.label}
               </a>
@@ -91,7 +99,10 @@ export default function App() {
           {page === "correlate" && <Correlate />}
           {page === "groups" && <Groups />}
           {page === "regress" && <Regress />}
-          {page === "categorical" && <Categorical />}
+          {(page === "chisquare" || page === "categorical") && <Categorical part="chisq" />}
+          {page === "logistic" && <Categorical part="logistic" />}
+          {page === "anova" && <Anova />}
+          {page === "scales" && <Scales />}
           {page === "analyse" && <Analyse key={route} initialSample={route === "analyse-simulated" ? "writing_ai_simulated" : route === "analyse-bfi" ? "bfi" : undefined} />}
           {page === "learn" && <Learn key={route} focus={route.split("/")[1]} />}
           {page === "start" && <Start />}
@@ -99,7 +110,7 @@ export default function App() {
           {page === "teach" && <Teach />}
           {page === "about" && <About />}
           {page === "glossary" && <Glossary key={route} focus={route.split("/")[1]} />}
-          {![...MODULE_KEYS, "start", "tests", "teach", "about", "glossary"].includes(page) && <Home />}
+          {![...MODULE_KEYS, "start", "tests", "teach", "about", "glossary"].includes(page) && <Home key={route} focus={page === "levels" ? "levels" : undefined} />}
         </div>
       </main>
       <footer>

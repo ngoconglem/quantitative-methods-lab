@@ -1,12 +1,15 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { apa, useSample } from "../lib/data";
 import * as S from "../lib/stats";
 import { Guide, Term } from "../components/Guide";
-import { MODULES } from "../lib/modules";
+import { LEVELS, MODULES } from "../lib/modules";
 
 /** Home: the method chooser, the six modules, and the alpha demonstration from Module 6. */
-export default function Home() {
+export default function Home({ focus }: { focus?: string }) {
   const { data, error } = useSample("writing_ai_simulated");
+  useEffect(() => {
+    if (focus) document.getElementById(focus)?.scrollIntoView({ block: "start" });
+  }, [focus]);
   const [fixed, setFixed] = useState(false);
 
   const demo = useMemo(() => {
@@ -25,11 +28,10 @@ export default function Home() {
   return (
     <>
       <section className="hero">
-        <h1 style={{ maxWidth: "22ch" }}>Quantitative methods for language research, explained with real data.</h1>
+        <h1 style={{ maxWidth: "22ch" }}>Statistics for language and intercultural research, in plain words.</h1>
         <p className="lede">
-          Six interactive modules take you from describing your numbers to regression, categorical data and questionnaire validation. Each
-          explains the idea in plain words, works through real language data, lets you try it, checks your understanding, and shows how to
-          report it and run it in R or Python.
+          Short, hands-on modules from describing your data to modelling and questionnaire validation. Each one shows the idea in a picture,
+          lets you try it on real data, and gives you the sentence to report it and the code to run it.
         </p>
         <p className="start-cta">
           <a className="button" href="#start">
@@ -40,30 +42,34 @@ export default function Home() {
         <Chooser />
       </section>
 
-      <h2>The six modules</h2>
-      <ol className="module-cards">
-        {MODULES.map((m, i) => (
-          <li key={m.key}>
-            <a href={m.href}>
-              <span className="module-card-n">Module {i + 1}</span>
-              <span className="module-card-title">{m.title}</span>
-              <span className="module-card-q">{m.question}</span>
-              <span className="module-card-data">Data: {m.data}</span>
-            </a>
-          </li>
+      <h2 id="levels">Four levels, plus scale development</h2>
+      <div className="level-map">
+        {LEVELS.map((l, i) => (
+          <section key={l.key} className={`level-col level-${l.key}`} aria-label={l.title}>
+            <p className="level-step">{l.key === "scales" ? "Specialist" : `Level ${i + 1}`}</p>
+            <h3>{l.title}</h3>
+            <p className="level-blurb">{l.blurb}</p>
+            <ul>
+              {MODULES.filter((m) => m.level === l.key).map((m) => (
+                <li key={m.key}>
+                  <a href={m.href}>
+                    <strong>{m.title}</strong>
+                    <span>{m.question}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
         ))}
-      </ol>
-
-      <h2>New here?</h2>
-      <p style={{ maxWidth: "var(--measure)" }}>
-        You do not need statistics software or a statistics degree. Start with Module 1 and work in order, or use the chooser above to go
-        straight to the method you need. Terms with a dotted underline open a short definition; the shaded boxes are guidance, which experienced
-        users can hide with the <strong>Guidance</strong> switch at the top of the page. Every result is computed in your browser and checked
-        against SciPy and statsmodels.
+      </div>
+      <p className="small muted" style={{ maxWidth: "var(--measure)" }}>
+        Examples come from language research (word recognition, learner essays, the dative alternation) and from a simulated intercultural
+        competence survey, labelled as simulated wherever it appears. Every result is computed in your browser and checked against SciPy,
+        statsmodels and semopy.
       </p>
 
       <section className="feature-demo">
-        <h2>From Module 6: one badly scored item</h2>
+        <h2>From scale development: one badly scored item</h2>
         <Guide title="What you are looking at">
           <p>
             Five <Term id="item">questionnaire items</Term> are meant to measure one thing: how critically students evaluate AI output. If they
@@ -138,7 +144,7 @@ export default function Home() {
           <a href="#analyse-simulated">
             <span className="index-title">Find the four planted problems</span>
             <span className="index-desc">
-              Load the simulated “Academic Writing with AI” questionnaire in Module 6. It hides an un-reversed item, a weak item, a cross-loading
+              Load the simulated “Academic Writing with AI” questionnaire in the Questionnaire analyser. It hides an un-reversed item, a weak item, a cross-loading
               item and missing data. Can you find them all?
             </span>
           </a>
@@ -180,14 +186,15 @@ function Chooser() {
   const pick = (key: string) => MODULES.find((m) => m.key === key)!;
   const rec =
     outcome === "category"
-      ? { m: pick("categorical"), why: "Your outcome is a choice between categories, so use a chi-square test for one factor and logistic regression for several." }
+      ? { m: pick("chisquare"), why: "Your outcome is a choice between categories: a chi-square test for one factor, then logistic regression (Modelling) for several." }
       : outcome === "items"
-        ? { m: pick("analyse"), why: "Several items meant to measure one thing call for reliability analysis and factor analysis before you combine them into a score." }
+        ? { m: pick("scales"), why: "Several items meant to measure one thing: check reliability, explore the structure (EFA), then confirm it (CFA) before you combine them into a score." }
         : outcome === "number" && goal
           ? {
               describe: { m: pick("describe"), why: "Start by looking at the middle, the spread and the shape: it decides which summaries and tests are safe." },
               correlate: { m: pick("correlate"), why: "Two numerical measures from the same cases: a correlation tells you how closely they move together." },
               groups: { m: pick("groups"), why: "A numerical outcome and two groups: compare the means, and report the size of the difference as well as the p-value." },
+              anova: { m: pick("anova"), why: "Three or more groups: one test for any difference, then pairwise comparisons to find which groups differ." },
               regress: { m: pick("regress"), why: "Several predictors of one numerical outcome: linear regression estimates each one's contribution while holding the others constant." },
             }[goal]!
           : null;
@@ -222,6 +229,7 @@ function Chooser() {
               ["describe", "What my numbers look like"],
               ["correlate", "Whether it goes up and down with another measure"],
               ["groups", "Whether two groups differ"],
+              ["anova", "Whether three or more groups differ"],
               ["regress", "How several things together predict it"],
             ].map(([k, label]) => (
               <button key={k} className="chip" aria-pressed={goal === k} onClick={() => setGoal(k)}>
@@ -234,7 +242,7 @@ function Chooser() {
       {rec && (
         <p className="chooser-answer">
           <a href={rec.m.href}>
-            <strong>Module {MODULES.indexOf(rec.m) + 1}: {rec.m.title}</strong>
+            <strong>{rec.m.title}</strong>
           </a>
           <br />
           {rec.why}

@@ -1,15 +1,22 @@
 import type { ReactNode } from "react";
-import { MODULES } from "../lib/modules";
+import { LEVELS, MODULES, levelOf } from "../lib/modules";
 import { CutoffTable } from "./Cutoffs";
 import type { StepKey } from "../lib/cutoffs";
 
 export function ModuleNav({ current }: { current: string }) {
   return (
-    <nav className="chips module-nav" aria-label="Modules">
-      {MODULES.map((m, j) => (
-        <a key={m.key} className="chip" href={m.href} aria-current={m.key === current ? "page" : undefined} style={{ textDecoration: "none" }}>
-          <span className="step-no">{j + 1}</span> {m.title}
-        </a>
+    <nav className="level-nav" aria-label="Modules by level">
+      {LEVELS.map((l) => (
+        <div key={l.key} className={`level-group level-${l.key}`}>
+          <span className="level-label">{l.title}</span>
+          <div className="level-chips">
+            {MODULES.filter((m) => m.level === l.key).map((m) => (
+              <a key={m.key} className="chip" href={m.href} aria-current={m.key === current ? "page" : undefined}>
+                {m.title}
+              </a>
+            ))}
+          </div>
+        </div>
       ))}
     </nav>
   );
@@ -23,7 +30,7 @@ export function ModuleLayout({ moduleKey, children, cutoffs }: { moduleKey: stri
   return (
     <article className="module">
       <ModuleNav current={moduleKey} />
-      <p className="module-kicker">Module {i + 1} of {MODULES.length}</p>
+      <p className={`module-kicker level-${mod.level}`}>{levelOf(moduleKey)?.title}</p>
       <h1>{mod.title}</h1>
       <p className="lede">{mod.question}</p>
       {children}

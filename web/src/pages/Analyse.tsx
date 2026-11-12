@@ -298,7 +298,7 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
   return (
     <>
       <ModuleNav current="analyse" />
-      <p className="module-kicker">Module 6 of 6</p>
+      <p className="module-kicker level-scales">Scale development</p>
       <h1>Measurement: reliability and factor analysis</h1>
       <p className="lede">Five steps from raw responses to a reportable account of your scale's internal structure. Everything runs in your browser.</p>
 

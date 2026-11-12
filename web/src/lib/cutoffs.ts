@@ -178,6 +178,24 @@ Object.assign(REFS, {
     full: "Baayen, R. H., Davidson, D. J., & Bates, D. M. (2008). Mixed-effects modeling with crossed random effects for subjects and items. Journal of Memory and Language, 59(4), 390–412.",
     url: "https://doi.org/10.1016/j.jml.2007.12.005",
   },
+  fornell1981: {
+    short: "Fornell & Larcker (1981)",
+    full: "Fornell, C., & Larcker, D. F. (1981). Evaluating structural equation models with unobservable variables and measurement error. Journal of Marketing Research, 18(1), 39–50.",
+    url: "https://doi.org/10.1177/002224378101800104",
+  },
+  byram1997: {
+    short: "Byram (1997)",
+    full: "Byram, M. (1997). Teaching and assessing intercultural communicative competence. Multilingual Matters.",
+  },
+  holm1979: {
+    short: "Holm (1979)",
+    full: "Holm, S. (1979). A simple sequentially rejective multiple test procedure. Scandinavian Journal of Statistics, 6(2), 65–70.",
+  },
+  welch1951: {
+    short: "Welch (1951)",
+    full: "Welch, B. L. (1951). On the comparison of several mean values: An alternative approach. Biometrika, 38(3/4), 330–336.",
+    url: "https://doi.org/10.2307/2332579",
+  },
   delacre2017: {
     short: "Delacre et al. (2017)",
     full: "Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch's t-test instead of Student's t-test. International Review of Social Psychology, 30(1), 92–101.",
@@ -217,7 +235,7 @@ Object.assign(REFS, {
   },
 });
 
-export type StepKey = "items" | "reliability" | "structure" | "report" | "describe" | "correlation" | "groups" | "regression" | "categorical";
+export type StepKey = "items" | "reliability" | "structure" | "report" | "describe" | "correlation" | "groups" | "regression" | "categorical" | "anova" | "cfa";
 
 export interface Cutoff {
   id: string;
@@ -229,6 +247,56 @@ export interface Cutoff {
 }
 
 export const CUTOFFS: Cutoff[] = [
+  // ------------------------------------------------------------ confirmatory factor analysis
+  {
+    id: "cfa-fit-indices",
+    step: "cfa",
+    check: "Model fit",
+    value: "CFI and TLI ≥ .95; RMSEA ≤ .06; SRMR ≤ .08",
+    why: "Hu and Bentler's widely used criteria, derived from simulations under particular conditions. Treat them as guides, and look at loadings and residuals too.",
+    refs: ["hu1999"],
+  },
+  {
+    id: "cfa-loading",
+    step: "cfa",
+    check: "Standardised loading",
+    value: "≥ .50 (ideally ≥ .70)",
+    why: "An item with a loading below .50 shares less than a quarter of its variance with its factor. The thresholds are conventions, not laws.",
+    refs: ["hair2010"],
+  },
+  {
+    id: "cr-ave",
+    step: "cfa",
+    check: "Composite reliability and AVE",
+    value: "CR ≥ .70; AVE ≥ .50",
+    why: "Composite reliability is the CFA version of omega. Average variance extracted (AVE) of .50 or more means the factor explains at least half of its items' variance on average.",
+    refs: ["fornell1981", "hair2010"],
+  },
+  // ------------------------------------------------------------ three or more groups
+  {
+    id: "omega2",
+    step: "anova",
+    check: "How much group matters (ω² or η²)",
+    value: ".01 small, .06 medium, .14 large",
+    why: "Cohen's benchmarks for the share of variation explained. ω² corrects η²'s upward bias in small samples. As with d, compare with typical effects in your field.",
+    refs: ["cohen1988"],
+  },
+  {
+    id: "welch-anova",
+    step: "anova",
+    check: "Which overall test",
+    value: "Welch's ANOVA by default",
+    why: "Welch's F does not assume equal variances across groups, the same reasoning as Welch's t-test for two groups.",
+    refs: ["welch1951", "delacre2017"],
+  },
+  {
+    id: "holm",
+    step: "anova",
+    check: "Many pairwise tests",
+    value: "Adjust p-values (Holm)",
+    why: "Each extra test adds a chance of a false alarm. Holm's method keeps the overall false-alarm rate at 5% and is never less powerful than the Bonferroni correction.",
+    refs: ["holm1979"],
+  },
   // ------------------------------------------------------------ step 2
   {
     id: "missing",

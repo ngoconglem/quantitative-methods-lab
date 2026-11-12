@@ -47,7 +47,7 @@ const COMPARE: Record<Design, Partial<Record<Scale, Rec>>> = {
       ifNot: <><Term id="mann-whitney">Mann–Whitney U</Term>, Yuen's <Term id="trimmed-mean">trimmed-means</Term> test, or a <Term id="bootstrap">bootstrap</Term> CI</>,
       size: <><Term id="cohen-d">Cohen's d</Term> (Hedges' g for small samples)</>,
       r: "t.test(score ~ group, data = d)",
-      module: ["#groups", "Module 3"],
+      module: ["#groups", "Two groups"],
     },
     ordinal: {
       test: <Term id="mann-whitney">Mann–Whitney U</Term>,
@@ -60,14 +60,14 @@ const COMPARE: Record<Design, Partial<Record<Scale, Rec>>> = {
       ifNot: "Fisher's exact test when an expected count is below 5",
       size: <><Term id="odds-ratio">Odds ratio</Term> or phi</>,
       r: "chisq.test(table(d$group, d$choice), correct = FALSE)",
-      module: ["#categorical", "Module 5"],
+      module: ["#chisquare", "Counting categories"],
     },
     categories: {
       test: <><Term id="chi-square-test">Chi-square test</Term> of independence</>,
       ifNot: "Fisher's exact test (or simulated p) with small expected counts",
       size: <Term id="cramer-v">Cramér's V</Term>,
       r: "chisq.test(table(d$group, d$category))",
-      module: ["#categorical", "Module 5"],
+      module: ["#chisquare", "Counting categories"],
     },
     count: {
       test: <Term id="poisson">Negative binomial regression</Term>,
@@ -82,7 +82,7 @@ const COMPARE: Record<Design, Partial<Record<Scale, Rec>>> = {
       ifNot: <><Term id="wilcoxon">Wilcoxon signed-rank</Term> or a <Term id="bootstrap">bootstrap</Term> CI of the differences</>,
       size: <><em>d</em><sub>z</sub> (or <em>d</em><sub>av</sub> to compare with between-group studies)</>,
       r: "t.test(d$post, d$pre, paired = TRUE)",
-      module: ["#groups", "Module 3"],
+      module: ["#groups", "Two groups"],
     },
     ordinal: { test: <Term id="wilcoxon">Wilcoxon signed-rank</Term>, ifNot: "Sign test if differences cannot be ranked", size: "Matched-pairs rank-biserial r", r: "wilcox.test(d$post, d$pre, paired = TRUE)" },
     binary: { test: "McNemar's test", ifNot: "Exact McNemar (binomial) test with few changes", size: "Odds ratio of the discordant pairs", r: "mcnemar.test(table(d$before, d$after))" },
@@ -95,9 +95,10 @@ const COMPARE: Record<Design, Partial<Record<Scale, Rec>>> = {
       ifNot: <><Term id="kruskal">Kruskal–Wallis</Term>, then Dunn's tests</>,
       size: <>ω² or η²</>,
       r: "oneway.test(score ~ group, data = d)",
+      module: ["#anova", "Three or more groups"],
     },
     ordinal: { test: <Term id="kruskal">Kruskal–Wallis</Term>, ifNot: <><Term id="ordinal-regression">Ordinal regression</Term></>, size: "ε² (rank epsilon squared)", r: "kruskal.test(rating ~ group, data = d)" },
-    binary: { test: <><Term id="chi-square-test">Chi-square test</Term> (k × 2)</>, ifNot: <><Term id="logistic">Logistic regression</Term> to add covariates</>, size: <Term id="cramer-v">Cramér's V</Term>, r: "chisq.test(table(d$group, d$choice))", module: ["#categorical", "Module 5"] },
+    binary: { test: <><Term id="chi-square-test">Chi-square test</Term> (k × 2)</>, ifNot: <><Term id="logistic">Logistic regression</Term> to add covariates</>, size: <Term id="cramer-v">Cramér's V</Term>, r: "chisq.test(table(d$group, d$choice))", module: ["#chisquare", "Counting categories"] },
     categories: { test: <><Term id="chi-square-test">Chi-square test</Term> (r × c)</>, ifNot: "Multinomial logistic regression", size: <Term id="cramer-v">Cramér's V</Term>, r: "chisq.test(table(d$group, d$category))" },
     count: { test: <Term id="poisson">Negative binomial regression</Term>, size: "Rate ratios", r: "MASS::glm.nb(errors ~ group, data = d)" },
   },
@@ -116,18 +117,18 @@ const COMPARE: Record<Design, Partial<Record<Scale, Rec>>> = {
 };
 
 const PREDICT: Partial<Record<Scale, Rec>> = {
-  continuous: { test: <Term id="regression">Linear regression</Term>, ifNot: "Log-transform a skewed outcome, use robust (HC3) standard errors, or bootstrap", size: <>Coefficients in raw units, <Term id="r-squared">R²</Term></>, r: "lm(score ~ x1 + x2, data = d)", module: ["#regress", "Module 4"] },
+  continuous: { test: <Term id="regression">Linear regression</Term>, ifNot: "Log-transform a skewed outcome, use robust (HC3) standard errors, or bootstrap", size: <>Coefficients in raw units, <Term id="r-squared">R²</Term></>, r: "lm(score ~ x1 + x2, data = d)", module: ["#regress", "Multiple regression"] },
   ordinal: { test: <Term id="ordinal-regression">Ordinal regression</Term>, size: "Odds ratios", r: "ordinal::clm(factor(rating, ordered = TRUE) ~ x1 + x2, data = d)" },
-  binary: { test: <Term id="logistic">Logistic regression</Term>, size: <><Term id="odds-ratio">Odds ratios</Term>, McFadden R²</>, r: "glm(choice ~ x1 + x2, family = binomial, data = d)", module: ["#categorical", "Module 5"] },
+  binary: { test: <Term id="logistic">Logistic regression</Term>, size: <><Term id="odds-ratio">Odds ratios</Term>, McFadden R²</>, r: "glm(choice ~ x1 + x2, family = binomial, data = d)", module: ["#logistic", "Logistic regression"] },
   categories: { test: "Multinomial logistic regression", size: "Odds ratios against a reference category", r: "nnet::multinom(category ~ x1 + x2, data = d)" },
   count: { test: <Term id="poisson">Negative binomial regression</Term>, ifNot: "Poisson if the variance is close to the mean", size: "Rate ratios", r: "MASS::glm.nb(errors ~ x1 + offset(log(words)), data = d)" },
 };
 
 const RELATE: Partial<Record<Scale, Rec>> = {
-  continuous: { test: <>Pearson's <Term id="correlation">r</Term></>, ifNot: <><Term id="spearman">Spearman's rho</Term> for outliers or curved but rising patterns</>, size: <><em>r</em> itself (<em>r</em>² = shared variation)</>, r: "cor.test(d$x, d$y)", module: ["#correlate", "Module 2"] },
-  ordinal: { test: <><Term id="spearman">Spearman's rho</Term> or Kendall's tau-b</>, size: "rho or tau", r: 'cor.test(d$x, d$y, method = "spearman")', module: ["#correlate", "Module 2"] },
+  continuous: { test: <>Pearson's <Term id="correlation">r</Term></>, ifNot: <><Term id="spearman">Spearman's rho</Term> for outliers or curved but rising patterns</>, size: <><em>r</em> itself (<em>r</em>² = shared variation)</>, r: "cor.test(d$x, d$y)", module: ["#correlate", "Correlation"] },
+  ordinal: { test: <><Term id="spearman">Spearman's rho</Term> or Kendall's tau-b</>, size: "rho or tau", r: 'cor.test(d$x, d$y, method = "spearman")', module: ["#correlate", "Correlation"] },
   binary: { test: "Point-biserial r (one binary, one numerical); phi (both binary)", size: "r or phi", r: "cor.test(as.numeric(d$group), d$score)" },
-  categories: { test: <><Term id="chi-square-test">Chi-square test</Term> of independence</>, size: <Term id="cramer-v">Cramér's V</Term>, r: "chisq.test(table(d$a, d$b))", module: ["#categorical", "Module 5"] },
+  categories: { test: <><Term id="chi-square-test">Chi-square test</Term> of independence</>, size: <Term id="cramer-v">Cramér's V</Term>, r: "chisq.test(table(d$a, d$b))", module: ["#chisquare", "Counting categories"] },
   count: { test: <><Term id="spearman">Spearman's rho</Term>, or a count regression</>, size: "rho, or rate ratio", r: 'cor.test(d$x, d$errors, method = "spearman")' },
 };
 
@@ -250,6 +251,69 @@ function MapTable() {
   );
 }
 
+
+/* ------------------------------------------------------------------ decision tree */
+
+const TREE: { root: string; scale: string; leaves: [string, string, string?][] }[] = [
+  {
+    root: "A score or measurement",
+    scale: "interval / ratio",
+    leaves: [
+      ["2 groups", "Welch's t-test", "#groups"],
+      ["3+ groups", "Welch's ANOVA", "#anova"],
+      ["Two measures", "Pearson's r", "#correlate"],
+      ["Several predictors", "Multiple regression", "#regress"],
+    ],
+  },
+  {
+    root: "Ordered categories or ratings",
+    scale: "ordinal",
+    leaves: [
+      ["2 groups", "Mann–Whitney U"],
+      ["3+ groups", "Kruskal–Wallis", "#anova"],
+      ["Two measures", "Spearman's rho", "#correlate"],
+      ["Several predictors", "Ordinal regression"],
+    ],
+  },
+  {
+    root: "Categories or a choice",
+    scale: "nominal",
+    leaves: [
+      ["One factor", "Chi-square test", "#chisquare"],
+      ["Several factors", "Logistic regression", "#logistic"],
+      ["Same people twice", "McNemar's test"],
+      ["Raters agree?", "Cohen's kappa"],
+    ],
+  },
+];
+
+function DecisionTree() {
+  return (
+    <div className="tree" aria-label="Decision tree: from the kind of outcome to the test">
+      <div className="tree-top">What kind of outcome do you have?</div>
+      <div className="tree-branches">
+        {TREE.map((b) => (
+          <div key={b.root} className="tree-branch">
+            <div className="tree-node">
+              <strong>{b.root}</strong>
+              <span>{b.scale}</span>
+            </div>
+            <ul>
+              {b.leaves.map(([when, test, href]) => (
+                <li key={when}>
+                  <span className="tree-when">{when}</span>
+                  {href ? <a href={href}>{test}</a> : <span className="tree-test">{test}</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p className="small muted" style={{ marginTop: 8 }}>Linked tests have a module with real data. Repeated measures and counts: use the picker below.</p>
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------------ scales */
 
 const SCALES = [
@@ -312,7 +376,7 @@ function NormalityDemo() {
         <QQ xs={rt.map(Math.log)} color={BLUE} label={`Log reaction times (skew ${logd.skew.toFixed(2)})`} />
       </div>
       <p className="small muted">
-        Each dot is a slice of the 2,284 word-recognition times from Module 1. On the left, the dots bend away above the dashed line at the
+        Each dot is a slice of the 2,284 word-recognition times used in Describing data. On the left, the dots bend away above the dashed line at the
         right end: a long tail of slow responses. On the log scale they follow the line far more closely.
       </p>
     </>
@@ -334,6 +398,9 @@ export default function Tests({ focus }: { focus?: string }) {
         Three questions pick the analysis: what you want to know, how your data were collected, and what kind of numbers you have. Underlined
         terms open a short definition.
       </p>
+
+      <h2>The short version</h2>
+      <DecisionTree />
 
       <h2>Find your test</h2>
       <Picker />

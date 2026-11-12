@@ -32,7 +32,7 @@ const PREDS = [
 
 const vWord = (v: number) => (v < 0.1 ? "negligible" : v < 0.3 ? "small" : v < 0.5 ? "medium" : "large");
 
-export default function Categorical() {
+export default function Categorical({ part }: { part: "chisq" | "logistic" }) {
   const { data, error } = useDataset("dative");
   const [factor, setFactor] = useState("pronominal");
   const [chosen, setChosen] = useState<string[]>(["inanimate", "pronominal", "length_diff"]);
@@ -62,20 +62,32 @@ export default function Categorical() {
   }, [logit]);
 
   return (
-    <ModuleLayout moduleKey="categorical" cutoffs="categorical">
-      <KeyIdea
-        gist={<>Many linguistic outcomes are choices, not measurements: <em>gave the student a book</em> (NP) or <em>gave a book to the student</em> (PP), the <Term id="dative">dative alternation</Term>. What makes speakers choose?</>}
-        points={[
-          ["One factor", <>A <Term id="chi-square-test">chi-square test</Term> asks whether the choice depends on it; <Term id="cramer-v">Cramér's V</Term> says how strongly.</>],
-          ["Size of a contrast", <>The <Term id="odds-ratio">odds ratio</Term>: 1 = no difference, 3 = three times the odds.</>],
-          ["Several factors", <><Term id="logistic">Logistic regression</Term> weighs them together, as linear regression does for measurements.</>],
-        ]}
-      />
+    <ModuleLayout moduleKey={part === "chisq" ? "chisquare" : "logistic"} cutoffs="categorical">
+      {part === "chisq" ? (
+        <KeyIdea
+          gist={<>When the outcome is a choice between categories, count how often each choice happens in each situation. English speakers say <em>gave the student a book</em> (NP) or <em>gave a book to the student</em> (PP): the <Term id="dative">dative alternation</Term>.</>}
+          points={[
+            ["Does the choice depend on the situation?", <>A <Term id="chi-square-test">chi-square test</Term>.</>],
+            ["How strongly?", <><Term id="cramer-v">Cramér's V</Term> (0 = not at all, 1 = completely).</>],
+            ["How big is one contrast?", <>The <Term id="odds-ratio">odds ratio</Term>: 1 = no difference, 3 = three times the odds.</>],
+          ]}
+        />
+      ) : (
+        <KeyIdea
+          gist={<><Term id="logistic">Logistic regression</Term> predicts a yes/no choice from several factors at once, the way linear regression predicts a score.</>}
+          points={[
+            ["Each factor", <>An <Term id="odds-ratio">odds ratio</Term> with the other factors held constant.</>],
+            ["The whole model", "McFadden's R²: how much better the model predicts than guessing the overall rate."],
+            ["The picture", "A curve of predicted probability: how likely each choice is as one factor changes."],
+          ]}
+        />
+      )}
       <p className="small muted">
         Data: 3,263 dative clauses from spoken (Switchboard) and written (Wall Street Journal) American English, coded by Bresnan et al. (2007),
         distributed with Baayen (2008).
       </p>
 
+      {part === "chisq" && (
       <Section title="Try it: one factor at a time">
         {error && <p className="error">{error}</p>}
         <label className="field" style={{ maxWidth: 420 }}>
@@ -172,10 +184,12 @@ export default function Categorical() {
           </>
         )}
       </Section>
+      )}
 
-      <Section title="Try it: several factors together (logistic regression)">
+      {part === "logistic" && (
+      <Section title="Try it: several factors together">
         <p>
-          Pronoun recipients are usually short and already mentioned, so the factors above overlap. Logistic regression estimates each factor's
+          Pronoun recipients are usually short and already mentioned, so these factors overlap. Logistic regression estimates each factor's
           effect on the odds of the PP form while holding the others constant.
         </p>
         <fieldset className="pred-choice">
@@ -268,10 +282,11 @@ export default function Categorical() {
           </ol>
         </Guide>
       </Section>
+      )}
 
       <Section title="Check your understanding">
         <Quiz
-          items={[
+          items={part === "logistic" ? [
             {
               q: "An odds ratio of 0.25 for pronoun recipients means…",
               options: ["Pronoun recipients use PP 25% of the time", "The odds of PP are a quarter as high for pronoun recipients", "The effect is not significant"],
@@ -284,25 +299,32 @@ export default function Categorical() {
               answer: 1,
               why: "Pronouns are short, so part of the pronoun effect in a one-factor model is really a length effect. Holding length constant separates the two.",
             },
+          ] : [
             {
               q: "A chi-square test on a table with an expected count of 2 in one cell…",
               options: ["Is fine", "May be unreliable; use Fisher's exact test or combine categories", "Cannot be computed"],
               answer: 1,
               why: "The chi-square approximation needs reasonably large expected counts (Cochran, 1954). Fisher's exact test or merging sparse categories are the usual remedies.",
             },
+            {
+              q: "Cramér's V = .05 with p < .001 in 3,000 clauses means…",
+              options: ["A strong association", "A real but very weak association", "No association"],
+              answer: 1,
+              why: "With thousands of cases, even a tiny association is statistically significant. V says how strong it is: .05 is negligible to small.",
+            },
           ]}
         />
       </Section>
 
       <Section title="Reporting it">
-        {tab && (
+        {part === "chisq" && tab && (
           <p className="report-box">
             The realization of the recipient was associated with {fac.phrase},{" "}
             χ²({tab.chi.df}, <em>N</em> = {data ? data.n.toLocaleString() : "…"}) = {f(tab.chi.chi2, 2)}, {pFmt(tab.chi.p)}, Cramér's <em>V</em> ={" "}
             {f(tab.chi.cramerV, 2, true)}.
           </p>
         )}
-        {logit && (
+        {part === "logistic" && logit && (
           <p className="report-box">
             A logistic regression predicted the PP form from {listJoin(logit.ps.map((p) => p.label.toLowerCase()))} entered together (McFadden's{" "}
             <em>R</em>² = {f(logit.fit.mcfadden, 2, true)}). Odds ratios:{" "}
@@ -312,24 +334,34 @@ export default function Categorical() {
       </Section>
 
       <Section title="Do it in R or Python" folded>
-        <CodeTabs
-          r={`library(languageR); data(dative)
+        {part === "chisq" ? (
+          <CodeTabs
+            r={`library(languageR); data(dative)
 tab <- table(dative$PronomOfRec, dative$RealizationOfRecipient)
-chisq.test(tab, correct = FALSE)         # chi-square without continuity correction
+chisq.test(tab, correct = FALSE)   # chi-square without continuity correction
+chisq.test(tab)$expected           # check expected counts (all 5 or more?)`}
+            python={`import pandas as pd
+from scipy import stats
+d = pd.read_csv("https://raw.githubusercontent.com/ngoconglem/quantitative-methods-lab/main/data/dative.csv")
+chi2, p, df, expected = stats.chi2_contingency(pd.crosstab(d.pronominal, d.realization), correction=False)
+print(chi2, p, df); print(expected)`}
+          />
+        ) : (
+          <CodeTabs
+            r={`library(languageR); data(dative)
 m <- glm(RealizationOfRecipient ~ AnimacyOfRec + PronomOfRec +
            I(log(LengthOfRecipient) - log(LengthOfTheme)),
          family = binomial, data = dative)
 summary(m); exp(cbind(OR = coef(m), confint.default(m)))   # odds ratios with Wald CIs`}
-          python={`import numpy as np, pandas as pd
+            python={`import numpy as np, pandas as pd
 import statsmodels.formula.api as smf
-from scipy import stats
 d = pd.read_csv("https://raw.githubusercontent.com/ngoconglem/quantitative-methods-lab/main/data/dative.csv")
-print(stats.chi2_contingency(pd.crosstab(d.pronominal, d.realization), correction=False))
 d["pp"] = (d.realization == "PP").astype(int)
 d["length_diff"] = np.log(d.len_recipient) - np.log(d.len_theme)
 m = smf.logit("pp ~ C(animacy) + C(pronominal) + length_diff", data=d).fit()
 print(m.summary()); print(np.exp(m.params))`}
-        />
+          />
+        )}
       </Section>
     </ModuleLayout>
   );

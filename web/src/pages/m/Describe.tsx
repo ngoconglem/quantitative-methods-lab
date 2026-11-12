@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { ModuleLayout, Section, KeyIdea } from "../../components/ModuleLayout";
+import { ChartGuide } from "../../components/ChartGuide";
 import { CodeTabs, Histogram, Quiz } from "../../components/plots";
 import { Guide, Term } from "../../components/Guide";
 import { useDataset, num, str, f } from "../../lib/datasets";
@@ -64,6 +65,11 @@ export default function Describe() {
           ["Why it matters", <>The shape decides which summaries are honest and which tests are safe. See <a href="#tests/normality">what to do when data are not normal</a>.</>],
         ]}
       />
+
+      <Section title="Which chart for which data?">
+        <ChartGuide />
+        <p className="small muted">Avoid pie charts with many slices and charts with two different y-axes: both make comparisons hard.</p>
+      </Section>
 
       <Section title="The data: how quickly do people recognise words?">
         <p>
