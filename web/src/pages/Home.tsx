@@ -35,7 +35,7 @@ export default function Home() {
           <p>
             Five <Term id="item">questionnaire items</Term> are meant to measure one thing: how critically students evaluate AI output. If they
             do, people who agree with one item should tend to agree with the others. The big number,{" "}
-            <Term id="alpha">Cronbach's alpha</Term>, sums this up on a 0 to 1 scale; .70 or more is the usual minimum for research.
+            <Term id="alpha">Cronbach's alpha</Term>, sums this up on a 0 to 1 scale; .70 or more is the usual minimum for research (Nunnally, 1978).
           </p>
           <p>
             The bars show each item's <Term id="citc">correlation with the rest</Term> of the subscale. One bar points the wrong way: CE4 is

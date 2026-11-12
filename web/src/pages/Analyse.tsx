@@ -3,15 +3,38 @@ import { apa, datasetFromCsv, fmt, loadSample, type Dataset, type ItemMeta } fro
 import * as S from "../lib/stats";
 import { CorrHeatmap, DistBars, ScreePlot } from "../components/charts";
 import { Guide, Term } from "../components/Guide";
+import { CutoffTable } from "../components/Cutoffs";
+import { CsvFigure, CsvMistakes } from "../components/CsvFigure";
+
+const CROSS = 0.32;
+
+/** Hair et al. (2010): loading needed for significance at a given sample size. */
+const HAIR: [number, number][] = [
+  [350, 0.3],
+  [250, 0.35],
+  [200, 0.4],
+  [150, 0.45],
+  [120, 0.5],
+  [100, 0.55],
+  [85, 0.6],
+  [70, 0.65],
+  [60, 0.7],
+  [50, 0.75],
+];
+function hairLoading(n: number) {
+  for (const [size, l] of HAIR) if (n >= size) return l;
+  return 0.75;
+}
 
 function relVerdict(a: number) {
   if (!Number.isFinite(a)) return { word: "not available", tone: "flag" };
-  if (a >= 0.95) return { word: "very high, possibly redundant items", tone: "ok" };
+  if (a > 0.95) return { word: "very high: check for near-duplicate items", tone: "flag" };
   if (a >= 0.9) return { word: "excellent", tone: "ok" };
   if (a >= 0.8) return { word: "good", tone: "ok" };
   if (a >= 0.7) return { word: "acceptable", tone: "ok" };
   if (a >= 0.6) return { word: "questionable", tone: "flag" };
-  return { word: "poor", tone: "flag" };
+  if (a >= 0.5) return { word: "poor", tone: "flag" };
+  return { word: "unacceptable", tone: "flag" };
 }
 
 function list(xs: string[]) {
@@ -199,7 +222,7 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
         factor: first[1],
         primary: row[first[1]],
         weak: first[0] < cut,
-        cross: (second?.[0] ?? 0) >= 0.3,
+        cross: (second?.[0] ?? 0) >= CROSS,
       };
     });
   }, [fa, cut]);
@@ -229,8 +252,8 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
         rotation === "oblimin" && m > 1 ? ` Factor correlations ranged from ${apa(Math.min(...offPhi))} to ${apa(Math.max(...offPhi))}.` : ""
       }`,
       problems.length
-        ? `Using a salience criterion of |λ| ≥ ${apa(cut)}, ${problems.length < 10 ? ["", "one item", "two items", "three items", "four items", "five items", "six items", "seven items", "eight items", "nine items"][problems.length] : `${problems.length} items`} (${problems.join(", ")}) either failed to load saliently on any factor or cross-loaded (|λ| ≥ .30) on a second factor and should be reviewed.`
-        : `All items loaded saliently (|λ| ≥ ${apa(cut)}) on one factor without cross-loadings of .30 or above.`,
+        ? `Using a salience criterion of |λ| ≥ ${apa(cut)}, ${problems.length < 10 ? ["", "one item", "two items", "three items", "four items", "five items", "six items", "seven items", "eight items", "nine items"][problems.length] : `${problems.length} items`} (${problems.join(", ")}) either failed to load saliently on any factor or cross-loaded (|λ| ≥ .32) on a second factor and should be reviewed.`
+        : `All items loaded saliently (|λ| ≥ ${apa(cut)}) on one factor without cross-loadings of .32 or above.`,
       relLines.length ? `Internal consistency was estimated for each subscale: ${relLines.join("; ")}.` : "",
     ]
       .filter(Boolean)
@@ -280,20 +303,20 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
         <Guide title="What the five steps do">
           <ol>
             <li>
-              <strong>Data</strong>: load responses and tell the lab which items belong together and which are worded negatively.
+              <strong>Step 1, Data</strong>: load responses and tell the lab which items belong together and which are worded negatively.
             </li>
             <li>
-              <strong>Items</strong>: check each question on its own. Did people skip it? Did almost everyone give the same answer?
+              <strong>Step 2, Items</strong>: check each question on its own. Did people skip it? Did almost everyone give the same answer?
             </li>
             <li>
-              <strong>Reliability</strong>: check that the items in each subscale hang together, so the total score is consistent.
+              <strong>Step 3, Reliability</strong>: check that the items in each subscale hang together, so the total score is consistent.
             </li>
             <li>
-              <strong>Factor structure</strong>: check that the items group into the subscales you intended, without being told which is
+              <strong>Step 4, Factor structure</strong>: check that the items group into the subscales you intended, without being told which is
               which.
             </li>
             <li>
-              <strong>Report</strong>: get a draft results paragraph and R code for the next study.
+              <strong>Step 5, Report</strong>: get a draft results paragraph and R code for the next study.
             </li>
           </ol>
           <p>
@@ -304,7 +327,7 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
       )}
 
       <ol className="steps-nav" aria-label="Analysis steps">
-        {STEPS.map((s) => (
+        {STEPS.map((s, i) => (
           <li key={s.key}>
             <a
               href="#analyse"
@@ -315,7 +338,7 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
               }}
               style={!ready && s.key !== "data" ? { opacity: 0.5, cursor: "not-allowed" } : undefined}
             >
-              {s.label}
+              <span className="step-no">Step {i + 1}</span> {s.label}
             </a>
           </li>
         ))}
@@ -326,7 +349,7 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
       {/* ---------------- STEP 1: DATA ---------------- */}
       {step === "data" && (
         <section>
-          <h2 style={{ marginTop: 0 }}>1. Load responses</h2>
+          <h2 style={{ marginTop: 0 }}>Step 1 of 5: Load your responses</h2>
           <div className="two-col">
             <div className="panel" style={{ margin: 0 }}>
               <h3 style={{ marginTop: 0 }}>Use a sample dataset</h3>
@@ -349,48 +372,31 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
                 row. Blank, NA and −99 count as missing. Non-numeric columns such as IDs or comments are set aside automatically.
               </p>
               <input type="file" accept=".csv,.tsv,.txt,text/csv" onChange={(e) => onFile(e.target.files?.[0])} aria-label="Choose a CSV file" />
-              <Guide title="What your file should look like">
-                <div className="table-wrap">
-                  <table className="mini">
-                    <thead>
-                      <tr>
-                        <th>id</th>
-                        <th>SE1</th>
-                        <th>SE2</th>
-                        <th>SE3</th>
-                        <th>CE1</th>
-                        <th>…</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr><td>p001</td><td>4</td><td>5</td><td>4</td><td>2</td><td>…</td></tr>
-                      <tr><td>p002</td><td>3</td><td>3</td><td></td><td>4</td><td>…</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-                <ul>
-                  <li>
-                    From <strong>Excel or Google Sheets</strong>: File → Save as (or Download) → CSV. From <strong>Qualtrics</strong>: export
-                    as CSV with numeric values, then delete the two extra header rows. From <strong>SPSS</strong>: File → Export → CSV.
-                  </li>
-                  <li>
-                    Name items with a shared prefix per subscale (SE1, SE2, CE1…) and the lab will group them for you. A blank cell is treated as
-                    a skipped answer.
-                  </li>
-                  <li>
-                    To see a complete example, download the{" "}
-                    <a href="./data/writing_ai_simulated.csv" download>
-                      simulated questionnaire as CSV
-                    </a>
-                    .
-                  </li>
-                </ul>
-              </Guide>
+              <p className="small" style={{ marginTop: 10 }}>
+                <a href="#analyse" onClick={(e) => { e.preventDefault(); document.getElementById("file-setup")?.scrollIntoView({ block: "start" }); }}>
+                  How to set up your file, with a picture
+                </a>
+              </p>
               <p className="small muted" style={{ marginTop: 10, marginBottom: 0 }}>
                 Your file is read on this page and never uploaded. Remove names and other identifying details first.
               </p>
             </div>
           </div>
+
+          <section id="file-setup" className="file-setup">
+            <h3>How to set up your file</h3>
+            <p style={{ maxWidth: "var(--measure)" }}>
+              The lab reads a CSV file: a plain spreadsheet saved as “comma-separated values”. Lay it out like the picture below, then save it
+              from Excel or Google Sheets (File → Save as, or Download → CSV), SPSS (File → Export → CSV) or Qualtrics (Export → CSV, with
+              “numeric values”). To see a complete example, download the{" "}
+              <a href="./data/writing_ai_simulated.csv" download>
+                simulated questionnaire as CSV
+              </a>{" "}
+              and open it in Excel.
+            </p>
+            <CsvFigure />
+            <CsvMistakes />
+          </section>
 
           {ds && prepared && (
             <>
@@ -477,7 +483,7 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
                 </p>
               )}
               <p style={{ marginTop: 20 }}>
-                <button onClick={() => go("items")}>Next: inspect the items</button>
+                <button onClick={() => go("items")}>Next: step 2, inspect the items</button>
               </p>
             </>
           )}
@@ -487,36 +493,55 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
       {/* ---------------- STEP 2: ITEMS ---------------- */}
       {step === "items" && ready && (
         <section>
-          <h2 style={{ marginTop: 0 }}>2. Inspect the items</h2>
+          <h2 style={{ marginTop: 0 }}>Step 2 of 5: Inspect the items</h2>
           <p className="prose small">
             Look for items with many missing responses, little variation, or most answers piled at one end of the scale (floor or ceiling
             above 15%). Such items carry little information and weaken correlations. Flags are prompts to look closer, not verdicts.
           </p>
-          <Guide title="What each column means">
-            <ul>
-              <li>
-                <strong>Missing</strong>: the share of people who skipped the item. Above 5% is worth asking why: was it unclear, sensitive or
-                not applicable?
-              </li>
-              <li>
-                <strong>Mean</strong> and <strong>SD</strong>: the average answer and how spread out the answers are (
-                <Term id="sd">standard deviation</Term>). A very small SD means nearly everyone gave the same answer.
-              </li>
-              <li>
-                <strong>Skew</strong>: whether answers are lopsided (<Term id="skew">more</Term>). Negative values mean most people agreed.
-              </li>
-              <li>
-                <strong>Floor</strong> and <strong>Ceiling</strong>: the share choosing the lowest and highest option (
-                <Term id="floor-ceiling">why it matters</Term>).
-              </li>
-              <li>
-                <strong>Responses</strong>: a small bar chart of how many people chose each option, from {range[0]} on the left to {range[1]}{" "}
-                on the right.
-              </li>
-            </ul>
+          <Guide title="What each column means, and when an item is flagged">
+            <dl className="explain-list">
+              <dt>Missing</dt>
+              <dd>
+                The percentage of people who left the item blank. <strong>Flagged above 5%</strong>, the level below which missing data are
+                usually considered inconsequential (Schafer, 1999). A high rate often means the item was unclear, too personal, or did not
+                apply to some people.
+              </dd>
+              <dt>Mean</dt>
+              <dd>
+                The average answer, on the {range[0]}–{range[1]} scale. A mean close to {range[1]} means most people agreed; close to {range[0]},
+                most disagreed.
+              </dd>
+              <dt>SD (standard deviation)</dt>
+              <dd>
+                How spread out the answers are. If almost everyone chose the same option, the SD is small and the item cannot tell people
+                apart. <strong>Flagged below 0.6.</strong> There is no published standard for this; it is this lab's own prompt to look
+                closer.
+              </dd>
+              <dt>Skew</dt>
+              <dd>
+                Whether answers pile up at one end. 0 means balanced; a negative value means answers bunch at the high end (most people
+                agreed), a positive value at the low end. <strong>Flagged beyond ±2</strong>, the reference value Kim (2013) gives for
+                substantial departure from a normal distribution in samples over 300.
+              </dd>
+              <dt>Floor and Ceiling</dt>
+              <dd>
+                A <strong>ceiling effect</strong> happens when many people choose the <em>highest</em> option (for example, “strongly agree”).
+                Some of them may agree much more strongly than others, but the item cannot show it, because there is no higher option to
+                choose: their differences are cut off at the top. A <strong>floor effect</strong> is the same problem at the{" "}
+                <em>lowest</em> option. Either way, the item loses its ability to separate people, which weakens its correlations with the
+                other items. The Floor and Ceiling columns show the percentage choosing the lowest and highest option.{" "}
+                <strong>Flagged above 15%</strong>, following Terwee et al. (2007). Their criterion was written for total scores, so applied to
+                single items it flags more often; treat it as a prompt.
+              </dd>
+              <dt>Responses</dt>
+              <dd>
+                A small bar chart of how many people chose each option, from {range[0]} on the left to {range[1]} on the right. A ceiling effect
+                shows as a tall bar on the right; a floor effect as a tall bar on the left.
+              </dd>
+            </dl>
             <p>
-              Flagged rows are shaded. A flag is a reason to reread the item, not to delete it: an item everyone agrees with may still matter
-              for the content of the scale.
+              Flagged rows are shaded. A flag is a reason to reread the item, not to delete it: an item almost everyone agrees with may still
+              matter for the content of the scale.
             </p>
           </Guide>
           {(() => {
@@ -584,8 +609,9 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
               </tbody>
             </table>
           </div>
+          <CutoffTable step="items" />
           <p style={{ marginTop: 20 }}>
-            <button onClick={() => go("reliability")}>Next: reliability</button>
+            <button onClick={() => go("reliability")}>Next: step 3, reliability</button>
           </p>
         </section>
       )}
@@ -593,7 +619,7 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
       {/* ---------------- STEP 3: RELIABILITY ---------------- */}
       {step === "reliability" && ready && (
         <section>
-          <h2 style={{ marginTop: 0 }}>3. Reliability of each subscale</h2>
+          <h2 style={{ marginTop: 0 }}>Step 3 of 5: Reliability of each subscale</h2>
           <p className="prose small">
             Cronbach's alpha assumes every item measures the construct equally well; McDonald's omega relaxes that assumption and is usually
             the better estimate. A corrected item-total correlation below .30 suggests an item fits the subscale poorly. A negative one almost
@@ -609,25 +635,31 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
                 <strong>
                   <Term id="alpha">Cronbach's α</Term>
                 </strong>
-                , from 0 to 1. Common benchmarks: .70 acceptable, .80 good, .90 excellent. The range in brackets is a 95%{" "}
-                <Term id="ci">confidence interval</Term>: smaller samples give wider ranges.
+                , from 0 to 1. The lab labels values using George and Mallery's (2003) benchmarks: .90 or more excellent, .80 good, .70
+                acceptable, .60 questionable, .50 poor, below .50 unacceptable. Nunnally (1978) recommended at least .70 for early-stage
+                research. Above .95 the items may be near-duplicates (Terwee et al., 2007). The range in brackets is a 95%{" "}
+                <Term id="ci">confidence interval</Term> (Feldt, 1965): smaller samples give wider ranges, so report it alongside alpha.
               </li>
               <li>
                 <strong>
                   <Term id="omega">McDonald's ω</Term>
                 </strong>
-                : read it like alpha. It is usually the more accurate of the two; if they disagree, report ω.
+                : read it on the same scale as alpha. It does not assume every item is equally strong, so it is usually the more accurate of the
+                two; if they disagree, report ω (McNeish, 2018).
               </li>
               <li>
                 <strong>
                   <Term id="mean-r">Mean inter-item correlation</Term>
                 </strong>
-                : between about .15 and .50 is typical of a focused subscale.
+                : the average correlation between the items. Clark and Watson (1995) recommend .15 to .50: nearer .15 for a broad construct,
+                nearer .50 for a narrow one.
               </li>
             </ul>
             <p>
               The table under each subscale shows which items are responsible. Look first at the{" "}
-              <Term id="citc">corrected item-total r</Term> column: every value should be positive and ideally .30 or above.
+              <Term id="citc">corrected item-total r</Term> column: how well each item agrees with the rest of its subscale. Every value
+              should be positive and ideally .30 or above (Field, 2018). A negative value almost always means a reverse-worded item has not
+              been reverse-scored.
             </p>
           </Guide>
           {subscales.length === 0 && <p className="muted">No subscale has two or more items. Assign subscales in step 1.</p>}
@@ -725,8 +757,9 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
               )}
             </div>
           ))}
+          <CutoffTable step="reliability" />
           <p style={{ marginTop: 24 }}>
-            <button onClick={() => go("structure")}>Next: factor structure</button>
+            <button onClick={() => go("structure")}>Next: step 4, factor structure</button>
           </p>
         </section>
       )}
@@ -734,7 +767,7 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
       {/* ---------------- STEP 4: STRUCTURE ---------------- */}
       {step === "structure" && ready && (
         <section>
-          <h2 style={{ marginTop: 0 }}>4. Factor structure</h2>
+          <h2 style={{ marginTop: 0 }}>Step 4 of 5: Factor structure</h2>
           {!structure ? (
             <p className="error">At least 10 complete responses and 3 items are needed.</p>
           ) : "error" in structure ? (
@@ -773,8 +806,8 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
               <p className="verdict">
                 {structure.kmo.overall >= 0.6 && structure.bartlett.p < 0.05 ? (
                   <>
-                    <strong>Yes.</strong> The items share enough in common (KMO {apa(structure.kmo.overall)}, where .60 is the usual minimum and
-                    .80 good) and are clearly correlated (Bartlett's test significant). Factor analysis is worthwhile.
+                    <strong>Yes.</strong> The items share enough in common (KMO {apa(structure.kmo.overall)}; Kaiser (1974) rated .80s
+                    “meritorious” and .60 is the usual minimum) and are clearly correlated (Bartlett's test significant). Factor analysis is worthwhile.
                   </>
                 ) : (
                   <>
@@ -857,18 +890,19 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
                     Ideally every item has <strong>one</strong> bold loading, and items from the same subscale share a column.
                   </li>
                   <li>
-                    <strong>h²</strong> is the <Term id="communality">communality</Term>: how much of the item the factors explain together.
-                    Below about .20 is low.
+                    <strong>h²</strong> is the <Term id="communality">communality</Term>: the share of the item's variation that the factors
+                    explain together, from 0 to 1. Below .40 suggests the item has little in common with the others, or points to a factor
+                    you have not extracted (Costello &amp; Osborne, 2005).
                   </li>
                   <li>
                     The three settings: how many factors to extract (start with the parallel-analysis suggestion);{" "}
                     <Term id="rotation">rotation</Term> (keep <Term id="oblimin">oblimin</Term> unless you have a reason to assume unrelated
-                    factors); and the cut-off for a salient loading (.40 is conventional).
+                    factors, as Costello and Osborne, 2005, recommend); and the cut-off for a salient loading, explained under the slider.
                   </li>
                 </ul>
                 <p>
-                  Flags: <em>no salient loading</em> means the item fits no factor; <em>cross-loading</em> means it loads .30 or more on two
-                  factors (<Term id="cross-loading">more</Term>); a <em>negative loading</em> on its main factor may mean a missed reverse-score;
+                  Flags: <em>no salient loading</em> means the item fits no factor; <em>cross-loading</em> means it loads .32 or more on a
+                  second factor (Costello &amp; Osborne, 2005) (<Term id="cross-loading">more</Term>); a <em>negative loading</em> on its main factor may mean a missed reverse-score;
                   a <em>Heywood case</em> signals an impossible estimate (<Term id="heywood">more</Term>).
                 </p>
               </Guide>
@@ -897,6 +931,25 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
                   <input type="range" min={0.3} max={0.5} step={0.05} value={cut} onChange={(e) => setCut(Number(e.target.value))} />
                 </label>
               </div>
+                  <div className="cutoff-explain">
+                    <p>
+                      <strong>What the cut-off does.</strong> The slider sets the smallest loading that counts as meaningful (“salient”).
+                      Loadings at or above it are shown in bold, decide which factor each item belongs to, and decide which items go into the
+                      R code in step 5. Raising it is stricter: fewer items count as clear indicators.
+                    </p>
+                    <p>
+                      <strong>Why .40.</strong> Stevens (1992) suggests .40 for interpretation, whatever the sample size. Tabachnick and Fidell (2019) treat .32 as the lowest loading worth interpreting. Hair et al. (2010) link the
+                      cut-off to sample size, because small samples produce unstable loadings: .40 is statistically significant with about 200
+                      respondents, .30 needs about 350 and .50 about 120.
+                    </p>
+                    <p>
+                      <strong>For your data:</strong> with {prepared.complete.length} complete responses, Hair et al.'s table suggests a cut-off
+                      of about {apa(hairLoading(prepared.complete.length))}
+                      {Math.abs(hairLoading(prepared.complete.length) - cut) < 0.001
+                        ? ", which is what the slider is set to."
+                        : `; the slider is at ${apa(cut)}. Whichever you choose, report it and say why.`}
+                    </p>
+                  </div>
               {fa && "error" in fa && <p className="error">{fa.error}</p>}
               {fa && !("error" in fa) && assignment && (
                 <>
@@ -995,7 +1048,7 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
                       <h3>Factor correlations</h3>
                       <p className="small" style={{ maxWidth: "var(--measure)" }}>
                         How strongly the factors are related to each other (<Term id="phi">more</Term>). Moderate correlations are normal for
-                        related constructs; above about .80 suggests two factors may really be one.
+                        related constructs; .85 or above suggests two factors may really be one (Brown, 2015).
                       </p>
                       <table style={{ maxWidth: 80 + m * 80 }}>
                         <thead>
@@ -1017,8 +1070,9 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
                   )}
                 </>
               )}
+          <CutoffTable step="structure" />
               <p style={{ marginTop: 24 }}>
-                <button onClick={() => go("report")}>Next: report</button>
+                <button onClick={() => go("report")}>Next: step 5, report</button>
               </p>
             </>
           )}
@@ -1028,7 +1082,7 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
       {/* ---------------- STEP 5: REPORT ---------------- */}
       {step === "report" && ready && (
         <section>
-          <h2 style={{ marginTop: 0 }}>5. Report</h2>
+          <h2 style={{ marginTop: 0 }}>Step 5 of 5: Report</h2>
           {!report ? (
             <p className="muted">Complete the factor-structure step first.</p>
           ) : (
@@ -1078,10 +1132,11 @@ export default function Analyse({ initialSample }: { initialSample?: "writing_ai
                   </li>
                   <li>
                     Paste the code and run it. In the output, look at CFI and TLI (.95 or above is good) and RMSEA and SRMR (.06 and .08 or below
-                    are good), then at the standardised loadings.
+                    are good; Hu &amp; Bentler, 1999), then at the standardised loadings.
                   </li>
                 </ol>
               </Guide>
+              <CutoffTable step="report" title="Cut-off values for the next study" />
               <pre className="code">{report.lavaan}</pre>
               <div className="chips">
                 <button className="chip" onClick={() => copy(report.lavaan, (ok) => setCopied(ok ? "lavaan" : "fail"))}>

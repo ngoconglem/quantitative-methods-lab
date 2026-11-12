@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { Guide, Term } from "../components/Guide";
+import { CutoffTable, ReferenceList } from "../components/Cutoffs";
 
 const TOPICS: { id: string; title: string; short: React.ReactNode; body: React.ReactNode }[] = [
   {
@@ -25,7 +27,7 @@ const TOPICS: { id: string; title: string; short: React.ReactNode; body: React.R
         </p>
         <p>
           The corrected item-total correlation is the correlation between an item and the sum of the other items in its subscale. Values below
-          .30 suggest weak fit. A negative value almost always means a reverse-worded item has not been reverse-scored.
+          .30 suggest weak fit (Field, 2018). A negative value almost always means a reverse-worded item has not been reverse-scored.
         </p>
       </>
     ),
@@ -106,8 +108,9 @@ const TOPICS: { id: string; title: string; short: React.ReactNode; body: React.R
           &amp; Osborne, 2005).
         </p>
         <p>
-          Loadings of |.40| or more are commonly treated as salient. Items that load saliently on no factor, or above .30 on two, need a closer
-          look at their wording, not automatic deletion.
+          Loadings of |.40| or more are commonly treated as salient. Items that load saliently on no factor, or .32 or more on a second
+          factor (Costello &amp; Osborne, 2005), need a closer look at their wording, not automatic deletion. See the{" "}
+          <a href="#learn/cutoffs">cut-off table</a> for the sources of every threshold.
         </p>
       </>
     ),
@@ -133,7 +136,10 @@ const TOPICS: { id: string; title: string; short: React.ReactNode; body: React.R
   },
 ];
 
-export default function Learn() {
+export default function Learn({ focus }: { focus?: string }) {
+  useEffect(() => {
+    if (focus) document.getElementById(focus)?.scrollIntoView({ block: "start" });
+  }, [focus]);
   return (
     <div className="prose">
       <h1>Learn the ideas</h1>
@@ -189,21 +195,17 @@ export default function Learn() {
         For an overview of how applied linguists validate scales, see Cong-Lem (2025), a review of methodological trends and challenges in
         scale validation in the field.
       </p>
+      <section id="cutoffs" style={{ scrollMarginTop: 90 }}>
+        <h2>Cut-off values and where they come from</h2>
+        <p>
+          Every threshold the lab uses to flag an item or label a result is listed here with the reason for it and its source. Two are the
+          lab's own screening prompts and are marked as such. Cut-offs are conventions that help you decide where to look; report the actual
+          values and explain your decisions rather than relying on a label.
+        </p>
+      </section>
+      <CutoffTable title="All cut-offs" />
       <h2>References</h2>
-      <ul className="small">
-        <li>American Educational Research Association, American Psychological Association, &amp; National Council on Measurement in Education. (2014). <em>Standards for educational and psychological testing</em>. AERA.</li>
-        <li>Bartlett, M. S. (1950). Tests of significance in factor analysis. <em>British Journal of Statistical Psychology, 3</em>(2), 77–85.</li>
-        <li>Cong-Lem, N. (2025). Scale validation in applied linguistics: Methodological trends and challenges. <em>Research Methods in Applied Linguistics, 4</em>(2), 100217.</li>
-        <li>Costello, A. B., &amp; Osborne, J. (2005). Best practices in exploratory factor analysis. <em>Practical Assessment, Research, and Evaluation, 10</em>, Article 7.</li>
-        <li>Dunn, T. J., Baguley, T., &amp; Brunsden, V. (2014). From alpha to omega. <em>British Journal of Psychology, 105</em>(3), 399–412.</li>
-        <li>Fabrigar, L. R., Wegener, D. T., MacCallum, R. C., &amp; Strahan, E. J. (1999). Evaluating the use of exploratory factor analysis in psychological research. <em>Psychological Methods, 4</em>(3), 272–299.</li>
-        <li>Feldt, L. S. (1965). The approximate sampling distribution of Kuder-Richardson reliability coefficient twenty. <em>Psychometrika, 30</em>(3), 357–370.</li>
-        <li>Holgado-Tello, F. P., Chacón-Moscoso, S., Barbero-García, I., &amp; Vila-Abad, E. (2010). Polychoric versus Pearson correlations in exploratory and confirmatory factor analysis of ordinal variables. <em>Quality &amp; Quantity, 44</em>(1), 153–166.</li>
-        <li>Horn, J. L. (1965). A rationale and test for the number of factors in factor analysis. <em>Psychometrika, 30</em>(2), 179–185.</li>
-        <li>Kaiser, H. F. (1974). An index of factorial simplicity. <em>Psychometrika, 39</em>(1), 31–36.</li>
-        <li>MacCallum, R. C., Widaman, K. F., Zhang, S., &amp; Hong, S. (1999). Sample size in factor analysis. <em>Psychological Methods, 4</em>(1), 84–99.</li>
-        <li>McNeish, D. (2018). Thanks coefficient alpha, we'll take it from here. <em>Psychological Methods, 23</em>(3), 412–433.</li>
-      </ul>
+      <ReferenceList include={["aera2014", "conglem2025", "dunn2014", "holgado2010", "mcneish2018"]} />
     </div>
   );
 }

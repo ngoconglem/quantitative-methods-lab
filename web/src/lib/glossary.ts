@@ -57,6 +57,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     id: "missing",
     term: "Missing data",
     plain: "Answers that are blank because a respondent skipped an item. In your file, blank cells, NA and −99 are treated as missing.",
+    rule: "The lab flags items with more than 5% missing; Schafer (1999) described 5% or less as inconsequential.",
     topic: "The data",
   },
   {
@@ -77,21 +78,21 @@ export const GLOSSARY: GlossaryEntry[] = [
     id: "sd",
     term: "Standard deviation (SD)",
     plain: "How spread out the answers to an item are. A small SD means almost everyone gave the same answer, so the item tells you little about differences between people.",
-    rule: "On a 1–5 scale, an SD below about 0.6 suggests very little variation.",
+    rule: "The lab flags SDs below 0.6 on a 1–5 scale. This is the lab's own prompt; there is no published standard.",
     topic: "Describing items",
   },
   {
     id: "skew",
     term: "Skew",
     plain: "Whether answers are lopsided. Negative skew means most people chose the high end; positive skew means most chose the low end.",
-    rule: "Values beyond ±2 are a common sign of strong skew.",
+    rule: "Kim (2013) gives an absolute skew above 2 as a reference value for substantial non-normality in samples over 300.",
     topic: "Describing items",
   },
   {
     id: "floor-ceiling",
     term: "Floor and ceiling effects",
-    plain: "When many people choose the lowest option (floor) or the highest option (ceiling). The item cannot distinguish between them, because they have nowhere further to go.",
-    rule: "More than about 15% of answers at one end is often flagged.",
+    plain: "A ceiling effect is when many people choose the highest option, such as “strongly agree”. Some may agree far more strongly than others, but the item cannot show it because there is no higher option. A floor effect is the same at the lowest option. Either way the item stops telling people apart.",
+    rule: "Terwee et al. (2007) treat more than 15% of respondents at the lowest or highest score as a floor or ceiling effect. They wrote it for total scores; the lab applies it to single items as a prompt.",
     topic: "Describing items",
   },
 
@@ -100,7 +101,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     id: "correlation",
     term: "Correlation (r)",
     plain: "How strongly two sets of answers move together, from −1 to +1. Positive means people who score high on one item tend to score high on the other; 0 means no relationship; negative means opposite directions.",
-    rule: "Roughly: .10 is small, .30 is moderate and .50 or more is large.",
+    rule: "Cohen (1988): .10 is small, .30 medium and .50 large.",
     topic: "Reliability",
   },
   {
@@ -113,7 +114,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     id: "alpha",
     term: "Cronbach's alpha (α)",
     plain: "The most widely reported reliability estimate. It runs from 0 to 1; higher means the items hang together more consistently.",
-    rule: "Common benchmarks: .70 acceptable for research, .80 good, .90 very high (above .95 can mean the items are near-duplicates). Treat these as conventions, not laws.",
+    rule: "George & Mallery (2003): .90 excellent, .80 good, .70 acceptable, .60 questionable, .50 poor. Nunnally (1978): at least .70 for early-stage research. Above .95 the items may be near-duplicates (Terwee et al., 2007). These are conventions, not tests (Taber, 2018).",
     detail:
       "Alpha assumes every item is equally strongly related to the construct (tau-equivalence). When items differ in strength, as they usually do, alpha slightly underestimates reliability, and omega is preferred. Alpha also rises simply because a scale has more items.",
     topic: "Reliability",
@@ -130,7 +131,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     id: "omega",
     term: "McDonald's omega (ω)",
     plain: "A reliability estimate based on how strongly each item relates to the construct (its factor loading). It does not assume all items are equally strong, so it is usually more accurate than alpha.",
-    rule: "Read it on the same scale as alpha: .70 acceptable, .80 good.",
+    rule: "Read it on the same scale as alpha: .70 acceptable, .80 good. Prefer it to alpha when they differ (McNeish, 2018).",
     detail: "This lab computes omega total from a one-factor solution for each subscale. See Dunn, Baguley and Brunsden (2014) and McNeish (2018).",
     topic: "Reliability",
   },
@@ -144,7 +145,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     id: "citc",
     term: "Corrected item-total correlation",
     plain: "The correlation between one item and the total of the other items in its subscale. It shows how well that item fits with the rest.",
-    rule: "Below .30 suggests weak fit. A negative value almost always means a reverse-worded item has not been reverse-scored.",
+    rule: "Below about .30 suggests weak fit (Field, 2018); some authors accept .20. A negative value almost always means a reverse-worded item has not been reverse-scored.",
     topic: "Reliability",
   },
   {
@@ -158,7 +159,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     id: "mean-r",
     term: "Mean inter-item correlation",
     plain: "The average correlation between every pair of items in a subscale. Unlike alpha, it does not rise just because a scale is longer.",
-    rule: "Between about .15 and .50 is typical of a well-focused subscale; much higher can mean the items are near-duplicates.",
+    rule: "Clark & Watson (1995) recommend .15 to .50: nearer .15–.20 for a broad construct, nearer .40–.50 for a narrow one.",
     topic: "Reliability",
   },
 
@@ -186,7 +187,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     id: "kmo",
     term: "Kaiser–Meyer–Olkin measure (KMO)",
     plain: "A check, from 0 to 1, of whether the items share enough in common for factor analysis to be worthwhile.",
-    rule: ".80 or more is good, .70 middling, .60 a common minimum. Individual items below .60 share little with the rest.",
+    rule: "Kaiser (1974): .90s marvellous, .80s meritorious, .70s middling, .60s mediocre, .50s miserable, below .50 unacceptable. .60 is a common minimum.",
     detail: "Kaiser (1974). It compares ordinary correlations with partial correlations (correlations after removing the influence of all other items).",
     topic: "Factor analysis",
   },
@@ -213,7 +214,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     id: "sample-size",
     term: "Sample size for factor analysis",
     plain: "How many respondents you need. It depends less on a fixed ratio than on how strong the loadings are and how many items each factor has.",
-    rule: "With strong loadings and four or more items per factor, 150–200 respondents can be enough; weak loadings need far more. Ratios such as “10 per item” are rough guides only.",
+    rule: "MacCallum et al. (1999): with high communalities (around .60 or more) and several items per factor, modest samples can work; with low communalities, several hundred may not be enough. Ratios such as “10 per item” are rough guides only.",
     detail: "MacCallum, Widaman, Zhang and Hong (1999).",
     topic: "Factor analysis",
   },
@@ -235,14 +236,14 @@ export const GLOSSARY: GlossaryEntry[] = [
     id: "parallel",
     term: "Parallel analysis",
     plain: "A way to decide how many factors to keep. It creates many random datasets of the same size as yours and keeps only the factors whose eigenvalues beat what random data produce.",
-    rule: "Keep the factors whose observed eigenvalue (the solid line) is above the random line. It is more accurate than the older “eigenvalue greater than 1” rule.",
+    rule: "Keep the factors whose observed eigenvalue (the solid line) is above the random line (Horn, 1965; 95th percentile as recommended by Glorfeld, 1995).",
     detail: "Horn (1965). This lab uses 100 random datasets (50 for large files), the 95th percentile, and a fixed seed so results are reproducible.",
     topic: "How many factors?",
   },
   {
     id: "kaiser-rule",
     term: "Eigenvalue-greater-than-one rule",
-    plain: "An old rule that keeps every factor with an eigenvalue above 1. It often keeps too many factors, so parallel analysis is preferred.",
+    plain: "An old rule that keeps every factor with an eigenvalue above 1. It often keeps too many factors (Zwick & Velicer, 1986), so parallel analysis is preferred.",
     topic: "How many factors?",
   },
 
@@ -258,7 +259,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     id: "loading",
     term: "Factor loading (λ)",
     plain: "How strongly an item is related to a factor, roughly from −1 to +1. A high loading means the item is a good indicator of that factor.",
-    rule: "|.40| or more is usually treated as a meaningful (salient) loading; .70 or more is strong.",
+    rule: "|.40| is the usual cut-off for a meaningful loading (Stevens, 1992); Tabachnick & Fidell (2019) treat .32 as the minimum. Hair et al. (2010): .40 is significant with about 200 respondents, .30 needs about 350.",
     topic: "Factor analysis results",
   },
   {
@@ -270,14 +271,14 @@ export const GLOSSARY: GlossaryEntry[] = [
   {
     id: "cross-loading",
     term: "Cross-loading",
-    plain: "When an item loads noticeably (here, .30 or more) on two factors. It is not a clean indicator of either, and its wording usually needs a closer look.",
+    plain: "When an item loads .32 or more on a second factor (Costello & Osborne, 2005). It is not a clean indicator of either factor, and its wording usually needs a closer look.",
     topic: "Factor analysis results",
   },
   {
     id: "communality",
     term: "Communality (h²)",
     plain: "The share of an item's variation that the factors explain together, from 0 to 1. A low communality means the item has little in common with the others.",
-    rule: "Below about .20 suggests an item that fits poorly.",
+    rule: "Below .40 suggests the item has little in common with the others or points to another factor (Costello & Osborne, 2005); .40 to .70 is common in social science data.",
     topic: "Factor analysis results",
   },
   {
@@ -295,7 +296,7 @@ export const GLOSSARY: GlossaryEntry[] = [
   {
     id: "oblimin",
     term: "Oblimin rotation (oblique)",
-    plain: "A rotation that allows factors to be correlated. Usually the right choice in education and the social sciences, where constructs such as confidence and motivation are related.",
+    plain: "A rotation that allows factors to be correlated. Usually the right choice in education and the social sciences, where constructs such as confidence and motivation are related; Costello & Osborne (2005) recommend it as the default.",
     topic: "Factor analysis results",
   },
   {
@@ -307,14 +308,14 @@ export const GLOSSARY: GlossaryEntry[] = [
   {
     id: "phi",
     term: "Factor correlations",
-    plain: "How strongly the factors themselves are related, after an oblique rotation. Very high values (above about .80) suggest two factors may really be one.",
+    plain: "How strongly the factors themselves are related, after an oblique rotation. Correlations of .85 or more suggest two factors may really be one (Brown, 2015).",
     topic: "Factor analysis results",
   },
   {
     id: "rmsr",
     term: "Root mean square of residuals (RMSR)",
     plain: "How far the correlations predicted by the factors are, on average, from the actual correlations. Smaller is better.",
-    rule: "Below .05 suggests the factors reproduce the correlations well; above .08 suggests something is missing.",
+    rule: "No agreed cut-off exists for exploratory analysis. Field (2018) advises that fewer than half the residual correlations should exceed .05, so the lab treats an RMSR below .05 as good.",
     topic: "Factor analysis results",
   },
   {

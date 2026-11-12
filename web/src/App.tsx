@@ -34,7 +34,7 @@ const TITLES: Record<string, string> = { analyse: "Analyse", learn: "Learn", tea
 
 export default function App() {
   const route = useRoute();
-  const page = route.startsWith("analyse") ? "analyse" : route.startsWith("glossary") ? "glossary" : route;
+  const page = route.startsWith("analyse") ? "analyse" : route.startsWith("glossary") ? "glossary" : route.startsWith("learn") ? "learn" : route;
 
   useEffect(() => {
     document.title = TITLES[page] ? `${TITLES[page]} · Scale Validation Lab` : "Scale Validation Lab: open psychometrics for questionnaire research";
@@ -60,7 +60,7 @@ export default function App() {
       <main>
         <div className="shell">
           {page === "analyse" && <Analyse key={route} initialSample={route === "analyse-simulated" ? "writing_ai_simulated" : route === "analyse-bfi" ? "bfi" : undefined} />}
-          {page === "learn" && <Learn />}
+          {page === "learn" && <Learn key={route} focus={route.split("/")[1]} />}
           {page === "teach" && <Teach />}
           {page === "about" && <About />}
           {page === "glossary" && <Glossary key={route} focus={route.split("/")[1]} />}
