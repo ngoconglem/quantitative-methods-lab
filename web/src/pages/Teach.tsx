@@ -52,6 +52,35 @@ export default function Teach() {
         The Scale Validation Lab is free, needs no login and runs on a projector or students' own laptops. These session plans can be used as
         they are or adapted.
       </p>
+      <section className="prose">
+        <h2>First time teaching with it?</h2>
+        <p>You do not need to be a statistician. Allow about an hour to prepare the first time:</p>
+        <ol>
+          <li>
+            <strong>Run the simulated questionnaire yourself</strong> on <a href="#analyse-simulated">Analyse</a> with the Guidance switch on.
+            Find the four planted problems; the answers are in the data notes on the <a href="#about">About</a> page.
+          </li>
+          <li>
+            <strong>Read “The big picture”</strong> at the top of <a href="#learn">Learn</a>. It is the explanation students need before they
+            start.
+          </li>
+          <li>
+            <strong>Learn five terms well enough to explain them</strong>: <a href="#glossary/alpha">Cronbach's alpha</a>,{" "}
+            <a href="#glossary/citc">corrected item-total correlation</a>, <a href="#glossary/factor">factor</a>,{" "}
+            <a href="#glossary/loading">loading</a> and <a href="#glossary/parallel">parallel analysis</a>. Everything else can be looked up
+            during the session.
+          </li>
+          <li>
+            <strong>Check the room.</strong> The site needs no login or installation and works on laptops, tablets and a projector.
+          </li>
+        </ol>
+        <h3>Explaining the big idea in two sentences</h3>
+        <p>
+          “A questionnaire score is only meaningful if the questions behind it work together. These checks show whether they do, and point to
+          the questions that need rewriting.”
+        </p>
+      </section>
+
       <ul className="index">
         {PLANS.map((p) => (
           <li key={p.id}>

@@ -102,31 +102,31 @@
    "id": "N1",
    "text": "Get angry easily.",
    "subscale": "Neuroticism",
-   "reverse": true
+   "reverse": false
   },
   {
    "id": "N2",
    "text": "Get irritated easily.",
    "subscale": "Neuroticism",
-   "reverse": true
+   "reverse": false
   },
   {
    "id": "N3",
    "text": "Have frequent mood swings.",
    "subscale": "Neuroticism",
-   "reverse": true
+   "reverse": false
   },
   {
    "id": "N4",
    "text": "Often feel blue.",
    "subscale": "Neuroticism",
-   "reverse": true
+   "reverse": false
   },
   {
    "id": "N5",
    "text": "Panic easily.",
    "subscale": "Neuroticism",
-   "reverse": true
+   "reverse": false
   },
   {
    "id": "O1",

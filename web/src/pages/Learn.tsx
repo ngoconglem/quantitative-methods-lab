@@ -1,7 +1,15 @@
-const TOPICS: { id: string; title: string; body: React.ReactNode }[] = [
+import { Guide, Term } from "../components/Guide";
+
+const TOPICS: { id: string; title: string; short: React.ReactNode; body: React.ReactNode }[] = [
   {
     id: "alpha-omega",
     title: "Alpha, omega and what they do not tell you",
+    short: (
+      <>
+        Alpha and omega tell you whether the items in a subscale give consistent answers. Prefer omega. Neither tells you that the subscale
+        measures only one thing, so check that with factor analysis first.
+      </>
+    ),
     body: (
       <>
         <p>
@@ -25,6 +33,12 @@ const TOPICS: { id: string; title: string; body: React.ReactNode }[] = [
   {
     id: "factorability",
     title: "Is factor analysis appropriate?",
+    short: (
+      <>
+        Before looking for factors, check that the items share enough in common (KMO of .60 or more) and that you have enough respondents.
+        Bartlett's test is a minimum check that almost always passes.
+      </>
+    ),
     body: (
       <>
         <p>
@@ -47,6 +61,12 @@ const TOPICS: { id: string; title: string; body: React.ReactNode }[] = [
   {
     id: "how-many",
     title: "How many factors?",
+    short: (
+      <>
+        Keep the factors that are stronger than what random data would produce (parallel analysis), then check that the solution makes sense
+        given the theory behind your questionnaire.
+      </>
+    ),
     body: (
       <>
         <p>
@@ -65,6 +85,12 @@ const TOPICS: { id: string; title: string; body: React.ReactNode }[] = [
   {
     id: "extraction-rotation",
     title: "Extraction and rotation",
+    short: (
+      <>
+        Use principal axis factoring with an oblique rotation (oblimin) unless you have a strong reason not to. Read the loadings: each item
+        should load .40 or more on one factor and little on the others.
+      </>
+    ),
     body: (
       <>
         <p>
@@ -89,6 +115,7 @@ const TOPICS: { id: string; title: string; body: React.ReactNode }[] = [
   {
     id: "limits",
     title: "What this lab does not do",
+    short: <>This lab covers the internal structure of a scale. Confirmatory analysis, invariance testing and other kinds of validity evidence need other tools.</>,
     body: (
       <ul>
         <li>
@@ -111,6 +138,34 @@ export default function Learn() {
     <div className="prose">
       <h1>Learn the ideas</h1>
       <p className="lede">Short explanations of each step in the lab, with the sources to cite.</p>
+
+      <h2>The big picture, for complete beginners</h2>
+      <p>
+        A questionnaire tries to measure something you cannot observe directly, such as confidence in writing or dependence on AI. This is
+        called a <Term id="construct">construct</Term>. Because no single question captures it, you ask several related questions (
+        <Term id="item">items</Term>) and combine the answers into a score.
+      </p>
+      <p>That only works if three things are true, and each step of the lab checks one of them:</p>
+      <ol>
+        <li>
+          <strong>Each item works on its own</strong>: people answered it and did not all give the same answer (step 2, Items).
+        </li>
+        <li>
+          <strong>The items in a group agree with each other</strong>, so the combined score is consistent (step 3,{" "}
+          <Term id="reliability">reliability</Term>).
+        </li>
+        <li>
+          <strong>The items group the way you intended</strong>: items written for “confidence” go together, separate from items written for
+          “dependence” (step 4, <Term id="efa">factor analysis</Term>).
+        </li>
+      </ol>
+      <p>
+        Passing these checks is necessary but not enough to show a questionnaire is valid: you also need evidence that the items cover the
+        construct well and that scores relate to other measures as expected (<Term id="validity">validity evidence</Term>). The rest of this page
+        explains each check in more depth. For any single term, see the <a href="#glossary">glossary</a>.
+      </p>
+
+      <h2>Topics</h2>
       <ul>
         {TOPICS.map((t) => (
           <li key={t.id}>
@@ -123,6 +178,9 @@ export default function Learn() {
       {TOPICS.map((t) => (
         <section key={t.id} id={t.id} style={{ scrollMarginTop: 80 }}>
           <h2>{t.title}</h2>
+          <Guide title="In short">
+            <p>{t.short}</p>
+          </Guide>
           {t.body}
         </section>
       ))}

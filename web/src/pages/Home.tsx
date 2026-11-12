@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { apa, useSample } from "../lib/data";
 import * as S from "../lib/stats";
+import { Guide, Term } from "../components/Guide";
 
 /** The memorable moment: one un-reversed item drags a subscale's alpha from .80 to .32. */
 export default function Home() {
@@ -29,6 +30,19 @@ export default function Home() {
           results paragraph and confirmatory-analysis code. It runs in your browser, explains every number, and is built for teaching as much as
           for analysis.
         </p>
+
+        <Guide title="What you are looking at">
+          <p>
+            Five <Term id="item">questionnaire items</Term> are meant to measure one thing: how critically students evaluate AI output. If they
+            do, people who agree with one item should tend to agree with the others. The big number,{" "}
+            <Term id="alpha">Cronbach's alpha</Term>, sums this up on a 0 to 1 scale; .70 or more is the usual minimum for research.
+          </p>
+          <p>
+            The bars show each item's <Term id="citc">correlation with the rest</Term> of the subscale. One bar points the wrong way: CE4 is
+            worded negatively (“I <em>accept</em> AI-generated references without checking them”), so agreeing with it means the opposite of
+            agreeing with the others. Press the button to <Term id="reverse">reverse-score</Term> it and watch alpha recover.
+          </p>
+        </Guide>
 
         <div className="hero-demo" aria-live="polite">
           <div>
@@ -85,7 +99,30 @@ export default function Home() {
         </div>
       </section>
 
-      <h2>Start here</h2>
+      <h2>New here? Start with these three steps</h2>
+      <p style={{ maxWidth: "var(--measure)" }}>
+        You do not need statistics software or a statistics degree. Each step of the analysis explains what it does, what each number means and
+        what to do next. Terms with a dotted underline open a short definition; the shaded boxes are guidance, which experienced users can hide
+        with the <strong>Guidance</strong> switch at the top of the page.
+      </p>
+      <ol className="quickstart">
+        <li>
+          <strong>Learn the idea in one minute</strong>
+          Press the button above and read why one badly scored item can make a good scale look unreliable.
+        </li>
+        <li>
+          <strong>Practise on sample data</strong>
+          Open the <a href="#analyse-simulated">simulated questionnaire</a> and work through the five steps. It hides four problems; the
+          guidance tells you where to look.
+        </li>
+        <li>
+          <strong>Analyse your own data</strong>
+          Save your responses as a CSV file (one row per person, one column per item) and load it on <a href="#analyse">Analyse</a>. Nothing
+          leaves your computer.
+        </li>
+      </ol>
+
+      <h2>Everything on the site</h2>
       <ul className="index">
         <li>
           <a href="#analyse">
@@ -118,6 +155,12 @@ export default function Home() {
           <a href="#teach">
             <span className="index-title">Teach with it</span>
             <span className="index-desc">Session plans for a methods seminar, an HDR workshop on validating your own instrument, and a lecture demonstration.</span>
+          </a>
+        </li>
+        <li>
+          <a href="#glossary">
+            <span className="index-title">Glossary</span>
+            <span className="index-desc">Every statistical term on the site in plain language, with rules of thumb for reading each number.</span>
           </a>
         </li>
       </ul>

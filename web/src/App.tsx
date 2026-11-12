@@ -4,6 +4,8 @@ import Analyse from "./pages/Analyse";
 import Learn from "./pages/Learn";
 import Teach from "./pages/Teach";
 import About from "./pages/About";
+import Glossary from "./pages/Glossary";
+import { GuideProvider, GuideToggle } from "./components/Guide";
 import { REPO_URL } from "./config";
 
 function useRoute(): string {
@@ -24,21 +26,22 @@ const NAV = [
   { href: "#analyse", key: "analyse", label: "Analyse" },
   { href: "#learn", key: "learn", label: "Learn" },
   { href: "#teach", key: "teach", label: "Teach with it" },
+  { href: "#glossary", key: "glossary", label: "Glossary" },
   { href: "#about", key: "about", label: "About & data" },
 ];
 
-const TITLES: Record<string, string> = { analyse: "Analyse", learn: "Learn", teach: "Teach with it", about: "About & data" };
+const TITLES: Record<string, string> = { analyse: "Analyse", learn: "Learn", teach: "Teach with it", glossary: "Glossary", about: "About & data" };
 
 export default function App() {
   const route = useRoute();
-  const page = route.startsWith("analyse") ? "analyse" : route;
+  const page = route.startsWith("analyse") ? "analyse" : route.startsWith("glossary") ? "glossary" : route;
 
   useEffect(() => {
     document.title = TITLES[page] ? `${TITLES[page]} · Scale Validation Lab` : "Scale Validation Lab: open psychometrics for questionnaire research";
   }, [page]);
 
   return (
-    <>
+    <GuideProvider>
       <header className="topbar">
         <div className="shell">
           <a className="wordmark" href="#">
@@ -51,6 +54,7 @@ export default function App() {
               </a>
             ))}
           </nav>
+          <GuideToggle />
         </div>
       </header>
       <main>
@@ -59,7 +63,8 @@ export default function App() {
           {page === "learn" && <Learn />}
           {page === "teach" && <Teach />}
           {page === "about" && <About />}
-          {!["analyse", "learn", "teach", "about"].includes(page) && <Home />}
+          {page === "glossary" && <Glossary key={route} focus={route.split("/")[1]} />}
+          {!["analyse", "learn", "teach", "about", "glossary"].includes(page) && <Home />}
         </div>
       </main>
       <footer>
@@ -73,6 +78,6 @@ export default function App() {
           </span>
         </div>
       </footer>
-    </>
+    </GuideProvider>
   );
 }

@@ -22,6 +22,9 @@ OUT = ROOT / "web" / "public" / "data"
 OUT.mkdir(parents=True, exist_ok=True)
 
 
+BFI_REVERSED = {"A1", "C4", "C5", "E1", "E2", "O2", "O5"}
+
+
 def build_bfi(rda: str, dictionary: str) -> None:
     df = list(pyreadr.read_r(rda).values())[0]
     d = list(pyreadr.read_r(dictionary).values())[0]
@@ -39,7 +42,9 @@ def build_bfi(rda: str, dictionary: str) -> None:
                 "id": i,
                 "text": d.loc[i, "Item"],
                 "subscale": {"A": "Agreeableness", "C": "Conscientiousness", "E": "Extraversion", "N": "Neuroticism", "O": "Openness"}[i[0]],
-                "reverse": bool(d.loc[i, "Keying"] == -1),
+                # Standard bfi scoring keys (psychTools bfi.keys). The dictionary's Keying column scores
+                # N1-N5 as reversed "emotional stability", which would contradict the Neuroticism label.
+                "reverse": i in BFI_REVERSED,
             }
             for i in items
         ],
