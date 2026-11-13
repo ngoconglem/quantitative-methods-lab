@@ -137,7 +137,7 @@ export default function About() {
       <h3>How to cite</h3>
       <p className="small">
         Cong-Lem, N. (2026). <em>Quantitative Methods Lab: Plain-language statistics for the applied social sciences</em> (Version 0.4.0)
-        [Computer software]. https://quantitative-methods-lab.vercel.app
+        [Computer software]. https://quant-methods-lab.vercel.app
       </p>
       <p className="small">
         Source code (MIT licence) and notebooks: <a href={REPO_URL}>{REPO_URL.replace("https://", "")}</a>

@@ -2,7 +2,7 @@
 
 **Plain-language statistics for the applied social sciences, with interactive activities on real and simulated data.**
 
-**Live site: https://quantitative-methods-lab.vercel.app** (previously scale-validation-lab.vercel.app)
+**Live site: https://quant-methods-lab.vercel.app** (previously scale-validation-lab.vercel.app, which redirects here)
 
 The Quantitative Methods Lab is a free, browser-based guide to the statistics most often used in the applied social sciences (education, linguistics, psychology, communication and related fields). Each module explains one method in plain words, lets you try it on a real published dataset, checks understanding with a short quiz, writes an APA-style reporting sentence from your results, and gives the equivalent R and Python code. The Scale development section ends with a questionnaire-validation tool that works on your own CSV file; files are read in the browser and never uploaded.
 
@@ -78,7 +78,7 @@ Created by Ngo Cong-Lem (ORCID [0000-0002-5257-8264](https://orcid.org/0000-0002
 
 ## Citation
 
-Cong-Lem, N. (2026). *Quantitative Methods Lab: Plain-language statistics for the applied social sciences* (Version 0.4.0) [Computer software]. https://quantitative-methods-lab.vercel.app
+Cong-Lem, N. (2026). *Quantitative Methods Lab: Plain-language statistics for the applied social sciences* (Version 0.4.0) [Computer software]. https://quant-methods-lab.vercel.app
 
 ### References
 

@@ -131,7 +131,7 @@ export default function App() {
             <p className="footer-label">How to cite</p>
             <p>
               Cong-Lem, N. (2026). <em>Quantitative Methods Lab: Plain-language statistics for the applied social sciences</em> (Version 0.4.0)
-              [Computer software]. https://quantitative-methods-lab.vercel.app
+              [Computer software]. https://quant-methods-lab.vercel.app
             </p>
           </div>
           <div className="footer-meta">

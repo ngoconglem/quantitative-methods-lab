@@ -1,7 +1,7 @@
 {
   "title": "Quantitative Methods Lab: Plain-language statistics for the applied social sciences",
   "upload_type": "software",
-  "description": "<p>A free, browser-based guide to the statistics most used in the applied social sciences, organised in four levels (descriptive; basic: correlation, two groups, chi-square; advanced: three or more groups, multiple regression; modelling: logistic regression) plus a scale development section (EFA and CFA). Each module explains one method in plain language with charts and diagrams, offers interactive activities on published datasets (recognition times for 2,284 English words and the dative alternation, both from the languageR package, and the ELLIPSE learner essay corpus) and a clearly labelled simulated intercultural competence survey, with a short quiz, an APA-style reporting sentence and equivalent R and Python code. Every statistic is verified against SciPy, statsmodels, pingouin, semopy and factor_analyzer.</p><p>Live site: https://quantitative-methods-lab.vercel.app</p>",
+  "description": "<p>A free, browser-based guide to the statistics most used in the applied social sciences, organised in four levels (descriptive; basic: correlation, two groups, chi-square; advanced: three or more groups, multiple regression, structural equation modelling, Bayesian modelling; modelling: logistic regression) plus an introduction to quantitative research and a scale development section (theory-based item writing, expert review, piloting, EFA and CFA). Each module explains one method in plain language with charts and diagrams, offers interactive activities on published datasets (recognition times for 2,284 English words and the dative alternation, both from the languageR package, and the ELLIPSE learner essay corpus) and a clearly labelled simulated intercultural competence survey, with a short quiz, an APA-style reporting sentence and equivalent R and Python code. Every statistic is verified against SciPy, statsmodels, pingouin, semopy and factor_analyzer.</p><p>Live site: https://quant-methods-lab.vercel.app</p>",
   "creators": [
     {
       "name": "Cong-Lem, Ngo",
@@ -28,7 +28,7 @@
   ],
   "related_identifiers": [
     {
-      "identifier": "https://quantitative-methods-lab.vercel.app",
+      "identifier": "https://quant-methods-lab.vercel.app",
       "relation": "isDocumentedBy",
       "resource_type": "other"
     }
